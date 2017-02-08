@@ -11,6 +11,16 @@
 <body ng-app="BibliocacheApp">
 	<h1>Bibliocache</h1>
 	
+	<nav>
+		<ul>
+			<li><a ui-sref="new-session">New Session</a></li>
+			<li><a ui-sref="map">Show Directions/Map</a></li>
+			<li><a ui-sref="on-site">You made it!</a></li>
+		</ul>
+	</nav>
+	
+	<ui-view></ui-view>
+	
 	<section ng-controller="MainController">
 		<p>{{ test }}</p>
 	</section>
