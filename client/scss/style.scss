@@ -12,5 +12,10 @@ button {
 
 body {
 	@include grid-row();
-	background-color:lightseagreen;
+	background-color: lightseagreen;
+}
+
+#sessionMap {
+	width: 100%;
+	height: 400px;
 }
