@@ -1,10 +1,9 @@
 module.exports = {
     name: 'NewSessionController',
-    func: function ($scope) {
+    func($scope) {
         /**
          * two text boxes
-         * drop-down menu w/ genres
-         * 
+         * drop-down menu w/ genres 
          */
     },
 };

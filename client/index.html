@@ -10,15 +10,19 @@
 </head>
 
 <body ng-app="BibliocacheApp">
-	<h1>Bibliocache</h1>
-
-	<section ng-controller="MapController">
-		<p>{{ test }}</p>
-	</section>
-
-	<section ng-controller="InRangeController">
-		<p>{{ test }}</p>
-	</section>
+	<header>
+		<h1>Bibliocache</h1>
+		
+		<nav>
+			<ul>
+				<li><a ui-sref="new-session">New Session</a></li>
+				<li><a ui-sref="map">Show Map</a></li>
+				<li><a ui-sref="in-range">In range</a></li>
+			</ul>
+		</nav>
+	</header>
+	
+	<ui-view></ui-view>
 
 	<footer>
 		<p>Copyright 2017, MKN.</p>
