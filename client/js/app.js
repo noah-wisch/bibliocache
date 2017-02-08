@@ -1,6 +1,8 @@
-const app = angular.module('BibliocacheApp', ['ui.router']);
+const app = angular.module('BibliocacheApp', ['ui.router']).run(function ($rootScope, $state, $stateParams) {
+	$rootScope.$state = $state;
+	$rootScope.$stateParams = $stateParams;
+});
 
-// Routes
 app.config(function($stateProvider) {
 	$stateProvider.state({
 		name: 'home',
@@ -17,34 +19,34 @@ app.config(function($stateProvider) {
 	$stateProvider.state({
 		name: 'map',
 		url: '/map', // url: '/map/:session_id',
-		component: 'showMap',
+		component: 'map',
 	});
 	
 	$stateProvider.state({
-		name: 'on-site',
+		name: 'in-range',
 		url: '/cache', // url: '/cache/:session_id',
-		component: 'onSite',
+		component: 'range',
 	});
 });
 
 
 // Controllers
 const controllers = [
-	require ('./controllers/new-session'),
-	require ('./controllers/show-map'),
-	require ('./controllers/on-site'),
+    require('./controllers/newSession'),
+    require('./controllers/map'),
+    require('./controllers/range'),
 ];
 
-for(let i=0; i<controllers.length; i++) {
-	app.controller(controllers[i].name, controllers[i].func);
+for (let i = 0; i < controllers.length; i++) {
+    app.controller(controllers[i].name, controllers[i].func);
 }
 
 
 // Components
 const components = [
-	require('./components/new-session'),
-	require('./components/show-map'),
-	require('./components/on-site'),
+	require('./components/newSession'),
+	require('./components/map'),
+	require('./components/range'),
 ];
 
 for(let i=0; i<components.length; i++) {
