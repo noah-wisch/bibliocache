@@ -1,15 +1,13 @@
 module.exports = {
     name: 'NewSessionController',
-    func($scope) {
-		
-	
+    func($scope, LocationService) {
 		
 		function getUserLocation() {
 			// Initiate geolocation service
 			let geo = navigator.geolocation;
 			
 			if ("geolocation" in navigator) {
-				console.log('location available');
+				// user's location is available
 			} else {
 				alert("Geolocation services are not supported by your browser."); 
 			}
@@ -21,6 +19,8 @@ module.exports = {
 				console.log(`Latitude : ${pos.latitude}`);
 				console.log(`Longitude: ${pos.longitude}`);
 				console.log(`More or less ${pos.accuracy} meters.`);
+				
+				updateLocation(pos.latitude, pos.longitude);
 			};
 			
 			function error(err) {
@@ -37,9 +37,8 @@ module.exports = {
 		};
 		getUserLocation();
 		
-        /**
-         * two text boxes
-         * drop-down menu w/ genres 
-         */
+		function updateLocation(lat, lng) {
+			LocationService.updateUserLocation(lat, lng);
+		};
     },
 };

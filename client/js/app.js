@@ -57,6 +57,8 @@ for(let i=0; i<components.length; i++) {
 // Services
 const services = [
 	require ('./services/user-service'),
+	require ('./services/location-service'),
+	require ('./services/book-service'),
 ];
 
 for(let i=0; i<services.length; i++) {
