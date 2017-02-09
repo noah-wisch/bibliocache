@@ -15,6 +15,7 @@ app.config($stateProvider => {
 
 /* Controllers */
 const controllers = [
+	require('./controllers/login'),
 	require('./controllers/newSession'),
 	require('./controllers/map'),
 	require('./controllers/range'),
@@ -26,6 +27,7 @@ for (let i = 0; i < controllers.length; i++) {
 
 /* Components */
 const components = [
+	require('./components/login'),
 	require('./components/newSession'),
 	require('./components/map'),
 	require('./components/range'),
