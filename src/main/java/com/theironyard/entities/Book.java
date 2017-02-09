@@ -104,8 +104,8 @@ public class Book {
     }
 
     public static int wordsPresent (String paragraph) {
-        String[] words = paragraph.split(" ");//turns String paragraph into an array of strings split on whitespace in the paragraph.
-        return words.length;//finds the number of elements in the words array (i.e. number of words in the paragraph).
+        String[] words = paragraph.split(" ");//turns paragraph into an array of strings split on whitespace.
+        return words.length;//returns the number of elements in the words array (i.e. number of words in the paragraph).
     }
 
     public static int sentencesPresent(String paragraph) {
