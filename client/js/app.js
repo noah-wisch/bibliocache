@@ -9,7 +9,6 @@ const routes = require('./routes');
 app.config($stateProvider => {
 	for (let i = 0; i < routes.length; i++) {
 		$stateProvider.state(routes[i]);
-		console.log('4 Routes Logging?');
 	}
 });
 
@@ -19,6 +18,7 @@ const controllers = [
 	require('./controllers/newSession'),
 	require('./controllers/map'),
 	require('./controllers/range'),
+	
 ];
 
 for (let i = 0; i < controllers.length; i++) {
