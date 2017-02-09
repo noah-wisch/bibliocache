@@ -1,0 +1,6 @@
+<section ng-controller="NewSessionController">
+	<select ng-model="selectedGenre">
+        <option ng-repeat="currentGenre in genres" value="{{ currentGenre }}">{{ currentGenre }}</option>
+    </select>
+    <button type="submit" ng-click="submitGenre()">Submit</button>
+</section>
