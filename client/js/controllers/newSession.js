@@ -8,23 +8,23 @@ module.exports = {
 			// Initiate geolocation service
 			let geo = navigator.geolocation;
 			
-			function success(position) {
+			function geo_success(position) {
 				let pos = position.coords;
 				console.log(`current position: [${pos.latitude}, ${pos.longitude}]`);
 				updateLocation(pos.latitude, pos.longitude);
 			};
 			
-			function error(err) {
+			function geo_error(err) {
 				console.warn(`ERROR(${err.code}): ${err.message}`);
 			};
 			
-			let positionOptions = {
+			let geo_options = {
 				enableHighAccuracy: true,
 				timeout: 5000,
 				maximumAge: 0
 			};
 			
-			geo.getCurrentPosition(success, error, positionOptions);
+			geo.getCurrentPosition(geo_success, geo_error, geo_options);
 		};
 		
 		// If user's location is available
