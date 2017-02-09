@@ -1,9 +1,9 @@
 module.exports = {
 	name: 'LocationService',
-	
+
 	func($http) {
 		let currentPos = [0, 0];
-		
+
 		return {
 			getUserLocation() {
 				return currentPos;
@@ -14,5 +14,5 @@ module.exports = {
 			},
 		};
 	},
-	
+
 };
