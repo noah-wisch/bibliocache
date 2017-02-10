@@ -1,7 +1,7 @@
 module.exports = {
     name: 'RegistrationController',
 	
-    func($scope, UserService) {
+    func($scope, $state, UserService) {
         $scope.emailValidation = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 		
 		$scope.passwordValidation = /^[*]+$/;
@@ -20,7 +20,10 @@ module.exports = {
 				location: [0,0], // hardcoded for now
 				age: age,
 			};
-			UserService.registerUser(user);
+			
+			UserService.registerUser(user).then(function() {
+				$state.go('new-session');
+			});
         };
     },
 };

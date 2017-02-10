@@ -4,13 +4,15 @@ module.exports = {
 	func($http) {
 		return {
 			registerUser(user) {
-				// http post with new user object
-				console.log('new user');
+				//return $http.post('https://enigmatic-woodland-53824.herokuapp.com/registration', user);
+				console.log('posting new user');
+				return {};
 			},
 			
 			logInUser(user) {
-				// http post with user object
-				console.log('log in user');
+				//return $http.post('https://enigmatic-woodland-53824.herokuapp.com/login', user);
+				console.log('posting existing user');
+				return {};
 			},
 			
 			newSession() {
