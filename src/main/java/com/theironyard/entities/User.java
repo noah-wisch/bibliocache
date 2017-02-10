@@ -21,10 +21,10 @@ public class User {
     @Column (nullable = false)
     int readingLevel;
 
-    @Column (nullable = false)
+    @Column
     String category;
 
-    @Column (nullable = false)
+    @Column
     int [] location;
 
     @Column(nullable = false)
