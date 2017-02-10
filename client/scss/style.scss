@@ -5,6 +5,7 @@
 
 button {
 	@include button;
+	border-radius: 5px;
 	&:disabled {
 		opacity: 0.6;
 	}
