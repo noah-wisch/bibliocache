@@ -5,6 +5,11 @@ module.exports = [
         url: '',
         component: 'newSession',
     },
+	{
+        name: 'registration',
+        url: '/register',
+        component: 'registration',
+    },
     {
         name: 'login',
         url: '/login',

@@ -1,0 +1,21 @@
+<section ng-controller="LoginController">
+    <h2>Log in to your account</h2>
+	
+    <form>
+		<input type="email" ng-model="email" ng-pattern="emailValidation" name="email" placeholder="email">
+		<div ng-messages="email.$error" ng-if="email.$dirty" class="input-error">
+			<p ng-message="required">This field is required.</p>
+			<p ng-message="pattern">Please enter a valid email address.</p>
+		</div>
+		
+		<input type="password" ng-model="password" ng-pattern="passwordValidation" name="password" placeholder="password">
+		<div ng-messages="password.$error" ng-if="password.$dirty" class="input-error">
+			<p ng-message="required">This field is required.</p>
+			<p ng-message="pattern">Please follow password requirements.</p>
+		</div>
+		
+		 <button ng-click="LoginToAccount(email, password)">Log In</button>
+	</form>
+	
+	<p>Don't have an account? <a ui-sref="registration">Register here.</a></p>
+</section>

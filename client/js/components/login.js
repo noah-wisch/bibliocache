@@ -1,6 +1,6 @@
 module.exports = {
 	name: 'login',
 	func: {
-		templateUrl: 'templates/login.html',
+		templateUrl: 'templates/userLogin.html',
 	},
 };

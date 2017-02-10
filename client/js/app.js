@@ -14,6 +14,7 @@ app.config($stateProvider => {
 
 /* Controllers */
 const controllers = [
+	require('./controllers/registration'),
 	require('./controllers/login'),
 	require('./controllers/newSession'),
 	require('./controllers/map'),
@@ -27,6 +28,7 @@ for (let i = 0; i < controllers.length; i++) {
 
 /* Components */
 const components = [
+	require('./components/registration'),
 	require('./components/login'),
 	require('./components/newSession'),
 	require('./components/map'),
