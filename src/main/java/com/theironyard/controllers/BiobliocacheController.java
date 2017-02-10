@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by kelseynewman on 2/8/17.
@@ -24,20 +26,20 @@ public class BiobliocacheController {
 
     @PostConstruct
     public void init() {
-        if (books.count() == 0) {
-            Book book = new Book();
-            book.setTitle("Harry Potter");
-            book.setAuthor("JK Rowling");
-            book.setCategory("Fantasy");
-            book.setReadingLevel(8);
-            books.save(book);
-            Book altBook = new Book();
-            altBook.setTitle("The Shining");
-            altBook.setAuthor("Stephen King");
-            altBook.setCategory("Horror");
-            altBook.setReadingLevel(12);
-            books.save(altBook);
-        }
+//        if (books.count() == 0) {
+//            Book book = new Book();
+//            book.setTitle("Harry Potter");
+//            book.setAuthor("JK Rowling");
+//            book.setCategory("Fantasy");
+//            book.setReadingLevel(8);
+//            books.save(book);
+//            Book altBook = new Book();
+//            altBook.setTitle("The Shining");
+//            altBook.setAuthor("Stephen King");
+//            altBook.setCategory("Horror");
+//            altBook.setReadingLevel(12);
+//            books.save(altBook);
+//        }
     }
 
     @RequestMapping(path = "/", method = RequestMethod.GET)
@@ -62,5 +64,20 @@ public class BiobliocacheController {
         session.setAttribute("email", email);
         return "redirect:/";
 
+    }
+
+    @RequestMapping(path = "/end-round", method = RequestMethod.GET)
+    public List<Book> getList(HttpSession session, boolean flag) {
+        String userEmail = (String)session.getAttribute("email");
+        User user = users.findFirstByEmail(userEmail);
+        List<Book> returnedBooks = new ArrayList<>();
+        if (flag) {//if flag is set to true
+            returnedBooks = books.findByCategory(user.getCategory())//get all the books by category that matches our user's
+                    .stream()
+                    .filter(b -> b.getReadingLevel() == user.getReadingLevel())//filter books by reading level that matches our user's
+                    .collect(Collectors.toList())//put those books that are left into a list
+                    .subList(0, 5);//get the first five items of that list (toIndex is exclusive)
+        }
+        return returnedBooks;
     }
 }

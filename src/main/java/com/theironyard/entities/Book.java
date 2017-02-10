@@ -2,9 +2,7 @@ package com.theironyard.entities;
 
 import javax.persistence.*;
 
-import java.lang.reflect.Array;
 import java.text.BreakIterator;
-import java.text.CharacterIterator;
 import java.util.Locale;
 
 /**
