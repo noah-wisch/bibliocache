@@ -2,6 +2,9 @@ package com.theironyard.entities;
 
 import javax.persistence.*;
 
+import java.text.BreakIterator;
+import java.util.Locale;
+
 /**
  * Created by kelseynewman on 2/7/17.
  */
@@ -89,10 +92,11 @@ public class Book {
     Extract a passage from the book and find the number of characters, words and sentences in it to determine that book's
     approximate reading level.
     */
-    public static void readingLevelOfBook (Book book) {
-        String paragraph = new String();//TODO: find out how to pull an excerpt from books to pass into algorithm
-        book.setReadingLevel((int)(4.71 * (charactersPresent(paragraph)/wordsPresent(paragraph))
-                + 0.5 * (wordsPresent(paragraph)/sentencesPresent(paragraph)) - 21.43) + 1);
+    public static int readingLevelOfBook (String paragraph) {
+      //  String paragraph = new String();//TODO: find out how to pull an excerpt from books to pass into algorithm
+        //book.setReadingLevel(
+        return (int)(4.71 * (charactersPresent(paragraph)/wordsPresent(paragraph))
+                + 0.5 * (wordsPresent(paragraph)/sentencesPresent(paragraph)) - 21.43) + 1;
     }
 
 
@@ -104,13 +108,27 @@ public class Book {
     }
 
     public static int wordsPresent (String paragraph) {
-        String[] words = paragraph.split(" ");//turns paragraph into an array of strings split on whitespace.
-        return words.length;//returns the number of elements in the words array (i.e. number of words in the paragraph).
+        return paragraph.split(" ").length;//turns paragraph into an array of strings split on whitespace.
+         //returns the number of elements in the words array (i.e. number of words in the paragraph).
     }
 
     public static int sentencesPresent(String paragraph) {
         int sentences = 0;
 
-        return sentences;
-    }
+            BreakIterator iterator = BreakIterator.getSentenceInstance(Locale.US);
+                //breaks a piece of text into sentences according to the conventions of the english language
+            iterator.setText(paragraph);//sets the paragraph as the text to be examined
+
+            int lastIndex = iterator.first();//sets the last index of a sentence to the first boundary
+            while (lastIndex != BreakIterator.DONE) {//while that index is not the last boundary in the sentence, do this:
+                int firstIndex = lastIndex;//set last index to the first index of the next sentence
+                lastIndex = iterator.next();//last index is now set to the next boundary
+
+                if (lastIndex != BreakIterator.DONE) {//if the last boundary has not been reached
+                    paragraph.substring(firstIndex, lastIndex);//create a substring from the first to the last index of the current sentence
+                    sentences++;//increase count of sentences by one
+                }
+            }
+            return sentences;//returns total number of sentences
+        }
 }
