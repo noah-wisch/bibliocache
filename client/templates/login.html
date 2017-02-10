@@ -1,6 +1,6 @@
 <section class="register" ng-controller="LoginController">
     <h2>Create an account</h2>
-    <input type="text" placeholder="email" ng-model="username">
-    <input type="text" placeholder="password" ng-model="password">
+    <input type="email" placeholder="email" ng-model="username" ng-pattern="emailPattern">
+    <input type="password" placeholder="password" ng-model="password">
     <button ng-click="createAccount()">Submit</button>
 </section>
