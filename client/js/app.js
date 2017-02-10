@@ -1,4 +1,4 @@
-const app = angular.module('BibliocacheApp', ['ui.router']).run(function ($rootScope, $state, $stateParams) {
+const app = angular.module('BibliocacheApp', ['ui.router', 'ngMessages']).run(function ($rootScope, $state, $stateParams) {
 	$rootScope.$state = $state;
 	$rootScope.$stateParams = $stateParams;
 });
