@@ -15,7 +15,7 @@ gulp.task('html', function () {
 		.pipe(gulp.dest(`${src_path}/templates`));
 	
     return gulp.src('*.html')
-		.pipe(strip.text());
+		.pipe(strip.text())
         .pipe(gulp.dest(build_path))
 		.pipe(gulp.dest(src_path));
 });
