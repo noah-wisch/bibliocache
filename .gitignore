@@ -10,6 +10,9 @@
 .settings
 .springBeans
 
+## ENV VARIABLE ##
+.env
+
 ### IntelliJ IDEA ###
 .idea
 *.iws

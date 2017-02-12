@@ -1,16 +1,21 @@
 package com.theironyard.controllers;
 
+import com.google.api.services.books.model.Volume;
 import com.theironyard.entities.Book;
 import com.theironyard.entities.User;
 import com.theironyard.services.BookRepository;
 import com.theironyard.services.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -24,22 +29,23 @@ public class BiobliocacheController {
     @Autowired
     UserRepository users;
 
+    @Autowired
+    RestTemplate template;
+
+    Properties properties = new Properties();
+
     @PostConstruct
     public void init() {
-//        if (books.count() == 0) {
-//            Book book = new Book();
-//            book.setTitle("Harry Potter");
-//            book.setAuthor("JK Rowling");
-//            book.setCategory("Fantasy");
-//            book.setReadingLevel(8);
-//            books.save(book);
-//            Book altBook = new Book();
-//            altBook.setTitle("The Shining");
-//            altBook.setAuthor("Stephen King");
-//            altBook.setCategory("Horror");
-//            altBook.setReadingLevel(12);
-//            books.save(altBook);
-//        }
+        InputStream input = null;
+        try {
+            input = new FileInputStream(".env");
+            properties.load(input);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @RequestMapping(path = "/", method = RequestMethod.GET)
@@ -67,17 +73,25 @@ public class BiobliocacheController {
     }
 
     @RequestMapping(path = "/end-round", method = RequestMethod.GET)
-    public List<Book> getList(HttpSession session, boolean flag) {
+    public Volume getList(HttpSession session, boolean flag) {
         String userEmail = (String)session.getAttribute("email");
         User user = users.findFirstByEmail(userEmail);
         List<Book> returnedBooks = new ArrayList<>();
-        if (flag) {//if flag is set to true
-            returnedBooks = books.findByCategory(user.getCategory())//get all the books by category that matches our user's
-                    .stream()
-                    .filter(b -> b.getReadingLevel() == user.getReadingLevel())//filter books by reading level that matches our user's
-                    .collect(Collectors.toList())//put those books that are left into a list
-                    .subList(0, 5);//get the first five items of that list (toIndex is exclusive)
-        }
-        return returnedBooks;
+        Map <String, String> urlParams = new HashMap<>();
+        urlParams.put("YOUR_API_KEY", properties.getProperty("YOUR_API_KEY"));
+        urlParams.put("category", user.getCategory());
+        Volume volume = template.getForObject("https://www.googleapis.com/books/v1/volumes?q=subject:{category}&printType=books&download=epub&filter=full&langRestrict=en&key={YOUR_API_KEY}&fields=kind,items(volumeInfo(title,authors,categories))", Volume.class, urlParams);
+//        if(user != null) {
+//            if (flag) {//if flag is set to true
+//                returnedBooks = books.findByCategory(user.getCategory())//get all the books by category that matches our user's
+//                        .stream()
+//                        .filter(b -> b.getReadingLevel() == user.getReadingLevel())//filter books by reading level that matches our user's
+//                        .collect(Collectors.toList())//put those books that are left into a list
+//                        .subList(0, 5);//get the first five items of that list (toIndex is exclusive)
+//                //TODO need to incorporate if statement to be sure that returnedBooks is more than 5 items, or sublist will break it
+//            }
+//        }
+        System.out.println(volume.toString());
+        return volume;
     }
 }
