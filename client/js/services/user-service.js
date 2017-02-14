@@ -1,25 +1,35 @@
 module.exports = {
 	name: 'UserService',
-	
+
 	func($http) {
 		return {
 			registerUser(user) {
-				//return $http.post('https://enigmatic-woodland-53824.herokuapp.com/registration', user);
+				return $http.post('/registration', user);
 				console.log('posting new user');
-				return {};
+				return {
+					age: user.age,
+					category: 'Horror', // hardcoded for now
+					email: user.email,
+					location: [0, 0], // hardcoded for now
+					password: user.password,
+					readingLevel: user.readingLevel,
+				};
 			},
-			
+
 			logInUser(user) {
-				//return $http.post('https://enigmatic-woodland-53824.herokuapp.com/login', user);
+				return $http.post('/login', user);
 				console.log('posting existing user');
-				return {};
+				return {
+					email: null,
+					password: null,
+				};
 			},
-			
+
 			newSession() {
 				console.log('new session');
 			},
-			
+
 		};
 	},
-	
+
 };

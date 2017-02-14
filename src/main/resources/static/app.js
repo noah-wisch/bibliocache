@@ -90,6 +90,9 @@ module.exports = {
 		$scope.emailValidation = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
 		console.log($scope.email);
 
+		$scope.password = '';
+		$scope.passwordValidation = /^[a-zA-Z]\w{3,14}$/;
+
 
 		$scope.loginToAccount = (email, password) => {
 			let user = {
@@ -108,13 +111,13 @@ module.exports = {
     name: 'MapController',
     func($scope, LocationService) {
 
-				let location = LocationService.getUserLocation(); 
-		if (location[0] === undefined || location[1] === undefined) {
+		let location = LocationService.getUserLocation();
+		if (location === undefined) {
 			console.log('location not defined');
 		}
 
 				let Map;
-		let currentPos = {
+		let currentPos = { 
 			lat: location[0],
 			lng: location[1],
 		};
@@ -122,27 +125,39 @@ module.exports = {
 			lat: 35.226143,
 			lng: -80.852892,
 		};
-		let geo = navigator.geolocation;
 
-				function initMap() {
+				let geo = navigator.geolocation;
+
+
+						function initMap() {
 			Map = new google.maps.Map(document.querySelector('#sessionMap'), {
 				zoom: 15,
 				center: currentPos,
 			});
 
-			let tempMarker = new google.maps.Marker({
+			let userMarker = new google.maps.Marker({
 				position: currentPos,
 				map: Map,
+				icon: "assets/user.png",
+			});
+			let userRadius = new google.maps.Circle({
+				strokeColor: '#FF1990',
+				strokeOpacity: 0.8,
+				strokeWeight: 2,
+				fillColor: '#FF0000',
+				fillOpacity: 0.35,
+				map: Map,
+				center: currentPos,
+				radius: 200,
 			});
 
-						let Marker = new google.maps.Marker({
+			let destMarker = new google.maps.Marker({
 				position: destination,
 				map: Map,
+				icon: "assets/marker.png",
 			});
 		};
 		initMap();
-
-				let allowLocation = "geolocation" in navigator;
 
 				function watchUserPos() {
 
@@ -171,13 +186,14 @@ module.exports = {
 
 					};
 
-				if (allowLocation) {
+
+		if ("geolocation" in navigator) {
 			watchUserPos();
 		} else {
 			alert("Geolocation services are not supported by your browser."); 
 		}
 
-				LocationService.getDirections();
+
 
 			},
 };
@@ -187,11 +203,20 @@ module.exports = {
 	func($scope, LocationService, BookService) {
 
 		$scope.genres = BookService.getAllGenres();
-		console.log($scope.genres);
 
 		$scope.submitGenre = () => {
 			console.log($scope.selectedGenre);
 		};
+
+
+
+
+
+
+		function updateLocation(lat, lng) {
+			LocationService.updateUserLocation(lat, lng);
+		};
+
 
 		function getUserLocation() {
 			let geo = navigator.geolocation;
@@ -215,15 +240,23 @@ module.exports = {
 			geo.getCurrentPosition(geo_success, geo_error, geo_options);
 		};
 
+
+		function updateDestination(range) {
+			LocationService.updateUserDestination(range);
+		};
+
+
+		function getUserDestination() {
+
+			updateDestination(range);
+		};
+
+
 		if ("geolocation" in navigator) {
 			getUserLocation();
 		} else {
 			alert("Geolocation services are not supported by your browser.");
 		}
-
-		function updateLocation(lat, lng) {
-			LocationService.updateUserLocation(lat, lng);
-		};
 	},
 };
 
@@ -236,31 +269,32 @@ module.exports = {
 };
 },{}],11:[function(require,module,exports){
 module.exports = {
-    name: 'RegistrationController',
+	name: 'RegistrationController',
 
-	    func($scope, $state, UserService) {
-        $scope.emailValidation = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+	func($scope, $state, UserService) {
+		$scope.emailValidation = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-				$scope.passwordValidation = /^[*]+$/;
-
-				$scope.readingLevelValidation = /^[0-0]+$/;
+		$scope.password = '';
+		$scope.passwordValidation = /^[a-zA-Z]\w{3,14}$/;
+		$scope.readingLevelValidation = /^[0-0]+$/;
 		$scope.ageValidation = /^[0-9]+$/;
 
-				$scope.createAccount = (email, password, readingLevel, age) => {
-            let user = {
-				email: email,
-				password: password,
-				readingLevel: readingLevel,
-				category: 'Horror', 
-				location: [0,0], 
+		$scope.createAccount = (email, password, readingLevel, age) => {
+			let user = {
 				age: age,
+				category: 'Horror', 
+				email: email,
+				location: [0, 0], 
+				password: password,
+				readingLevel: 13,
 			};
+			console.log(user);
 
-						UserService.registerUser(user).then(function() {
+			UserService.registerUser(user).then(() => {
 				$state.go('new-session');
 			});
-        };
-    },
+		};
+	},
 };
 },{}],12:[function(require,module,exports){
 
@@ -336,9 +370,13 @@ module.exports = {
 	name: 'LocationService',
 
 	func($http) {
-		let currentPos = [undefined, undefined];
-		let finalPos = [35.226143, -80.852892];
-		let directions = undefined;
+
+
+
+
+		let currentPos;
+		let endPos;
+		let directions;
 
 		return {
 			getUserLocation() {
@@ -350,18 +388,26 @@ module.exports = {
 				return currentPos;
 			},
 
+						getDestination(maxRange) {
+				endPos = [35.226143, -80.852892];
+				return endPos;
+			},
+
 			getDirections() {
-				return $http.get(`https://maps.google.com/maps/api/directions/json?origin=${currentPos[0]},${currentPos[1]}&destination=${finalPos[0]},${finalPos[1]}&key=AIzaSyAoCv60nVilICtLnfFn7JMYvN_s04li5V0`).then(function(response) {
-					let dir = response.data.routes[0].legs[0];
-					console.log(dir);
+				if(currentPos && endPos) {
+					return $http.get(`https://maps.google.com/maps/api/directions/json?origin=${currentPos[0]},${currentPos[1]}&destination=${endPos[0]},${endPos[1]}&key=AIzaSyAoCv60nVilICtLnfFn7JMYvN_s04li5V0`).then(function(response) {
+						let dir = response.data.routes[0].legs[0];
+						console.log(dir);
 
-										for (let i=0; i<dir.steps.length; i++) {
-						console.log(dir.steps[i].html_instructions);
-					}
+						for (let i=0; i<dir.steps.length; i++) {
+							console.log(dir.steps[i].html_instructions);
+						}
 
-				});
-
-							},
+					});
+				} else {
+					console.log('Cannot get directions: user location or destination not defined.');
+				}
+			},
 		};
 	},
 
@@ -370,24 +416,36 @@ module.exports = {
 module.exports = {
 	name: 'UserService',
 
-		func($http) {
+	func($http) {
 		return {
 			registerUser(user) {
+				return $http.post('/registration', user);
 				console.log('posting new user');
-				return {};
+				return {
+					age: user.age,
+					category: 'Horror', 
+					email: user.email,
+					location: [0, 0], 
+					password: user.password,
+					readingLevel: user.readingLevel,
+				};
 			},
 
-						logInUser(user) {
+			logInUser(user) {
+				return $http.post('/login', user);
 				console.log('posting existing user');
-				return {};
+				return {
+					email: null,
+					password: null,
+				};
 			},
 
-						newSession() {
+			newSession() {
 				console.log('new session');
 			},
 
-					};
+		};
 	},
 
-	};
+};
 },{}]},{},[1]);
