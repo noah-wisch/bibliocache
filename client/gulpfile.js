@@ -14,6 +14,10 @@ gulp.task('html', function () {
         .pipe(gulp.dest(`${build_path}/templates`))
 		.pipe(gulp.dest(`${src_path}/templates`));
 	
+	gulp.src('assets/*')
+        .pipe(gulp.dest(`${build_path}/assets`))
+		.pipe(gulp.dest(`${src_path}/assets`));
+	
     return gulp.src('*.html')
 		.pipe(strip.text())
         .pipe(gulp.dest(build_path))
@@ -42,4 +46,5 @@ gulp.task('watch', ['default'], function () {
     gulp.watch('scss/*.scss', ['css']);
     gulp.watch('*.html', ['html']);
     gulp.watch('templates/*.html', ['html']);
+	gulp.watch('assets/*', ['html']);
 });
