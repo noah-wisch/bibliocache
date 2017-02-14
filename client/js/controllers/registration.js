@@ -19,8 +19,9 @@ module.exports = {
 				email: email,
 				location: [0, 0], // hardcoded for now
 				password: password,
-				readingLevel: readingLevel,
+				readingLevel: 13,
 			};
+			console.log(user);
 
 			UserService.registerUser(user).then(() => {
 				$state.go('new-session');

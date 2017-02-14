@@ -90,6 +90,9 @@ module.exports = {
 		$scope.emailValidation = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
 		console.log($scope.email);
 
+		$scope.password = '';
+		$scope.passwordValidation = /^[a-zA-Z]\w{3,14}$/;
+
 
 		$scope.loginToAccount = (email, password) => {
 			let user = {
@@ -236,31 +239,32 @@ module.exports = {
 };
 },{}],11:[function(require,module,exports){
 module.exports = {
-    name: 'RegistrationController',
+	name: 'RegistrationController',
 
-	    func($scope, $state, UserService) {
-        $scope.emailValidation = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+	func($scope, $state, UserService) {
+		$scope.emailValidation = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-				$scope.passwordValidation = /^[*]+$/;
-
-				$scope.readingLevelValidation = /^[0-0]+$/;
+		$scope.password = '';
+		$scope.passwordValidation = /^[a-zA-Z]\w{3,14}$/;
+		$scope.readingLevelValidation = /^[0-0]+$/;
 		$scope.ageValidation = /^[0-9]+$/;
 
-				$scope.createAccount = (email, password, readingLevel, age) => {
-            let user = {
-				email: email,
-				password: password,
-				readingLevel: readingLevel,
-				category: 'Horror', 
-				location: [0,0], 
+		$scope.createAccount = (email, password, readingLevel, age) => {
+			let user = {
 				age: age,
+				category: 'Horror', 
+				email: email,
+				location: [0, 0], 
+				password: password,
+				readingLevel: 13,
 			};
+			console.log(user);
 
-						UserService.registerUser(user).then(function() {
+			UserService.registerUser(user).then(() => {
 				$state.go('new-session');
 			});
-        };
-    },
+		};
+	},
 };
 },{}],12:[function(require,module,exports){
 
@@ -370,24 +374,36 @@ module.exports = {
 module.exports = {
 	name: 'UserService',
 
-		func($http) {
+	func($http) {
 		return {
 			registerUser(user) {
+				return $http.post('/registration', user);
 				console.log('posting new user');
-				return {};
+				return {
+					age: user.age,
+					category: 'Horror', 
+					email: user.email,
+					location: [0, 0], 
+					password: user.password,
+					readingLevel: user.readingLevel,
+				};
 			},
 
-						logInUser(user) {
+			logInUser(user) {
+				return $http.post('/login', user);
 				console.log('posting existing user');
-				return {};
+				return {
+					email: null,
+					password: null,
+				};
 			},
 
-						newSession() {
+			newSession() {
 				console.log('new session');
 			},
 
-					};
+		};
 	},
 
-	};
+};
 },{}]},{},[1]);

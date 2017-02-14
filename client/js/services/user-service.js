@@ -7,12 +7,12 @@ module.exports = {
 				return $http.post('/registration', user);
 				console.log('posting new user');
 				return {
-					email: null,
-    				password: null,
-					readingLevel: null,
-					// category: null,
-					// location: null,
-					age: null,
+					age: user.age,
+					category: 'Horror', // hardcoded for now
+					email: user.email,
+					location: [0, 0], // hardcoded for now
+					password: user.password,
+					readingLevel: user.readingLevel,
 				};
 			},
 
