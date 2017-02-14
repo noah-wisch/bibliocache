@@ -1104,7 +1104,11 @@ nav {
   max-width: 75rem;
   margin-right: auto;
   margin-left: auto; }
+<<<<<<< HEAD
   nav::before, nav::after {
+=======
+  body::before, body::after {
+>>>>>>> 9e5fb0688d7e959b9c484cdc33ae0764c610b18d
     display: table;
     content: ' '; }
   nav::after {
@@ -1113,6 +1117,17 @@ nav {
     display: flex;
     justify-content: space-between;
     list-style: none; }
+
+nav ul {
+  display: flex;
+  padding: 0;
+  margin: 0;
+  list-style: none; }
+  nav ul li {
+    margin-right: 10px; }
+
+#logo {
+  width: 40px; }
 
 #sessionMap {
   width: 100%;
