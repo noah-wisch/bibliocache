@@ -4,11 +4,32 @@ module.exports = {
 
 		/* Get book info (all genre options) */
 		$scope.genres = BookService.getAllGenres();
-		console.log($scope.genres);
 
 		$scope.submitGenre = () => {
 			console.log($scope.selectedGenre);
 		};
+		
+		
+		/* Define boudaries of app, only available to users in Charlotte, NC */
+		//let cityCenter = [35.2271, -80.8431];
+		
+		/*let CharlotteMap = new google.maps.Map(document.querySelector('#charlotteMap'), {
+			zoom: 15,
+			center: [35.2271, -80.8431],
+		});*/
+		
+		/*let circle = new google.maps.Circle({
+			map: Charlotte_Map,
+			center: cityCenter,
+			radius: 1000,
+			// metres
+			//radius: 100000,
+		});*/
+		// Attach circle to marker
+		/*circle.bindTo('center', markerCenter, 'position');
+		// Get the bounds
+		var bounds = circle.getBounds();
+		console.log(bounds.contains(latLngA));*/
 		
 		
 		/* Update user location */
@@ -17,7 +38,7 @@ module.exports = {
 		};
 
 		
-		/* Get user location info */
+		/* Get user location */
 		function getUserLocation() {
 			// Initiate geolocation service
 			let geo = navigator.geolocation;
@@ -40,7 +61,21 @@ module.exports = {
 
 			geo.getCurrentPosition(geo_success, geo_error, geo_options);
 		};
-
+		
+		
+		/* Update user destination */
+		function updateDestination(range) {
+			LocationService.updateUserDestination(range);
+		};
+		
+		
+		/* Get user destination */
+		function getUserDestination() {
+			
+			// users < 12 yrs old will have destination < 1 mile from current location
+			updateDestination(range);
+		};
+		
 		
 		/* Check if user gives permission to share location */
 		if ("geolocation" in navigator) {
