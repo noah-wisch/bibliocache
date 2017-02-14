@@ -2,15 +2,22 @@ module.exports = {
 	name: 'NewSessionController',
 	func($scope, LocationService, BookService) {
 
-		// Get book info (all genre options)
+		/* Get book info (all genre options) */
 		$scope.genres = BookService.getAllGenres();
 		console.log($scope.genres);
 
 		$scope.submitGenre = () => {
 			console.log($scope.selectedGenre);
 		};
+		
+		
+		/* Update user location */
+		function updateLocation(lat, lng) {
+			LocationService.updateUserLocation(lat, lng);
+		};
 
-		// Get user location info
+		
+		/* Get user location info */
 		function getUserLocation() {
 			// Initiate geolocation service
 			let geo = navigator.geolocation;
@@ -34,15 +41,12 @@ module.exports = {
 			geo.getCurrentPosition(geo_success, geo_error, geo_options);
 		};
 
-		// If user gives permission to share location
+		
+		/* Check if user gives permission to share location */
 		if ("geolocation" in navigator) {
 			getUserLocation();
 		} else {
 			alert("Geolocation services are not supported by your browser.");
 		}
-
-		function updateLocation(lat, lng) {
-			LocationService.updateUserLocation(lat, lng);
-		};
 	},
 };

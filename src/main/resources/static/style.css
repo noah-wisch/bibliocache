@@ -1073,13 +1073,23 @@ button {
 body {
   max-width: 75rem;
   margin-right: auto;
-  margin-left: auto;
-  background-color: lightseagreen; }
+  margin-left: auto; }
   body::before, body::after {
     display: table;
     content: ' '; }
   body::after {
     clear: both; }
+
+nav ul {
+  display: flex;
+  padding: 0;
+  margin: 0;
+  list-style: none; }
+  nav ul li {
+    margin-right: 10px; }
+
+#logo {
+  width: 40px; }
 
 #sessionMap {
   width: 100%;

@@ -2,10 +2,10 @@ module.exports = {
 	name: 'LocationService',
 
 	func($http) {
-		let currentPos = [undefined, undefined];
-		//let finalPos = [undefined, undefined];
-		let finalPos = [35.226143, -80.852892];
-		let directions = undefined;
+		let currentPos;
+		// let endPos;
+		let endPos = [35.226143, -80.852892];
+		let directions;
 
 		return {
 			getUserLocation() {

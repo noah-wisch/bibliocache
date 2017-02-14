@@ -13,7 +13,22 @@ button {
 
 body {
 	@include grid-row();
-	background-color: lightseagreen;
+	//background-color: lightseagreen;
+}
+
+nav ul {
+	display: flex;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+	
+	li {
+		margin-right: 10px;
+	}
+}
+
+#logo {
+	width: 40px;
 }
 
 #sessionMap {
