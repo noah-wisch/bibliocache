@@ -3,17 +3,45 @@
 @include foundation-global-styles;
 @include foundation-grid;
 
+body {
+	@include grid-row();
+	background-color: #6FFFE9;
+
+	input {
+		@include grid-column(12);
+		// display: flex;
+		// justify-content: space-between;
+		// padding: 0 50px;
+		margin: 5px 0;
+	}
+
+	a {
+		text-decoration: none;
+		font-weight: bold;
+	}
+}
+
+h1 {
+	text-align: center;
+}
+
 button {
 	@include button;
 	border-radius: 5px;
 	&:disabled {
 		opacity: 0.6;
 	}
+	padding: 15px 50px;
 }
 
-body {
+nav {
 	@include grid-row();
-	background-color: lightseagreen;
+
+	ul {
+		display: flex;
+		justify-content: space-between;
+		list-style: none;
+	}
 }
 
 #sessionMap {
