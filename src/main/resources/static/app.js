@@ -116,7 +116,7 @@ module.exports = {
 			console.log('location not defined');
 		}
 
-				let Map;
+				let Map, Street;
 		let currentPos = { 
 			lat: location[0],
 			lng: location[1],
@@ -156,7 +156,37 @@ module.exports = {
 				map: Map,
 				icon: "assets/marker.png",
 			});
-		};
+
+			Street = new google.maps.StreetViewPanorama(
+			document.querySelector('#sessionPano'), {
+				position: currentPos,
+				pov: {
+					heading: 34,
+					pitch: 10
+				}
+			});
+			Map.setStreetView(Street);
+
+			let directionsService = new google.maps.DirectionsService;
+        	let directionsDisplay = new google.maps.DirectionsRenderer;
+			directionsDisplay.setMap(Map);
+
+						function calculateAndDisplayRoute(directionsService, directionsDisplay) {
+				directionsService.route({
+					origin: currentPos,
+					destination: destination,
+					travelMode: 'DRIVING'
+				}, function(response, status) {
+					if (status === 'OK') {
+						directionsDisplay.setDirections(response);
+					} else {
+						window.alert('Directions request failed due to ' + status);
+					}
+				});
+			};
+			calculateAndDisplayRoute(directionsService, directionsDisplay);
+
+					};
 		initMap();
 
 				function watchUserPos() {
