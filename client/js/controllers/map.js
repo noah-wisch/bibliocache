@@ -8,7 +8,7 @@ module.exports = {
 			console.log('location not defined');
 		}
 		
-		let Map;
+		let Map, Street;
 		let currentPos = { // 'currentPos' object is defined with 'location' array elements
 			lat: location[0],
 			lng: location[1],
@@ -60,6 +60,18 @@ module.exports = {
 				map: Map,
 				icon: "assets/marker.png",
 			});
+			
+			// Set street view
+			Street = new google.maps.StreetViewPanorama(
+			document.querySelector('#sessionPano'), {
+				position: currentPos,
+				pov: {
+					heading: 34,
+					pitch: 10
+				}
+			});
+			Map.setStreetView(Street);
+			
 		};
 		initMap();
 		

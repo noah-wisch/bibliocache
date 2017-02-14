@@ -3,6 +3,9 @@ const sass = require('gulp-sass');
 const browser = require('gulp-browser');
 const strip = require('gulp-strip-comments');
 
+const build_path = '../build/resources/main/static';
+const src_path = '../src/main/resources/static';
+
 gulp.task('default', ['html', 'css', 'js']);
 
 gulp.task('html', () => {
@@ -24,14 +27,16 @@ gulp.task('css', () => {
     return gulp.src('scss/style.scss')
         .pipe(sass())
         .pipe(strip.text())
-        .pipe(gulp.dest('public/'));
+        .pipe(gulp.dest(build_path))
+        .pipe(gulp.dest(src_path));
 });
 
 gulp.task('js', () => {
     return gulp.src('js/app.js')
         .pipe(browser.browserify())
         .pipe(strip.text())
-        .pipe(gulp.dest('public/'));
+        .pipe(gulp.dest(build_path))
+        .pipe(gulp.dest(src_path));
 });
 
 gulp.task('watch', ['default'], () => {
