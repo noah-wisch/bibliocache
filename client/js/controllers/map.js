@@ -8,8 +8,7 @@ module.exports = {
 			console.log('location not defined');
 		}
 		
-		let Map, GeoMarker;
-		let BlueDot = require('geolocation-marker');
+		let Map;
 		let currentPos = { // 'currentPos' object is defined with 'location' array elements
 			lat: location[0],
 			lng: location[1],
@@ -18,6 +17,7 @@ module.exports = {
 			lat: 35.226143,
 			lng: -80.852892,
 		};
+		
 		let geo = navigator.geolocation;
 		
 		
@@ -27,13 +27,23 @@ module.exports = {
 				center: currentPos,
 			});
 			
-			/*// will eventually show dot instead of marker
-			let tempMarker = new google.maps.Marker({
+			// Set marker and radius on user's current location
+			let userMarker = new google.maps.Marker({
 				position: currentPos,
 				map: Map,
-			});*/
-			
-			GeoMarker = new BlueDot.GeolocationMarker();
+				icon: "assets/user.png",
+			});
+			let userRadius = new google.maps.Circle({
+				strokeColor: '#FF1990',
+				strokeOpacity: 0.8,
+				strokeWeight: 2,
+				fillColor: '#FF0000',
+				fillOpacity: 0.35,
+				map: Map,
+				center: currentPos,
+				radius: 200,
+			});
+			/*GeoMarker = new BlueDot.GeolocationMarker();
 			GeoMarker.setCircleOptions({fillColor: '#808080'});
 			google.maps.event.addListenerOnce(GeoMarker, 'position_changed', function() {
 				Map.setCenter(this.getPosition());
@@ -42,11 +52,13 @@ module.exports = {
 			google.maps.event.addListener(GeoMarker, 'geolocation_error', function(e) {
 				alert('There was an error obtaining your position. Message: ' + e.message);
 			});
-			GeoMarker.setMap(Map);
+			GeoMarker.setMap(Map);*/
 			
+			// Set marker on destination
 			let destMarker = new google.maps.Marker({
 				position: destination,
 				map: Map,
+				icon: "assets/marker.png",
 			});
 		};
 		initMap();
