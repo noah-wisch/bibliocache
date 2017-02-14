@@ -5,7 +5,7 @@ const strip = require('gulp-strip-comments');
 
 gulp.task('default', ['html', 'css', 'js']);
 
-gulp.task('html', function () {
+gulp.task('html', () => {
     gulp.src('templates/*.html')
         .pipe(gulp.dest(`${build_path}/templates`))
 		.pipe(gulp.dest(`${src_path}/templates`));
@@ -20,21 +20,21 @@ gulp.task('html', function () {
         .pipe(gulp.dest(src_path));
 });
 
-gulp.task('css', function () {
+gulp.task('css', () => {
     return gulp.src('scss/style.scss')
         .pipe(sass())
         .pipe(strip.text())
         .pipe(gulp.dest('public/'));
 });
 
-gulp.task('js', function () {
+gulp.task('js', () => {
     return gulp.src('js/app.js')
         .pipe(browser.browserify())
         .pipe(strip.text())
         .pipe(gulp.dest('public/'));
 });
 
-gulp.task('watch', ['default'], function () {
+gulp.task('watch', ['default'], () => {
     gulp.watch('js/*.js', ['js']);
     gulp.watch('js/*/*.js', ['js']);
     gulp.watch('scss/*.scss', ['css']);
