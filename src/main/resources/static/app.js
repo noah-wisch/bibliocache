@@ -108,15 +108,15 @@ module.exports = {
 };
 },{}],8:[function(require,module,exports){
 module.exports = {
-    name: 'MapController',
-    func($scope, LocationService) {
+	name: 'MapController',
+	func($scope, LocationService) {
 
 		let location = LocationService.getUserLocation();
 		if (location === undefined) {
 			console.log('location not defined');
 		}
 
-				let Map;
+		let Map, Street;
 		let currentPos = { 
 			lat: location[0],
 			lng: location[1],
@@ -126,14 +126,32 @@ module.exports = {
 			lng: -80.852892,
 		};
 
-				let geo = navigator.geolocation;
+		let geo = navigator.geolocation;
 
-
-						function initMap() {
+		function initMap() {
+			const directionsService = new google.maps.DirectionsService;
+			const directionsDisplay = new google.maps.DirectionsRenderer;
 			Map = new google.maps.Map(document.querySelector('#sessionMap'), {
 				zoom: 15,
 				center: currentPos,
 			});
+			directionsDisplay.setMap(Map);
+			directionsDisplay.setPanel(document.getElementById('directions'));
+
+			function calculateAndDisplayRoute(directionsService, directionsDisplay) {
+				directionsService.route({
+					origin: currentPos,
+					destination: destination,
+					travelMode: 'DRIVING'
+				}, (response, status) => {
+					if (status === 'OK') {
+						directionsDisplay.setDirections(response);
+					} else {
+						window.alert('Directions request failed due to ' + status);
+					}
+				})
+			};
+			calculateAndDisplayRoute(directionsService, directionsDisplay);
 
 			let userMarker = new google.maps.Marker({
 				position: currentPos,
@@ -156,25 +174,36 @@ module.exports = {
 				map: Map,
 				icon: "assets/marker.png",
 			});
+
+			Street = new google.maps.StreetViewPanorama(
+				document.querySelector('#sessionPano'), {
+					position: currentPos,
+					pov: {
+						heading: 34,
+						pitch: 10
+					}
+				});
+			Map.setStreetView(Street);
+
 		};
 		initMap();
 
-				function watchUserPos() {
+		function watchUserPos() {
 
-						function watch_success(pos) {
+			function watch_success(pos) {
 				console.log(pos.coords.latitude + ', ' + pos.coords.longitude);
 
-								if (destination.lat === pos.lat && destination.lng === pos.lng) {
+				if (destination.lat === pos.lat && destination.lng === pos.lng) {
 					console.log('Congratulations, you reached the cache');
 					geo.clearWatch(watch_id);
 				}
 			};
 
-						function watch_error(err) {
+			function watch_error(err) {
 				console.warn('ERROR(' + err.code + '): ' + err.message);
 			}
 
-						let watch_options = {
+			let watch_options = {
 				enableHighAccuracy: true,
 			};
 
@@ -184,18 +213,17 @@ module.exports = {
 				console.log('error');
 			}
 
-					};
+		};
 
 
 		if ("geolocation" in navigator) {
 			watchUserPos();
 		} else {
-			alert("Geolocation services are not supported by your browser."); 
+			alert("Geolocation services are not supported by your browser.");
 		}
 
 
-
-			},
+	},
 };
 },{}],9:[function(require,module,exports){
 module.exports = {
@@ -286,7 +314,7 @@ module.exports = {
 				email: email,
 				location: [0, 0], 
 				password: password,
-				readingLevel: 13,
+				readingLevel: readingLevel,
 			};
 			console.log(user);
 

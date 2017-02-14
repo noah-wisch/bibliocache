@@ -19,7 +19,7 @@ module.exports = {
 				email: email,
 				location: [0, 0], // hardcoded for now
 				password: password,
-				readingLevel: 13,
+				readingLevel: readingLevel,
 			};
 			console.log(user);
 

@@ -1104,19 +1104,11 @@ nav {
   max-width: 75rem;
   margin-right: auto;
   margin-left: auto; }
-<<<<<<< HEAD
   nav::before, nav::after {
-=======
-  body::before, body::after {
->>>>>>> 9e5fb0688d7e959b9c484cdc33ae0764c610b18d
     display: table;
     content: ' '; }
   nav::after {
     clear: both; }
-  nav ul {
-    display: flex;
-    justify-content: space-between;
-    list-style: none; }
 
 nav ul {
   display: flex;
@@ -1129,7 +1121,19 @@ nav ul {
 #logo {
   width: 40px; }
 
-#sessionMap {
-  width: 100%;
+#sessionMap, #sessionPano {
+  width: 45%;
   height: 400px;
+  display: inline-block;
   border-radius: 5px; }
+
+#directions {
+  font-family: 'Roboto','sans-serif';
+  line-height: 30px;
+  padding-left: 10px;
+  height: 100%;
+  width: 390px;
+  overflow: auto;
+  font-size: 15px; }
+  #directions select {
+    width: 100%; }

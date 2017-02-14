@@ -60,3 +60,18 @@ nav ul {
 	display: inline-block;
 	border-radius: 5px;
 }
+
+#directions {
+	font-family: 'Roboto','sans-serif';
+    line-height: 30px;
+    padding-left: 10px;
+	height: 100%;
+    width: 390px;
+	overflow: auto;
+	font-size: 15px;
+
+		select {
+        	width: 100%;
+      	}
+}
+
