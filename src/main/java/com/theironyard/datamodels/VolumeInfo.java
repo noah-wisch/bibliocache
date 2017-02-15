@@ -13,7 +13,7 @@ public class VolumeInfo {
     private int id;
     private String title;
     private List<String> authors;
-//    private List<String> categories;
+    private List<String> categories;
 
     public int getId() {
         return id;

@@ -128,15 +128,19 @@ module.exports = {
 
 		let geo = navigator.geolocation;
 
+
 		function initMap() {
-			const directionsService = new google.maps.DirectionsService;
-			const directionsDisplay = new google.maps.DirectionsRenderer;
-			Map = new google.maps.Map(document.querySelector('#sessionMap'), {
+
+						Map = new google.maps.Map(document.querySelector('#sessionMap'), {
 				zoom: 15,
 				center: currentPos,
 			});
-			directionsDisplay.setMap(Map);
-			directionsDisplay.setPanel(document.getElementById('directions'));
+
+			const directionsService = new google.maps.DirectionsService;
+			const directionsDisplay = new google.maps.DirectionsRenderer;
+
+						directionsDisplay.setMap(Map);
+			directionsDisplay.setPanel(document.querySelector('#directions'));
 
 			function calculateAndDisplayRoute(directionsService, directionsDisplay) {
 				directionsService.route({
@@ -149,7 +153,7 @@ module.exports = {
 					} else {
 						window.alert('Directions request failed due to ' + status);
 					}
-				})
+				});
 			};
 			calculateAndDisplayRoute(directionsService, directionsDisplay);
 
@@ -159,14 +163,14 @@ module.exports = {
 				icon: "assets/user.png",
 			});
 			let userRadius = new google.maps.Circle({
-				strokeColor: '#FF1990',
-				strokeOpacity: 0.8,
-				strokeWeight: 2,
-				fillColor: '#FF0000',
-				fillOpacity: 0.35,
+				strokeColor: '#313131',
+				strokeOpacity: 0.4,
+				strokeWeight: 0.8,
+				fillColor: '#ffffff',
+				fillOpacity: 0.6,
 				map: Map,
 				center: currentPos,
-				radius: 200,
+				radius: 50,
 			});
 
 			let destMarker = new google.maps.Marker({
@@ -176,7 +180,6 @@ module.exports = {
 			});
 
 			Street = new google.maps.StreetViewPanorama(
-<<<<<<< HEAD
 				document.querySelector('#sessionPano'), {
 					position: currentPos,
 					pov: {
@@ -186,39 +189,9 @@ module.exports = {
 				});
 			Map.setStreetView(Street);
 
-		};
-=======
-			document.querySelector('#sessionPano'), {
-				position: currentPos,
-				pov: {
-					heading: 34,
-					pitch: 10
-				}
-			});
-			Map.setStreetView(Street);
-
-			let directionsService = new google.maps.DirectionsService;
-        	let directionsDisplay = new google.maps.DirectionsRenderer;
-			directionsDisplay.setMap(Map);
-
-						function calculateAndDisplayRoute(directionsService, directionsDisplay) {
-				directionsService.route({
-					origin: currentPos,
-					destination: destination,
-					travelMode: 'DRIVING'
-				}, function(response, status) {
-					if (status === 'OK') {
-						directionsDisplay.setDirections(response);
-					} else {
-						window.alert('Directions request failed due to ' + status);
-					}
-				});
-			};
-			calculateAndDisplayRoute(directionsService, directionsDisplay);
-
 					};
->>>>>>> 919214593605b7b63c7522831bd2d613da554278
 		initMap();
+
 
 		function watchUserPos() {
 
@@ -254,8 +227,7 @@ module.exports = {
 			alert("Geolocation services are not supported by your browser.");
 		}
 
-
-	},
+			},
 };
 },{}],9:[function(require,module,exports){
 module.exports = {
@@ -269,8 +241,30 @@ module.exports = {
 		};
 
 
+		let CharlotteMap;
 
+				function initCltMap() {
+			let mapOptions = {
+				zoom: 10,
+				center: new google.maps.LatLng(35.2271, -80.8431),
+			};
+			CharlotteMap = new google.maps.Map(document.querySelector('#charlotteMap'), mapOptions);
 
+			let gameArea = new google.maps.Polygon({
+				paths: [
+					new google.maps.LatLng(35.281343, -80.948365),
+					new google.maps.LatLng(35.283585, -80.731385),
+					new google.maps.LatLng(35.145582, -80.746492),
+					new google.maps.LatLng(35.134352, -80.925019),
+				]
+			});
+
+						google.maps.event.addListener(CharlotteMap, 'click', function(event) {
+				console.log(google.maps.geometry.poly.containsLocation(event.latLng, gameArea));
+			});
+		}
+
+		google.maps.event.addDomListener(window, 'load', initCltMap);
 
 
 		function updateLocation(lat, lng) {
@@ -430,9 +424,6 @@ module.exports = {
 	name: 'LocationService',
 
 	func($http) {
-
-
-
 
 		let currentPos;
 		let endPos;

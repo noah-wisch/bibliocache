@@ -61,6 +61,13 @@ nav ul {
 	border-radius: 5px;
 }
 
+#charlotteMap {
+	width: 45%;
+	height: 400px;
+	display: inline-block;
+	border-radius: 5px;
+}
+
 #directions {
 	font-family: 'Roboto','sans-serif';
     line-height: 30px;
@@ -69,9 +76,9 @@ nav ul {
     width: 390px;
 	overflow: auto;
 	font-size: 15px;
-
-		select {
-        	width: 100%;
-      	}
+	
+	select {
+		width: 100%;
+	}
 }
 

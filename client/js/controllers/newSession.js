@@ -11,25 +11,30 @@ module.exports = {
 		
 		
 		/* Define boudaries of app, only available to users in Charlotte, NC */
-		//let cityCenter = [35.2271, -80.8431];
+		let CharlotteMap;
 		
-		/*let CharlotteMap = new google.maps.Map(document.querySelector('#charlotteMap'), {
-			zoom: 15,
-			center: [35.2271, -80.8431],
-		});*/
-		
-		/*let circle = new google.maps.Circle({
-			map: Charlotte_Map,
-			center: cityCenter,
-			radius: 1000,
-			// metres
-			//radius: 100000,
-		});*/
-		// Attach circle to marker
-		/*circle.bindTo('center', markerCenter, 'position');
-		// Get the bounds
-		var bounds = circle.getBounds();
-		console.log(bounds.contains(latLngA));*/
+		function initCltMap() {
+			let mapOptions = {
+				zoom: 10,
+				center: new google.maps.LatLng(35.2271, -80.8431),
+			};
+			CharlotteMap = new google.maps.Map(document.querySelector('#charlotteMap'), mapOptions);
+
+			let gameArea = new google.maps.Polygon({
+				paths: [
+					new google.maps.LatLng(35.281343, -80.948365),
+					new google.maps.LatLng(35.283585, -80.731385),
+					new google.maps.LatLng(35.145582, -80.746492),
+					new google.maps.LatLng(35.134352, -80.925019),
+				]
+			});
+			
+			google.maps.event.addListener(CharlotteMap, 'click', function(event) {
+				console.log(google.maps.geometry.poly.containsLocation(event.latLng, gameArea));
+			});
+		}
+
+		google.maps.event.addDomListener(window, 'load', initCltMap);
 		
 		
 		/* Update user location */

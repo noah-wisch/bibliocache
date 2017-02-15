@@ -19,7 +19,7 @@ public class User {
     String password;
 
     @Column (nullable = false)
-    int readingLevel;
+    Integer readingLevel;
 
     @Column
     String category;
@@ -28,12 +28,17 @@ public class User {
     int [] location;
 
     @Column(nullable = false)
-    int age;
+    Integer age;
 
     public User() {
     }
 
-    public User(String email, String password, int readingLevel, String category, int[] location, int age) {
+    public User(String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
+
+    public User(String email, String password, Integer readingLevel, String category, int[] location, Integer age) {
         this.email = email;
         this.password = password;
         this.readingLevel = readingLevel;
@@ -42,7 +47,7 @@ public class User {
         this.age = age;
     }
 
-    public User(int id, String email, String password, int readingLevel, String category, int[] location, int age) {
+    public User(int id, String email, String password, Integer readingLevel, String category, int[] location, Integer age) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -76,11 +81,11 @@ public class User {
         this.password = password;
     }
 
-    public int getReadingLevel() {
+    public Integer getReadingLevel() {
         return readingLevel;
     }
 
-    public void setReadingLevel(int readingLevel) {
+    public void setReadingLevel(Integer readingLevel) {
         this.readingLevel = readingLevel;
     }
 
@@ -100,11 +105,11 @@ public class User {
         this.location = location;
     }
 
-    public int getAge() {
+    public Integer getAge() {
         return age;
     }
 
-    public void setAge(int age) {
+    public void setAge(Integer age) {
         this.age = age;
     }
 }

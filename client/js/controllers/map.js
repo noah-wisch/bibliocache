@@ -20,15 +20,21 @@ module.exports = {
 
 		let geo = navigator.geolocation;
 
+
+		/* Initiate map canvas */
 		function initMap() {
-			const directionsService = new google.maps.DirectionsService;
-			const directionsDisplay = new google.maps.DirectionsRenderer;
+
 			Map = new google.maps.Map(document.querySelector('#sessionMap'), {
 				zoom: 15,
 				center: currentPos,
 			});
+
+			// Display directions
+			const directionsService = new google.maps.DirectionsService;
+			const directionsDisplay = new google.maps.DirectionsRenderer;
+
 			directionsDisplay.setMap(Map);
-			directionsDisplay.setPanel(document.getElementById('directions'));
+			directionsDisplay.setPanel(document.querySelector('#directions'));
 
 			function calculateAndDisplayRoute(directionsService, directionsDisplay) {
 				directionsService.route({
@@ -41,7 +47,7 @@ module.exports = {
 					} else {
 						window.alert('Directions request failed due to ' + status);
 					}
-				})
+				});
 			};
 			calculateAndDisplayRoute(directionsService, directionsDisplay);
 
@@ -52,14 +58,14 @@ module.exports = {
 				icon: "assets/user.png",
 			});
 			let userRadius = new google.maps.Circle({
-				strokeColor: '#FF1990',
-				strokeOpacity: 0.8,
-				strokeWeight: 2,
-				fillColor: '#FF0000',
-				fillOpacity: 0.35,
+				strokeColor: '#313131',
+				strokeOpacity: 0.4,
+				strokeWeight: 0.8,
+				fillColor: '#ffffff',
+				fillOpacity: 0.6,
 				map: Map,
 				center: currentPos,
-				radius: 200,
+				radius: 50,
 			});
 			/*GeoMarker = new BlueDot.GeolocationMarker();
 			GeoMarker.setCircleOptions({fillColor: '#808080'});
@@ -88,18 +94,19 @@ module.exports = {
 						pitch: 10
 					}
 				});
-			Map.setStreetView(Street);		
+
+			Map.setStreetView(Street);
 			// Display directions
 			let directionsService = new google.maps.DirectionsService;
-        	let directionsDisplay = new google.maps.DirectionsRenderer;
+			let directionsDisplay = new google.maps.DirectionsRenderer;
 			directionsDisplay.setMap(Map);
-			
+
 			function calculateAndDisplayRoute(directionsService, directionsDisplay) {
 				directionsService.route({
 					origin: currentPos,
 					destination: destination,
 					travelMode: 'DRIVING'
-				}, function(response, status) {
+				}, function (response, status) {
 					if (status === 'OK') {
 						directionsDisplay.setDirections(response);
 					} else {
@@ -108,9 +115,12 @@ module.exports = {
 				});
 			};
 			calculateAndDisplayRoute(directionsService, directionsDisplay);
+			Map.setStreetView(Street);
 		};
 		initMap();
 
+
+		/* Watch for changes in user location */
 		function watchUserPos() {
 
 			function watch_success(pos) {
@@ -148,9 +158,6 @@ module.exports = {
 		} else {
 			alert("Geolocation services are not supported by your browser.");
 		}
-		
-		/* Get directions to destination */
-		//LocationService.getDirections();
 
 	},
 };

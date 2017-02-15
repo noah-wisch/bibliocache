@@ -3,6 +3,7 @@ package com.theironyard.entities;
 import javax.persistence.*;
 
 import java.text.BreakIterator;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -25,19 +26,19 @@ public class Book {
     String category;
 
     @Column(nullable = false)
-    int readingLevel;
+    Integer readingLevel;
 
     public Book() {
     }
 
-    public Book(String title, String author, String category, int readingLevel) {
+    public Book(String title, String author, String category, Integer readingLevel) {
         this.title = title;
         this.author = author;
         this.category = category;
         this.readingLevel = readingLevel;
     }
 
-    public Book(int id, String title, String author, String category, int readingLevel) {
+    public Book(int id, String title, String author, String category, Integer readingLevel) {
         this.id = id;
         this.title = title;
         this.author = author;
@@ -77,11 +78,11 @@ public class Book {
         this.category = category;
     }
 
-    public int getReadingLevel() {
+    public Integer getReadingLevel() {
         return readingLevel;
     }
 
-    public void setReadingLevel(int readingLevel) {
+    public void setReadingLevel(Integer readingLevel) {
         this.readingLevel = readingLevel;
     }
 
@@ -92,7 +93,7 @@ public class Book {
     Extract a passage from the book and find the number of characters, words and sentences in it to determine that book's
     approximate reading level.
     */
-    public static int readingLevelOfBook (String paragraph) {
+    public static Integer readingLevelOfBook (String paragraph) {
       //  String paragraph = new String();//TODO: find out how to pull an excerpt from books to pass into algorithm
         //book.setReadingLevel(
         return (int)(4.71 * (charactersPresent(paragraph)/wordsPresent(paragraph))
