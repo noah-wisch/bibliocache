@@ -2,32 +2,6 @@ module.exports = {
 	name: 'LocationService',
 
 	func($http) {
-		/* Define boudaries of app, only available to users in Charlotte, NC */
-		/*let cityCenter = [35.2271, -80.8431];
-		
-		let Charlotte_Map = new google.maps.Map(document.querySelector('#charlotteMap'), {
-			zoom: 15,
-			center: cityCenter,
-		});*/
-		
-		/*let circle = new google.maps.Circle({
-			map: Charlotte_Map,
-			center: cityCenter,
-			radius: 1000,
-			// metres
-			//radius: 100000,
-		});*/
-		// Attach circle to marker
-		/*circle.bindTo('center', markerCenter, 'position');
-		// Get the bounds
-		var bounds = circle.getBounds();
-		console.log(bounds.contains(latLngA));*/
-		
-		
-		/*
-		Latitude: 1 deg = 68.7 mi
-		Longitude: 1 deg = 69.2*cos(latitude) mi
-		*/
 		
 		/* Define locations relative to user */
 		let currentPos;
