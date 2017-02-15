@@ -1121,6 +1121,9 @@ nav ul {
 #logo {
   width: 40px; }
 
+.start-message {
+  background: yellow; }
+
 #sessionMap, #sessionPano {
   width: 45%;
   height: 400px;

@@ -232,7 +232,7 @@ module.exports = {
 },{}],9:[function(require,module,exports){
 module.exports = {
 	name: 'NewSessionController',
-	func($scope, LocationService, BookService) {
+	func($scope, $state, UserService, LocationService, BookService) {
 
 		$scope.genres = BookService.getAllGenres();
 
@@ -256,32 +256,6 @@ module.exports = {
 			});
 			bar.animate(1.0);  
 		};
-
-
-		let CharlotteMap;
-
-		function initCltMap() {
-			let mapOptions = {
-				zoom: 10,
-				center: new google.maps.LatLng(35.2271, -80.8431),
-			};
-			CharlotteMap = new google.maps.Map(document.querySelector('#charlotteMap'), mapOptions);
-
-			let gameArea = new google.maps.Polygon({
-				paths: [
-					new google.maps.LatLng(35.281343, -80.948365),
-					new google.maps.LatLng(35.283585, -80.731385),
-					new google.maps.LatLng(35.145582, -80.746492),
-					new google.maps.LatLng(35.134352, -80.925019),
-				]
-			});
-
-			google.maps.event.addListener(CharlotteMap, 'click', function (event) {
-				console.log(google.maps.geometry.poly.containsLocation(event.latLng, gameArea));
-			});
-		}
-
-		google.maps.event.addDomListener(window, 'load', initCltMap);
 
 
 		function updateLocation(lat, lng) {
@@ -318,7 +292,13 @@ module.exports = {
 
 
 		function getUserDestination() {
-
+			let age = UserService.getUserInfo.age;
+			let range;
+			if (age < 12) {
+				range = 1;
+			} else {
+				range = 3;
+			}
 			updateDestination(range);
 		};
 
@@ -328,6 +308,8 @@ module.exports = {
 		} else {
 			alert("Geolocation services are not supported by your browser.");
 		}
+
+
 	},
 };
 
@@ -456,25 +438,14 @@ module.exports = {
 				return currentPos;
 			},
 
-						getDestination(maxRange) {
-				endPos = [35.226143, -80.852892];
+						setDestination(maxRange) {
+
+								endPos = [35.226143, -80.852892];
 				return endPos;
 			},
 
-			getDirections() {
-				if(currentPos && endPos) {
-					return $http.get(`https://maps.google.com/maps/api/directions/json?origin=${currentPos[0]},${currentPos[1]}&destination=${endPos[0]},${endPos[1]}&key=AIzaSyAoCv60nVilICtLnfFn7JMYvN_s04li5V0`).then(function(response) {
-						let dir = response.data.routes[0].legs[0];
-						console.log(dir);
-
-						for (let i=0; i<dir.steps.length; i++) {
-							console.log(dir.steps[i].html_instructions);
-						}
-
-					});
-				} else {
-					console.log('Cannot get directions: user location or destination not defined.');
-				}
+						getDestination() {
+				return endPos;
 			},
 		};
 	},
@@ -485,10 +456,19 @@ module.exports = {
 	name: 'UserService',
 
 	func($http) {
-		return {
+
+		function User(age, category, readingLevel) {
+			this.age = age;
+			this.category = category;
+			this.readingLevel = readingLevel;
+
+						return this;
+		}
+		let user = new User(null, null, null);
+
+				return {
 			registerUser(user) {
 				return $http.post('/registration', user);
-				console.log('posting new user');
 				return {
 					age: user.age,
 					category: 'Horror', 
@@ -501,15 +481,14 @@ module.exports = {
 
 			logInUser(user) {
 				return $http.post('/login', user);
-				console.log('posting existing user');
 				return {
 					email: null,
 					password: null,
 				};
 			},
 
-			newSession() {
-				console.log('new session');
+			getUserInfo() {
+				return user;
 			},
 
 		};

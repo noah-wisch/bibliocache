@@ -2,10 +2,20 @@ module.exports = {
 	name: 'UserService',
 
 	func($http) {
+		
+		// Store user session info needed for game
+		function User(age, category, readingLevel) {
+			this.age = age;
+			this.category = category;
+			this.readingLevel = readingLevel;
+			
+			return this;
+		}
+		let user = new User(null, null, null);
+		
 		return {
 			registerUser(user) {
 				return $http.post('/registration', user);
-				console.log('posting new user');
 				return {
 					age: user.age,
 					category: 'Horror', // hardcoded for now
@@ -18,15 +28,14 @@ module.exports = {
 
 			logInUser(user) {
 				return $http.post('/login', user);
-				console.log('posting existing user');
 				return {
 					email: null,
 					password: null,
 				};
 			},
 
-			newSession() {
-				console.log('new session');
+			getUserInfo() {
+				return user;
 			},
 
 		};

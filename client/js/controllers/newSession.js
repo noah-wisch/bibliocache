@@ -1,6 +1,6 @@
 module.exports = {
 	name: 'NewSessionController',
-	func($scope, LocationService, BookService) {
+	func($scope, $state, UserService, LocationService, BookService) {
 
 		/* Get book info (all genre options) */
 		$scope.genres = BookService.getAllGenres();
@@ -25,33 +25,6 @@ module.exports = {
 			});
 			bar.animate(1.0);  // Number from 0.0 to 1.0
 		};
-
-
-		/* Define boudaries of app, only available to users in Charlotte, NC */
-		let CharlotteMap;
-
-		function initCltMap() {
-			let mapOptions = {
-				zoom: 10,
-				center: new google.maps.LatLng(35.2271, -80.8431),
-			};
-			CharlotteMap = new google.maps.Map(document.querySelector('#charlotteMap'), mapOptions);
-
-			let gameArea = new google.maps.Polygon({
-				paths: [
-					new google.maps.LatLng(35.281343, -80.948365),
-					new google.maps.LatLng(35.283585, -80.731385),
-					new google.maps.LatLng(35.145582, -80.746492),
-					new google.maps.LatLng(35.134352, -80.925019),
-				]
-			});
-
-			google.maps.event.addListener(CharlotteMap, 'click', function (event) {
-				console.log(google.maps.geometry.poly.containsLocation(event.latLng, gameArea));
-			});
-		}
-
-		google.maps.event.addDomListener(window, 'load', initCltMap);
 
 
 		/* Update user location */
@@ -93,17 +66,27 @@ module.exports = {
 
 		/* Get user destination */
 		function getUserDestination() {
-
-			// users < 12 yrs old will have destination < 1 mile from current location
+			// users < 12 yrs old will have destination of 1 mile max from current location
+			let age = UserService.getUserInfo.age;
+			let range;
+			if (age < 12) {
+				range = 1;
+			} else {
+				range = 3;
+			}
 			updateDestination(range);
 		};
-
-
+		
+		
 		/* Check if user gives permission to share location */
 		if ("geolocation" in navigator) {
 			getUserLocation();
 		} else {
 			alert("Geolocation services are not supported by your browser.");
 		}
+		
+		
+		/* Once we have genre, user location, and destination => display map view */
+		// $state.go('map');
 	},
 };
