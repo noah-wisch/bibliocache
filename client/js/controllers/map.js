@@ -93,28 +93,8 @@ module.exports = {
 						heading: 34,
 						pitch: 10
 					}
-				});
-
-			Map.setStreetView(Street);
-			// Display directions
-			let directionsService = new google.maps.DirectionsService;
-			let directionsDisplay = new google.maps.DirectionsRenderer;
-			directionsDisplay.setMap(Map);
-
-			function calculateAndDisplayRoute(directionsService, directionsDisplay) {
-				directionsService.route({
-					origin: currentPos,
-					destination: destination,
-					travelMode: 'DRIVING'
-				}, function (response, status) {
-					if (status === 'OK') {
-						directionsDisplay.setDirections(response);
-					} else {
-						window.alert('Directions request failed due to ' + status);
-					}
-				});
-			};
-			calculateAndDisplayRoute(directionsService, directionsDisplay);
+				}
+			);
 			Map.setStreetView(Street);
 		};
 		initMap();

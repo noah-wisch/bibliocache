@@ -186,7 +186,8 @@ module.exports = {
 						heading: 34,
 						pitch: 10
 					}
-				});
+				}
+			);
 
 			Map.setStreetView(Street);
 			let directionsService = new google.maps.DirectionsService;
