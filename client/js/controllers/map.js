@@ -41,7 +41,7 @@ module.exports = {
 				directionsService.route({
 					origin: currentPos,
 					destination: destination,
-					travelMode: 'DRIVING'
+					travelMode: 'WALKING'
 				}, (response, status) => {
 					if (status === 'OK') {
 						directionsDisplay.setDirections(response);
