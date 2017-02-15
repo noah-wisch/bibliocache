@@ -88,11 +88,7 @@ module.exports = {
 						pitch: 10
 					}
 				});
-			Map.setStreetView(Street);
-<<<<<<< HEAD
-
-=======
-			
+			Map.setStreetView(Street);		
 			// Display directions
 			let directionsService = new google.maps.DirectionsService;
         	let directionsDisplay = new google.maps.DirectionsRenderer;
@@ -112,8 +108,6 @@ module.exports = {
 				});
 			};
 			calculateAndDisplayRoute(directionsService, directionsDisplay);
-			
->>>>>>> 919214593605b7b63c7522831bd2d613da554278
 		};
 		initMap();
 
