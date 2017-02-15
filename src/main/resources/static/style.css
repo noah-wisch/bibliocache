@@ -1148,3 +1148,8 @@ nav ul {
   margin: 20px;
   width: 400px;
   height: 8px; }
+
+footer {
+  bottom: 0;
+  left: 0;
+  right: 0; }
