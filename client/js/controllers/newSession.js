@@ -7,12 +7,29 @@ module.exports = {
 
 		$scope.submitGenre = () => {
 			console.log($scope.selectedGenre);
+			
+			const ProgressBar = require('progressbar.js')
+			const bar = new ProgressBar.Line(container, {
+				strokeWidth: 4,
+				easing: 'easeInOut',
+				duration: 1400,
+				color: '#FFEA82',
+				trailColor: '#eee',
+				trailWidth: 1,
+				svgStyle: { width: '100%', height: '100%' },
+				from: { color: '#FFEA82' },
+				to: { color: '#ED6A5A' },
+				step: (state, bar) => {
+					bar.path.setAttribute('stroke', state.color);
+				}
+			});
+			bar.animate(1.0);  // Number from 0.0 to 1.0
 		};
-		
-		
+
+
 		/* Define boudaries of app, only available to users in Charlotte, NC */
 		let CharlotteMap;
-		
+
 		function initCltMap() {
 			let mapOptions = {
 				zoom: 10,
@@ -28,21 +45,21 @@ module.exports = {
 					new google.maps.LatLng(35.134352, -80.925019),
 				]
 			});
-			
-			google.maps.event.addListener(CharlotteMap, 'click', function(event) {
+
+			google.maps.event.addListener(CharlotteMap, 'click', function (event) {
 				console.log(google.maps.geometry.poly.containsLocation(event.latLng, gameArea));
 			});
 		}
 
 		google.maps.event.addDomListener(window, 'load', initCltMap);
-		
-		
+
+
 		/* Update user location */
 		function updateLocation(lat, lng) {
 			LocationService.updateUserLocation(lat, lng);
 		};
 
-		
+
 		/* Get user location */
 		function getUserLocation() {
 			// Initiate geolocation service
@@ -66,22 +83,22 @@ module.exports = {
 
 			geo.getCurrentPosition(geo_success, geo_error, geo_options);
 		};
-		
-		
+
+
 		/* Update user destination */
 		function updateDestination(range) {
 			LocationService.updateUserDestination(range);
 		};
-		
-		
+
+
 		/* Get user destination */
 		function getUserDestination() {
-			
+
 			// users < 12 yrs old will have destination < 1 mile from current location
 			updateDestination(range);
 		};
-		
-		
+
+
 		/* Check if user gives permission to share location */
 		if ("geolocation" in navigator) {
 			getUserLocation();
