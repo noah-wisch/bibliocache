@@ -17,18 +17,18 @@ module.exports = [
     },
     {
         name: 'new-session',
-        url: '/new-session', // url: '/new-session/:session_id',
+        url: '/new-session',
         component: 'newSession',
     },
     {
         name: 'map',
-        url: '/map', // url: '/map/:session_id',
+        url: '/map',
         component: 'map',
     },
     {
-        name: 'in-range',
-        url: '/cache', // url: '/cache/:session_id',
-        component: 'range',
+        name: 'end-session',
+        url: '/books',
+        component: 'endSession',
     },
 ];
 

@@ -18,7 +18,7 @@ const controllers = [
 	require('./controllers/login'),
 	require('./controllers/newSession'),
 	require('./controllers/map'),
-	require('./controllers/range'),
+	require('./controllers/endSession'),
 	
 ];
 
@@ -32,7 +32,7 @@ const components = [
 	require('./components/login'),
 	require('./components/newSession'),
 	require('./components/map'),
-	require('./components/range'),
+	require('./components/endSession'),
 ];
 
 for (let i = 0; i < components.length; i++) {

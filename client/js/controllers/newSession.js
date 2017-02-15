@@ -1,6 +1,6 @@
 module.exports = {
 	name: 'NewSessionController',
-	func($scope, $state, UserService, LocationService, BookService) {
+	func($scope, $state, $interval, UserService, LocationService, BookService) {
 		
 		let haveGenre = false;
 		let haveLocation = false;
@@ -48,6 +48,8 @@ module.exports = {
 				let pos = position.coords;
 				console.log(`current position: [${pos.latitude}, ${pos.longitude}]`);
 				updateLocation(pos.latitude, pos.longitude);
+				haveLocation = true;
+				getUserDestination();
 			};
 
 			function geo_error(err) {
@@ -90,7 +92,7 @@ module.exports = {
 		/* Once we have genre, user location, and destination => display map view */
 		function startGame() {
 			if (haveGenre && haveLocation && haveDestination) {
-				$interval.cancel(stopChecking);
+				stopChecking();
 				$state.go('map');
 			}
 		};
