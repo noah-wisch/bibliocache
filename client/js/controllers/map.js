@@ -2,20 +2,21 @@ module.exports = {
 	name: 'MapController',
 	func($scope, LocationService) {
 
-		/* Get required data to render map */
-		let location = LocationService.getUserLocation();
-		if (location === undefined) {
-			console.log('location not defined');
-		}
+		/*
+		 * Get required data to render map (from location service)
+		 * User is not directed to map view until all data is received and updated in service
+		 */ 
+		let userPos = LocationService.getUserLocation();
+		let endPos = LocationService.getDestination();
 
 		let Map, Street;
-		let currentPos = { // 'currentPos' object is defined with 'location' array elements
-			lat: location[0],
-			lng: location[1],
+		let currentPos = { // convert 'userPos' array to 'currentPos' object
+			lat: userPos[0],
+			lng: userPos[1],
 		};
-		let destination = {
-			lat: 35.226143,
-			lng: -80.852892,
+		let destination = { // convert 'endPos' array to 'destination' object
+			lat: endPos[0],
+			lng: endPos[1],
 		};
 
 		let geo = navigator.geolocation;
@@ -67,17 +68,7 @@ module.exports = {
 				center: currentPos,
 				radius: 50,
 			});
-			/*GeoMarker = new BlueDot.GeolocationMarker();
-			GeoMarker.setCircleOptions({fillColor: '#808080'});
-			google.maps.event.addListenerOnce(GeoMarker, 'position_changed', function() {
-				Map.setCenter(this.getPosition());
-				Map.fitBounds(this.getBounds());
-			});
-			google.maps.event.addListener(GeoMarker, 'geolocation_error', function(e) {
-				alert('There was an error obtaining your position. Message: ' + e.message);
-			});
-			GeoMarker.setMap(Map);*/
-
+			
 			// Set marker on destination
 			let destMarker = new google.maps.Marker({
 				position: destination,

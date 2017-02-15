@@ -100,9 +100,7 @@ module.exports = {
 				password: password,
 			};
 
-			UserService.logInUser(user).then(function () {
-				$state.go('new-session');
-			});
+			UserService.logInUser(user);
 		};
 	},
 };
@@ -111,19 +109,17 @@ module.exports = {
 	name: 'MapController',
 	func($scope, LocationService) {
 
-		let location = LocationService.getUserLocation();
-		if (location === undefined) {
-			console.log('location not defined');
-		}
+		let userPos = LocationService.getUserLocation();
+		let endPos = LocationService.getDestination();
 
 		let Map, Street;
 		let currentPos = { 
-			lat: location[0],
-			lng: location[1],
+			lat: userPos[0],
+			lng: userPos[1],
 		};
-		let destination = {
-			lat: 35.226143,
-			lng: -80.852892,
+		let destination = { 
+			lat: endPos[0],
+			lng: endPos[1],
 		};
 
 		let geo = navigator.geolocation;
@@ -234,10 +230,15 @@ module.exports = {
 	name: 'NewSessionController',
 	func($scope, $state, UserService, LocationService, BookService) {
 
-		$scope.genres = BookService.getAllGenres();
+				let haveGenre = false;
+		let haveLocation = false;
+		let haveDestination = false;
 
-		$scope.submitGenre = () => {
-			console.log($scope.selectedGenre);
+		$scope.genres = BookService.getAllGenres(); 
+
+				$scope.submitGenre = () => { 
+			UserService.setGenre($scope.selectedGenre);
+			haveGenre = true;
 
 						const ProgressBar = require('progressbar.js')
 			const bar = new ProgressBar.Line(container, {
@@ -260,6 +261,7 @@ module.exports = {
 
 		function updateLocation(lat, lng) {
 			LocationService.updateUserLocation(lat, lng);
+			haveLocation = true;
 		};
 
 
@@ -286,11 +288,6 @@ module.exports = {
 		};
 
 
-		function updateDestination(range) {
-			LocationService.updateUserDestination(range);
-		};
-
-
 		function getUserDestination() {
 			let age = UserService.getUserInfo.age;
 			let range;
@@ -299,7 +296,8 @@ module.exports = {
 			} else {
 				range = 3;
 			}
-			updateDestination(range);
+			LocationService.setDestination(range);
+			haveDestination = true;
 		};
 
 
@@ -310,6 +308,24 @@ module.exports = {
 		}
 
 
+		function startGame() {
+			if (haveGenre && haveLocation && haveDestination) {
+				$interval.cancel(stopChecking);
+				$state.go('map');
+			}
+		};
+
+		let wait;
+
+				function checkForData() {
+			wait = $interval(startGame, 1000);
+		};
+
+				function stopChecking() {
+			$interval.cancel(wait);
+		};
+
+				checkForData();
 	},
 };
 
@@ -341,11 +357,8 @@ module.exports = {
 				password: password,
 				readingLevel: readingLevel,
 			};
-			console.log(user);
 
-			UserService.registerUser(user).then(() => {
-				$state.go('new-session');
-			});
+						UserService.registerUser(user);
 		};
 	},
 };
@@ -424,9 +437,8 @@ module.exports = {
 
 	func($http) {
 
-		let currentPos;
-		let endPos;
-		let directions;
+		let currentPos = [];
+		let endPos = [];
 
 		return {
 			getUserLocation() {
@@ -439,8 +451,13 @@ module.exports = {
 			},
 
 						setDestination(maxRange) {
+				let range = maxRange * 0.015;
 
-								endPos = [35.226143, -80.852892];
+				let latDest = currentPos[0] + (Math.random() - (0.5 * range) * 2);
+				let lngDest = currentPos[1] + (Math.random() - (0.5 * range) * 2);
+
+								endPos = [latDest, lngDest];
+				console.log(endPos);
 				return endPos;
 			},
 
@@ -457,38 +474,34 @@ module.exports = {
 
 	func($http) {
 
-		function User(age, category, readingLevel) {
+		function User(age, genre, readingLevel) {
 			this.age = age;
-			this.category = category;
+			this.genre = genre;
 			this.readingLevel = readingLevel;
 
 						return this;
 		}
-		let user = new User(null, null, null);
+		let user = new User(30, 'Horror', 14);
 
 				return {
-			registerUser(user) {
-				return $http.post('/registration', user);
-				return {
-					age: user.age,
-					category: 'Horror', 
-					email: user.email,
-					location: [0, 0], 
-					password: user.password,
-					readingLevel: user.readingLevel,
-				};
+			registerUser(newUser) {
+				user.age = newUser.age;
+				user.genre = newUser.category;
+				user.readingLevel = newUser.readingLevel;
+
+								return $http.post('/registration', newUser);
 			},
 
 			logInUser(user) {
 				return $http.post('/login', user);
-				return {
-					email: null,
-					password: null,
-				};
 			},
 
 			getUserInfo() {
 				return user;
+			},
+
+						setGenre(genre) {
+				user.genre = genre;
 			},
 
 		};
