@@ -131,7 +131,7 @@ module.exports = {
 
 		function initMap() {
 
-						Map = new google.maps.Map(document.querySelector('#sessionMap'), {
+			Map = new google.maps.Map(document.querySelector('#sessionMap'), {
 				zoom: 15,
 				center: currentPos,
 			});
@@ -139,7 +139,7 @@ module.exports = {
 			const directionsService = new google.maps.DirectionsService;
 			const directionsDisplay = new google.maps.DirectionsRenderer;
 
-						directionsDisplay.setMap(Map);
+			directionsDisplay.setMap(Map);
 			directionsDisplay.setPanel(document.querySelector('#directions'));
 
 			function calculateAndDisplayRoute(directionsService, directionsDisplay) {
@@ -186,10 +186,10 @@ module.exports = {
 						heading: 34,
 						pitch: 10
 					}
-				});
+				}
+			);
 			Map.setStreetView(Street);
-
-					};
+		};
 		initMap();
 
 
@@ -227,7 +227,7 @@ module.exports = {
 			alert("Geolocation services are not supported by your browser.");
 		}
 
-			},
+	},
 };
 },{}],9:[function(require,module,exports){
 module.exports = {
