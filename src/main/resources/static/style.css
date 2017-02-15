@@ -1100,6 +1100,9 @@ button {
   button:disabled {
     opacity: 0.6; }
 
+.hidden {
+  display: none; }
+
 nav {
   max-width: 75rem;
   margin-right: auto;
@@ -1120,6 +1123,9 @@ nav ul {
 
 #logo {
   width: 40px; }
+
+.start-message {
+  background: yellow; }
 
 #sessionMap, #sessionPano {
   width: 45%;

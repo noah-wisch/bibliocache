@@ -232,39 +232,13 @@ module.exports = {
 },{}],9:[function(require,module,exports){
 module.exports = {
 	name: 'NewSessionController',
-	func($scope, LocationService, BookService) {
+	func($scope, $state, LocationService, BookService) {
 
 		$scope.genres = BookService.getAllGenres();
 
 		$scope.submitGenre = () => {
 			console.log($scope.selectedGenre);
 		};
-
-
-		let CharlotteMap;
-
-				function initCltMap() {
-			let mapOptions = {
-				zoom: 10,
-				center: new google.maps.LatLng(35.2271, -80.8431),
-			};
-			CharlotteMap = new google.maps.Map(document.querySelector('#charlotteMap'), mapOptions);
-
-			let gameArea = new google.maps.Polygon({
-				paths: [
-					new google.maps.LatLng(35.281343, -80.948365),
-					new google.maps.LatLng(35.283585, -80.731385),
-					new google.maps.LatLng(35.145582, -80.746492),
-					new google.maps.LatLng(35.134352, -80.925019),
-				]
-			});
-
-						google.maps.event.addListener(CharlotteMap, 'click', function(event) {
-				console.log(google.maps.geometry.poly.containsLocation(event.latLng, gameArea));
-			});
-		}
-
-		google.maps.event.addDomListener(window, 'load', initCltMap);
 
 
 		function updateLocation(lat, lng) {
@@ -311,6 +285,8 @@ module.exports = {
 		} else {
 			alert("Geolocation services are not supported by your browser.");
 		}
+
+
 	},
 };
 
