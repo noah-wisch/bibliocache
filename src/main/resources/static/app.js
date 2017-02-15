@@ -114,10 +114,13 @@ module.exports = {
 },{}],9:[function(require,module,exports){
 module.exports = {
 	name: 'MapController',
-	func($scope, LocationService) {
-
+	func($scope, $state, LocationService) {
 		let userPos = LocationService.getUserLocation();
 		let endPos = LocationService.getDestination();
+
+				if (userPos.length === 0) {
+			$state.go('new-session');
+		}
 
 		let Map, Street;
 		let currentPos = { 

@@ -1,13 +1,16 @@
 module.exports = {
 	name: 'MapController',
-	func($scope, LocationService) {
-
+	func($scope, $state, LocationService) {
 		/*
 		 * Get required data to render map (from location service)
 		 * User is not directed to map view until all data is received and updated in service
 		 */ 
 		let userPos = LocationService.getUserLocation();
 		let endPos = LocationService.getDestination();
+		
+		if (userPos.length === 0) {
+			$state.go('new-session');
+		}
 
 		let Map, Street;
 		let currentPos = { // convert 'userPos' array to 'currentPos' object
