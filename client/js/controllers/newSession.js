@@ -7,15 +7,32 @@ module.exports = {
 
 		$scope.submitGenre = () => {
 			console.log($scope.selectedGenre);
+			
+			const ProgressBar = require('progressbar.js')
+			const bar = new ProgressBar.Line(container, {
+				strokeWidth: 4,
+				easing: 'easeInOut',
+				duration: 1400,
+				color: '#FFEA82',
+				trailColor: '#eee',
+				trailWidth: 1,
+				svgStyle: { width: '100%', height: '100%' },
+				from: { color: '#FFEA82' },
+				to: { color: '#ED6A5A' },
+				step: (state, bar) => {
+					bar.path.setAttribute('stroke', state.color);
+				}
+			});
+			bar.animate(1.0);  // Number from 0.0 to 1.0
 		};
-		
-		
+
+
 		/* Update user location */
 		function updateLocation(lat, lng) {
 			LocationService.updateUserLocation(lat, lng);
 		};
 
-		
+
 		/* Get user location */
 		function getUserLocation() {
 			// Initiate geolocation service
@@ -39,21 +56,24 @@ module.exports = {
 
 			geo.getCurrentPosition(geo_success, geo_error, geo_options);
 		};
-		
-		
+
+
 		/* Update user destination */
 		function updateDestination(range) {
 			LocationService.updateUserDestination(range);
 		};
-		
-		
+
+
 		/* Get user destination */
 		function getUserDestination() {
-			// 1 mi = approximately 0.015 deg (lat and lng)
-			
-			// users < 12 yrs old will have destination < 1 mile from current location
-			let age = UserService.
-			if ()
+			// users < 12 yrs old will have destination of 1 mile max from current location
+			let age = UserService.getUserInfo.age;
+			let range;
+			if (age < 12) {
+				range = 1;
+			} else {
+				range = 3;
+			}
 			updateDestination(range);
 		};
 		

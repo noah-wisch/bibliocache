@@ -1100,9 +1100,6 @@ button {
   button:disabled {
     opacity: 0.6; }
 
-.hidden {
-  display: none; }
-
 nav {
   max-width: 75rem;
   margin-right: auto;
@@ -1149,3 +1146,8 @@ nav ul {
   font-size: 15px; }
   #directions select {
     width: 100%; }
+
+#container {
+  margin: 20px;
+  width: 400px;
+  height: 8px; }

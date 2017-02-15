@@ -2,5 +2,6 @@
 	<select ng-model="selectedGenre">
         <option ng-repeat="currentGenre in genres" value="{{ currentGenre }}">{{ currentGenre }}</option>
     </select>
-    <button type="submit" ng-click="submitGenre()">Start game</button>
+	<button type="submit" ng-click="submitGenre()">Start game</button>
+    <div id="container"></div>
 </section>
