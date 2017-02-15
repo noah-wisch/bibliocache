@@ -34,4 +34,5 @@ dependencies {
 	runtime('org.postgresql:postgresql')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 	compile ('com.google.apis:google-api-services-books:v1-rev90-1.22.0')
+	compile ('org.jsoup:jsoup:1.10.2')
 }
