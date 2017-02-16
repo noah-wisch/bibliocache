@@ -10,4 +10,5 @@ import java.util.List;
  */
 public interface BookRepository extends CrudRepository<Book, Integer> {
     List<Book> findByCategory (String category);
+    Book findByTitle (String title);
 }

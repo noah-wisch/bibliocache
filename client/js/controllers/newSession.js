@@ -1,12 +1,17 @@
 module.exports = {
 	name: 'NewSessionController',
-	func($scope, $state, UserService, LocationService, BookService) {
+	func($scope, $state, $interval, UserService, LocationService, BookService) {
+		
+		let haveGenre = false;
+		let haveLocation = false;
+		let haveDestination = false;
 
-		/* Get book info (all genre options) */
-		$scope.genres = BookService.getAllGenres();
-
-		$scope.submitGenre = () => {
-			console.log($scope.selectedGenre);
+		/* Update user's genre selection */
+		$scope.genres = BookService.getAllGenres(); // Get all book categories for dropdown menu
+		
+		$scope.submitGenre = () => { // Set genre after user makes selection
+			UserService.setGenre($scope.selectedGenre);
+			haveGenre = true;
 			
 			const ProgressBar = require('progressbar.js')
 			const bar = new ProgressBar.Line(container, {
@@ -30,6 +35,7 @@ module.exports = {
 		/* Update user location */
 		function updateLocation(lat, lng) {
 			LocationService.updateUserLocation(lat, lng);
+			haveLocation = true;
 		};
 
 
@@ -42,6 +48,8 @@ module.exports = {
 				let pos = position.coords;
 				console.log(`current position: [${pos.latitude}, ${pos.longitude}]`);
 				updateLocation(pos.latitude, pos.longitude);
+				haveLocation = true;
+				getUserDestination();
 			};
 
 			function geo_error(err) {
@@ -58,13 +66,7 @@ module.exports = {
 		};
 
 
-		/* Update user destination */
-		function updateDestination(range) {
-			LocationService.updateUserDestination(range);
-		};
-
-
-		/* Get user destination */
+		/* Generate user destination */
 		function getUserDestination() {
 			// users < 12 yrs old will have destination of 1 mile max from current location
 			let age = UserService.getUserInfo.age;
@@ -74,7 +76,8 @@ module.exports = {
 			} else {
 				range = 3;
 			}
-			updateDestination(range);
+			LocationService.setDestination(range);
+			haveDestination = true;
 		};
 		
 		
@@ -87,6 +90,24 @@ module.exports = {
 		
 		
 		/* Once we have genre, user location, and destination => display map view */
-		// $state.go('map');
+		function startGame() {
+			if (haveGenre && haveLocation && haveDestination) {
+				stopChecking();
+				$state.go('map');
+			}
+		};
+		
+		// Set interval to check if we can start game or not
+		let wait;
+		
+		function checkForData() {
+			wait = $interval(startGame, 1000);
+		};
+		
+		function stopChecking() {
+			$interval.cancel(wait);
+		};
+		
+		checkForData();
 	},
 };

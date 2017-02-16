@@ -4,40 +4,41 @@ module.exports = {
 	func($http) {
 		
 		// Store user session info needed for game
-		function User(age, category, readingLevel) {
+		function User(age, genre, readingLevel) {
 			this.age = age;
-			this.category = category;
+			this.genre = genre;
 			this.readingLevel = readingLevel;
 			
 			return this;
 		}
-		let user = new User(null, null, null);
+		//let user = new User(null, null, null);
+		let user = new User(30, 'Horror', 14);
 		
 		return {
-			registerUser(user) {
-				return $http.post('/registration', user);
-				console.log('registering');
-				console.log(user);
-				return {
-					age: user.age,
-					category: 'Horror', // hardcoded for now
-					email: user.email,
-					location: [0, 0], // hardcoded for now
-					password: user.password,
-					readingLevel: user.readingLevel,
-				};
+			registerUser(newUser) {
+				user.age = newUser.age;
+				user.genre = newUser.category;
+				user.readingLevel = newUser.readingLevel;
+				
+				return $http.post('/registration', newUser);
 			},
 
 			logInUser(user) {
+				// get user info from server to update user constructor
+				//
+				// DO THINGS HERE
 				return $http.post('/login', user);
-				return {
-					email: null,
-					password: null,
-				};
 			},
 
 			getUserInfo() {
 				return user;
+			},
+			
+			setGenre(genre) {
+				user.genre = genre;
+				/*return $http.post('/update', {
+					category: genre,
+				});*/
 			},
 
 		};

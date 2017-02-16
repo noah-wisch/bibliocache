@@ -17,9 +17,7 @@ module.exports = {
 				password: password,
 			};
 
-			UserService.logInUser(user).then(function () {
-				$state.go('new-session');
-			});
+			UserService.logInUser(user);
 		};
 	},
 };
