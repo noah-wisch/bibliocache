@@ -14,11 +14,11 @@
 		<span ng-show="isconfirm || passwordForm.password2.$dirty" ng-class="{true:'green',false:'red'}[isconfirm]">Passwords {{isconfirm===true?'':'do not'}} match</span>-->
 	</ng-form>
 
-	<input type="number" min="1" max="14" ng-model="readingLevel" ng-pattern="readingLevelValidation" name="readingLevel" placeholder="reading level: 1-14">
+	<input type="number" min="1" max="14" ng-model="form.readingLevel" ng-pattern="readingLevelValidation" name="readingLevel" placeholder="reading level: 1-14">
 
-	<input type="number" min="1" max="125" ng-model="age" ng-pattern="ageValidation" name="age" placeholder="age">
+	<input type="number" min="1" max="125" ng-model="form.age" ng-pattern="ageValidation" name="age" placeholder="age">
 
-	<button ng-click="createAccount(email, password, readingLevel, age)">Sign Up</button>
+	<button ng-click="createAccount(email, password, form.level, form.age)">Sign Up</button>
 
 	<p>Already have an account? <a ui-sref="login">Log in here.</a></p>
 </section>
