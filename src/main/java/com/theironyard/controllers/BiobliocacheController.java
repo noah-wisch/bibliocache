@@ -46,20 +46,20 @@ public class BiobliocacheController {
     }
 
     @RequestMapping(path = "/login", method = RequestMethod.POST)
-    public String login (HttpSession session, String email, String password) throws Exception{
+    public String login(HttpSession session, String email, String password) throws Exception{
        User user = users.findFirstByEmail(email);
         if (user == null) {
-        return "redirect:userRegistration.html";
+        return "redirect:notLoggedIn.html";
         } else if (!PasswordStorage.verifyPassword(password, user.getPassword())) {
             throw new Exception("Incorrect Password");
         }
         session.setAttribute("email", email);
-        return "redirect:index.html";
+        return "redirect:/";
         //todo find out how to send back user's info
     }
 
     @RequestMapping(path = "/registration", method = RequestMethod.POST)
-    public String register (HttpSession session, String email, String password,
+    public String register(HttpSession session, String email, String password,
                             Integer readingLevel, String category, int [] location, Integer age) throws Exception {
         User newUser = new User(email,
                 PasswordStorage.createHash(password),
@@ -69,7 +69,7 @@ public class BiobliocacheController {
                 age);
         users.save(newUser);
         session.setAttribute("email", email);
-        return "redirect:index.html";
+        return "redirect:/";
 
     }
 
@@ -87,6 +87,9 @@ public class BiobliocacheController {
                 for (Volume volume : volumes) {
                     Book storedBook = books.findByTitle(volume.getVolumeInfo().getTitle());
                     if (storedBook == null) {
+                        if (volume.getVolumeInfo().getAuthors().size() == 0) {
+                            volume.getVolumeInfo().set("author", "Unknown");
+                        }
                         books.save(new Book(volume, user));
                         System.out.println("New books saved.");
 
@@ -96,7 +99,6 @@ public class BiobliocacheController {
                         System.out.println(libraryBook.toString());
                     }
                 }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
