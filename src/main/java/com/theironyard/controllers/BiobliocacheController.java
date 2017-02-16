@@ -49,7 +49,7 @@ public class BiobliocacheController {
     public String login(HttpSession session, String email, String password) throws Exception{
        User user = users.findFirstByEmail(email);
         if (user == null) {
-        return "redirect:notLoggedIn.html";
+        return "notLoggedIn";
         } else if (!PasswordStorage.verifyPassword(password, user.getPassword())) {
             throw new Exception("Incorrect Password");
         }
