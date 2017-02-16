@@ -16,6 +16,8 @@ module.exports = {
 		return {
 			registerUser(user) {
 				return $http.post('/registration', user);
+				console.log('registering');
+				console.log(user);
 				return {
 					age: user.age,
 					category: 'Horror', // hardcoded for now
