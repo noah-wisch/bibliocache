@@ -269,25 +269,28 @@ module.exports = {
 		};
 
 
-		function updateLocation(lat, lng) {
-			LocationService.updateUserLocation(lat, lng);
-			haveLocation = true;
-		};
+		function getUserLocation(tries=0) {
 
-
-		function getUserLocation() {
 			let geo = navigator.geolocation;
 
-			function geo_success(position) {
+			if(tries > 3) { 
+				console.warn(`ERROR(${err.code}): ${err.message}`);
+				return;
+			}
+
+						function geo_success(position) {
 				let pos = position.coords;
 				console.log(`current position: [${pos.latitude}, ${pos.longitude}]`);
-				updateLocation(pos.latitude, pos.longitude);
+
+				LocationService.updateUserLocation(pos.latitude, pos.longitude);
 				haveLocation = true;
-				getUserDestination();
+
+								getUserDestination();
 			};
 
-			function geo_error(err) {
-				console.warn(`ERROR(${err.code}): ${err.message}`);
+						function geo_error(err) {
+				console.log('noah tell margo that the recursion function worked!');
+				getUserLocation(tries+1);
 			};
 
 			let geo_options = {
@@ -456,13 +459,18 @@ module.exports = {
 			},
 
 						setDestination(maxRange) {
-				let range = maxRange * 0.015;
+				let latRange = maxRange * 0.015; 
+				let lngRange = maxRange * 0.019; 
 
-				let latDest = currentPos[0] + (Math.random() - (0.5 * range) * 2);
-				let lngDest = currentPos[1] + (Math.random() - (0.5 * range) * 2);
+				let intensity = () => {
+					return Math.random() * (.99 - .01) + .01;
+				};
 
-								endPos = [latDest, lngDest];
-				console.log(endPos);
+				let latDest = currentPos[0] + (intensity() * (1 - latRange/2));
+				let lngDest = currentPos[1] + (intensity() * (1 - lngRange/2));
+
+								console.log('destination: [' + latDest, lngDest + ']');
+				endPos = [latDest, lngDest];
 				return endPos;
 			},
 
