@@ -11,7 +11,6 @@ import com.theironyard.services.BookSample;
 import com.theironyard.services.UserRepository;
 import com.theironyard.utilities.PasswordStorage;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -47,20 +46,29 @@ public class BiobliocacheController {
     }
 
     @RequestMapping(path = "/login", method = RequestMethod.POST)
-    public String login ( HttpSession session, @RequestBody User user) {
-//        User user = users.findFirstByEmail(email);
+    public String login (HttpSession session, String email, String password) throws Exception{
+       User user = users.findFirstByEmail(email);
         if (user == null) {
         return "redirect:userRegistration.html";
+        } else if (!PasswordStorage.verifyPassword(password, user.getPassword())) {
+            throw new Exception("Incorrect Password");
         }
-        session.setAttribute("email", user.getEmail());
+        session.setAttribute("email", email);
         return "redirect:index.html";
         //todo find out how to send back user's info
     }
 
     @RequestMapping(path = "/registration", method = RequestMethod.POST)
-    public String register (HttpSession session, @RequestBody User user) {
-        users.save(user);
-        session.setAttribute("email", user.getEmail());
+    public String register (HttpSession session, String email, String password,
+                            Integer readingLevel, String category, int [] location, Integer age) throws Exception {
+        User newUser = new User(email,
+                PasswordStorage.createHash(password),
+                readingLevel,
+                category,
+                location,
+                age);
+        users.save(newUser);
+        session.setAttribute("email", email);
         return "redirect:index.html";
 
     }
