@@ -1,6 +1,7 @@
 <section ng-controller="RegistrationController">
 	<h2>Create an account</h2>
 
+	<form method="post" action="/registration">
 	<ng-form name="loginForm">
 		<input type="email" ng-model="email" ng-pattern="emailValidation" name="email" placeholder="name@something.com">
 		<span ng-show="loginForm.email.$error.pattern" style="color:red">Please enter valid email.</span>
@@ -18,7 +19,8 @@
 
 	<input type="number" min="1" max="125" ng-model="form.age" ng-pattern="ageValidation" name="age" placeholder="age">
 
-	<button ng-click="createAccount(email, password, form.level, form.age)">Sign Up</button>
+	<button>Sign Up Yo</button>
+	</form>
 
 	<p>Already have an account? <a ui-sref="login">Log in here.</a></p>
 </section>

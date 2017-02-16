@@ -17,7 +17,7 @@ module.exports = {
 			const bar = new ProgressBar.Line(container, {
 				strokeWidth: 4,
 				easing: 'easeInOut',
-				duration: 1400,
+				duration: 5000,
 				color: '#FFEA82',
 				trailColor: '#eee',
 				trailWidth: 1,

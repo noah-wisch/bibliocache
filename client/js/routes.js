@@ -1,10 +1,10 @@
 
 module.exports = [
-    {
-        name: 'home',
-        url: '',
-        component: 'newSession',
-    },
+    // {
+    //     name: 'home',
+    //     url: '',
+    //     component: 'newSession',
+    // },
 	{
         name: 'registration',
         url: '/register',
