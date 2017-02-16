@@ -60,9 +60,9 @@ module.exports = {
 			};
 
 			let geo_options = {
-				enableHighAccuracy: true,
+				// enableHighAccuracy: true,
 				timeout: 5000,
-				maximumAge: 0
+				maximumAge: 0,
 			};
 
 			geo.getCurrentPosition(geo_success, geo_error, geo_options);
