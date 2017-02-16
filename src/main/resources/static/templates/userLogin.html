@@ -1,17 +1,19 @@
 <section ng-controller="LoginController">
 	<h2>Log in to your account</h2>
 
-	<ng-form name="loginForm">
-		<input type="email" ng-model="email" ng-pattern="emailValidation" name="email" placeholder="name@test.com">
-		<span ng-show="loginForm.email.$error.pattern" style="color:red">Please enter valid email.</span>
-	</ng-form>
+	<form method="post" action="/login">
+		<ng-form name="loginForm">
+			<input type="email" ng-model="email" ng-pattern="emailValidation" name="email" placeholder="name@test.com">
+			<span ng-show="loginForm.email.$error.pattern" style="color:red">Please enter valid email.</span>
+		</ng-form>
 
-	<ng-form name="passwordForm">
-		<input type="password" ng-model="password" ng-pattern="passwordValidation" name="password" placeholder="password">
-		<span ng-show="passwordForm.password.$error.pattern" style="color:red">Invalid Password</span>
-	</ng-form>
+		<ng-form name="passwordForm">
+			<input type="password" ng-model="password" ng-pattern="passwordValidation" name="password" placeholder="password">
+			<span ng-show="passwordForm.password.$error.pattern" style="color:red">Invalid Password</span>
+		</ng-form>
 
-	<button ng-click="loginToAccount(email, password)">Log In</button>
+		<button>Log In</button>
+	</form>
 
 	<p>Don't have an account? <a ui-sref="registration">Register here.</a></p>
 </section>

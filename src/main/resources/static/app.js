@@ -95,11 +95,9 @@ module.exports = {
 	func($scope, $state, UserService) {
 		$scope.email = '';
 		$scope.emailValidation = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
-		console.log($scope.email);
 
 		$scope.password = '';
 		$scope.passwordValidation = /^[a-zA-Z]\w{3,14}$/;
-
 
 		$scope.loginToAccount = (email, password) => {
 			let user = {
@@ -254,7 +252,7 @@ module.exports = {
 			const bar = new ProgressBar.Line(container, {
 				strokeWidth: 4,
 				easing: 'easeInOut',
-				duration: 1400,
+				duration: 5000,
 				color: '#FFEA82',
 				trailColor: '#eee',
 				trailWidth: 1,
@@ -376,11 +374,6 @@ module.exports = {
 },{}],12:[function(require,module,exports){
 
 module.exports = [
-    {
-        name: 'home',
-        url: '',
-        component: 'newSession',
-    },
 	{
         name: 'registration',
         url: '/register',
