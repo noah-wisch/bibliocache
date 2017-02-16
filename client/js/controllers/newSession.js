@@ -17,7 +17,7 @@ module.exports = {
 			const bar = new ProgressBar.Line(container, {
 				strokeWidth: 4,
 				easing: 'easeInOut',
-				duration: 1400,
+				duration: 5000,
 				color: '#FFEA82',
 				trailColor: '#eee',
 				trailWidth: 1,
@@ -32,34 +32,37 @@ module.exports = {
 		};
 
 
-		/* Update user location */
-		function updateLocation(lat, lng) {
-			LocationService.updateUserLocation(lat, lng);
-			haveLocation = true;
-		};
-
-
 		/* Get user location */
-		function getUserLocation() {
+		function getUserLocation(tries=0) {
+			
 			// Initiate geolocation service
 			let geo = navigator.geolocation;
 
+			if(tries > 3) { // Prevent infinite recursion
+				console.warn(`ERROR(${err.code}): ${err.message}`);
+				return;
+			}
+			
 			function geo_success(position) {
 				let pos = position.coords;
 				console.log(`current position: [${pos.latitude}, ${pos.longitude}]`);
-				updateLocation(pos.latitude, pos.longitude);
+				
+				// Update user location in service
+				LocationService.updateUserLocation(pos.latitude, pos.longitude);
 				haveLocation = true;
+				
 				getUserDestination();
 			};
-
+			
 			function geo_error(err) {
-				console.warn(`ERROR(${err.code}): ${err.message}`);
+				console.log('noah tell margo that the recursion function worked!');
+				getUserLocation(tries+1);
 			};
 
 			let geo_options = {
-				enableHighAccuracy: true,
+				// enableHighAccuracy: true,
 				timeout: 5000,
-				maximumAge: 0
+				maximumAge: 0,
 			};
 
 			geo.getCurrentPosition(geo_success, geo_error, geo_options);

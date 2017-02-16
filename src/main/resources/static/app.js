@@ -95,11 +95,9 @@ module.exports = {
 	func($scope, $state, UserService) {
 		$scope.email = '';
 		$scope.emailValidation = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
-		console.log($scope.email);
 
 		$scope.password = '';
 		$scope.passwordValidation = /^[a-zA-Z]\w{3,14}$/;
-
 
 		$scope.loginToAccount = (email, password) => {
 			let user = {
@@ -137,24 +135,52 @@ module.exports = {
 
 		function initMap() {
 
-			Map = new google.maps.Map(document.querySelector('#sessionMap'), {
+						let styledMapType = new google.maps.StyledMapType(
+				[{"stylers":[{"hue":"#16A085"},{"saturation":0}]},{"featureType":"road","elementType":"geometry","stylers":[{"lightness":100},{"visibility":"simplified"}]},{"featureType":"road","elementType":"labels","stylers":[{"visibility":"off"}]}],
+				{name: 'Styled Map'}
+			);
+
+						Map = new google.maps.Map(document.querySelector('#sessionMap'), {
 				zoom: 15,
 				center: currentPos,
 			});
 
+						Map.mapTypes.set('styled_map', styledMapType);
+        	Map.setMapTypeId('styled_map');
+
+			let rendererOptions = {
+				map: Map,
+				suppressMarkers: true,
+			};
 			const directionsService = new google.maps.DirectionsService;
-			const directionsDisplay = new google.maps.DirectionsRenderer;
+			const directionsDisplay = new google.maps.DirectionsRenderer(rendererOptions);
 
 			directionsDisplay.setMap(Map);
 			directionsDisplay.setPanel(document.querySelector('#directions'));
+			directionsDisplay.setOptions({
+				polylineOptions: {
+					strokeColor: '#581845',
+				}
+			});
+
+						function createMarker(position, icon) {
+				let marker = new google.maps.Marker({
+					position: position,
+					map: Map,
+					icon: icon,
+				});
+			}
 
 			function calculateAndDisplayRoute(directionsService, directionsDisplay) {
 				directionsService.route({
 					origin: currentPos,
 					destination: destination,
-					travelMode: 'WALKING'
+					travelMode: 'WALKING',
 				}, (response, status) => {
 					if (status === 'OK') {
+						let route = response.routes[0].legs[0]; 
+						createMarker(route.start_location, 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png');
+						createMarker(route.end_location, 'http://maps.google.com/mapfiles/ms/icons/yellow-dot.png');
 						directionsDisplay.setDirections(response);
 					} else {
 						window.alert('Directions request failed due to ' + status);
@@ -168,34 +194,19 @@ module.exports = {
 				map: Map,
 				icon: "assets/user.png",
 			});
+
 			let userRadius = new google.maps.Circle({
-				strokeColor: '#313131',
-				strokeOpacity: 0.4,
+				strokeColor: '#581845',
+				strokeOpacity: 1,
 				strokeWeight: 0.8,
-				fillColor: '#ffffff',
-				fillOpacity: 0.6,
+				fillColor: '#581845',
+				fillOpacity: 0.4,
 				map: Map,
 				center: currentPos,
 				radius: 50,
 			});
 
-			let destMarker = new google.maps.Marker({
-				position: destination,
-				map: Map,
-				icon: "assets/marker.png",
-			});
-
-			Street = new google.maps.StreetViewPanorama(
-				document.querySelector('#sessionPano'), {
-					position: currentPos,
-					pov: {
-						heading: 34,
-						pitch: 10
-					}
-				}
-			);
-			Map.setStreetView(Street);
-		};
+					};
 		initMap();
 
 
@@ -254,7 +265,7 @@ module.exports = {
 			const bar = new ProgressBar.Line(container, {
 				strokeWidth: 4,
 				easing: 'easeInOut',
-				duration: 1400,
+				duration: 5000,
 				color: '#FFEA82',
 				trailColor: '#eee',
 				trailWidth: 1,
@@ -269,31 +280,33 @@ module.exports = {
 		};
 
 
-		function updateLocation(lat, lng) {
-			LocationService.updateUserLocation(lat, lng);
-			haveLocation = true;
-		};
+		function getUserLocation(tries=0) {
 
-
-		function getUserLocation() {
 			let geo = navigator.geolocation;
 
-			function geo_success(position) {
+			if(tries > 3) { 
+				console.warn(`ERROR(${err.code}): ${err.message}`);
+				return;
+			}
+
+						function geo_success(position) {
 				let pos = position.coords;
 				console.log(`current position: [${pos.latitude}, ${pos.longitude}]`);
-				updateLocation(pos.latitude, pos.longitude);
+
+				LocationService.updateUserLocation(pos.latitude, pos.longitude);
 				haveLocation = true;
-				getUserDestination();
+
+								getUserDestination();
 			};
 
-			function geo_error(err) {
-				console.warn(`ERROR(${err.code}): ${err.message}`);
+						function geo_error(err) {
+				console.log('noah tell margo that the recursion function worked!');
+				getUserLocation(tries+1);
 			};
 
 			let geo_options = {
-				enableHighAccuracy: true,
 				timeout: 5000,
-				maximumAge: 0
+				maximumAge: 0,
 			};
 
 			geo.getCurrentPosition(geo_success, geo_error, geo_options);
@@ -376,11 +389,6 @@ module.exports = {
 },{}],12:[function(require,module,exports){
 
 module.exports = [
-    {
-        name: 'home',
-        url: '',
-        component: 'newSession',
-    },
 	{
         name: 'registration',
         url: '/register',
@@ -462,13 +470,18 @@ module.exports = {
 			},
 
 						setDestination(maxRange) {
-				let range = maxRange * 0.015;
+				let latRange = maxRange * 0.015; 
+				let lngRange = maxRange * 0.019; 
 
-				let latDest = currentPos[0] + (Math.random() - (0.5 * range) * 2);
-				let lngDest = currentPos[1] + (Math.random() - (0.5 * range) * 2);
+				let intensity = () => {
+					return Math.random() * (.99 - .01) + .01;
+				};
 
-								endPos = [latDest, lngDest];
-				console.log(endPos);
+				let latDest = currentPos[0] + (intensity() * (1 - latRange/2));
+				let lngDest = currentPos[1] + (intensity() * (1 - lngRange/2));
+
+								console.log('destination: [' + latDest, lngDest + ']');
+				endPos = [latDest, lngDest];
 				return endPos;
 			},
 

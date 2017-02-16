@@ -7,14 +7,9 @@
  * GLOBAL STYLES
  */
 body {
-	@include grid-row();
-	background-color: #6FFFE9;
-
+	
 	input {
 		@include grid-column(12);
-		// display: flex;
-		// justify-content: space-between;
-		// padding: 0 50px;
 		margin: 5px 0;
 	}
 
@@ -26,6 +21,7 @@ body {
 
 h1 {
 	text-align: center;
+	color: #4E978A;
 }
 
 button {
@@ -42,7 +38,6 @@ button {
  */
 nav {
 	@include grid-row();
-	//background-color: lightseagreen;
 }
 
 nav ul {
@@ -70,15 +65,8 @@ nav ul {
 /*
  * MAP STYLES
  */
-#sessionMap, #sessionPano {
-	width: 45%;
-	height: 400px;
-	display: inline-block;
-	border-radius: 5px;
-}
-
-#charlotteMap {
-	width: 45%;
+#sessionMap {
+	width: 100%;
 	height: 400px;
 	display: inline-block;
 	border-radius: 5px;
@@ -110,3 +98,9 @@ footer {
 	right: 0;
 }
 
+
+/* DIRECTIONS */
+.adp table {
+	background-color: red;
+	font-family: serif !important;
+}

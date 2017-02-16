@@ -27,26 +27,54 @@ module.exports = {
 
 		/* Initiate map canvas */
 		function initMap() {
-
+			
+			let styledMapType = new google.maps.StyledMapType(
+				[{"stylers":[{"hue":"#16A085"},{"saturation":0}]},{"featureType":"road","elementType":"geometry","stylers":[{"lightness":100},{"visibility":"simplified"}]},{"featureType":"road","elementType":"labels","stylers":[{"visibility":"off"}]}],
+				{name: 'Styled Map'}
+			);
+			
 			Map = new google.maps.Map(document.querySelector('#sessionMap'), {
 				zoom: 15,
 				center: currentPos,
 			});
+			
+			Map.mapTypes.set('styled_map', styledMapType);
+        	Map.setMapTypeId('styled_map');
 
 			// Display directions
+			let rendererOptions = {
+				map: Map,
+				suppressMarkers: true,
+			};
 			const directionsService = new google.maps.DirectionsService;
-			const directionsDisplay = new google.maps.DirectionsRenderer;
+			const directionsDisplay = new google.maps.DirectionsRenderer(rendererOptions);
 
 			directionsDisplay.setMap(Map);
 			directionsDisplay.setPanel(document.querySelector('#directions'));
+			directionsDisplay.setOptions({
+				polylineOptions: {
+					strokeColor: '#581845',
+				}
+			});
+			
+			function createMarker(position, icon) {
+				let marker = new google.maps.Marker({
+					position: position,
+					map: Map,
+					icon: icon,
+				});
+			}
 
 			function calculateAndDisplayRoute(directionsService, directionsDisplay) {
 				directionsService.route({
 					origin: currentPos,
 					destination: destination,
-					travelMode: 'WALKING'
+					travelMode: 'WALKING',
 				}, (response, status) => {
 					if (status === 'OK') {
+						let route = response.routes[0].legs[0]; 
+						createMarker(route.start_location, 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png');
+						createMarker(route.end_location, 'http://maps.google.com/mapfiles/ms/icons/yellow-dot.png');
 						directionsDisplay.setDirections(response);
 					} else {
 						window.alert('Directions request failed due to ' + status);
@@ -61,35 +89,18 @@ module.exports = {
 				map: Map,
 				icon: "assets/user.png",
 			});
+
 			let userRadius = new google.maps.Circle({
-				strokeColor: '#313131',
-				strokeOpacity: 0.4,
+				strokeColor: '#581845',
+				strokeOpacity: 1,
 				strokeWeight: 0.8,
-				fillColor: '#ffffff',
-				fillOpacity: 0.6,
+				fillColor: '#581845',
+				fillOpacity: 0.4,
 				map: Map,
 				center: currentPos,
 				radius: 50,
 			});
 			
-			// Set marker on destination
-			let destMarker = new google.maps.Marker({
-				position: destination,
-				map: Map,
-				icon: "assets/marker.png",
-			});
-
-			// Set street view
-			Street = new google.maps.StreetViewPanorama(
-				document.querySelector('#sessionPano'), {
-					position: currentPos,
-					pov: {
-						heading: 34,
-						pitch: 10
-					}
-				}
-			);
-			Map.setStreetView(Street);
 		};
 		initMap();
 
