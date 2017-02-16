@@ -4,14 +4,11 @@ module.exports = {
 	func($http) {
 		
 		/* Define locations relative to user */
-		let currentPos;
-		let endPos;
-		let directions;
+		let currentPos = [];
+		let endPos = [];
 
 		return {
 			getUserLocation() {
-				// check that user is in Charlotte
-				//
 				return currentPos;
 			},
 			
@@ -20,27 +17,23 @@ module.exports = {
 				return currentPos;
 			},
 			
-			getDestination(maxRange) {
-				// get bounds of the circle
-				// get lat, lng contained in bounds
-				endPos = [35.226143, -80.852892];
+			setDestination(maxRange) {
+				// Convert maxRange (in miles) to range (in degrees)
+				// 1 mi = approximately 0.015 deg
+				let range = maxRange * 0.015;
+				
+				// Create rectangular bounds around current location to set a destination within the max range
+				// If range is 0.1 deg, the difference from current location will be +/- 0.05 deg for both lat and lng
+				let latDest = currentPos[0] + (Math.random() - (0.5 * range) * 2);
+				let lngDest = currentPos[1] + (Math.random() - (0.5 * range) * 2);
+				
+				endPos = [latDest, lngDest];
+				console.log(endPos);
 				return endPos;
 			},
-
-			getDirections() {
-				if(currentPos && endPos) {
-					return $http.get(`https://maps.google.com/maps/api/directions/json?origin=${currentPos[0]},${currentPos[1]}&destination=${endPos[0]},${endPos[1]}&key=AIzaSyAoCv60nVilICtLnfFn7JMYvN_s04li5V0`).then(function(response) {
-						let dir = response.data.routes[0].legs[0];
-						console.log(dir);
-
-						for (let i=0; i<dir.steps.length; i++) {
-							console.log(dir.steps[i].html_instructions);
-						}
-
-					});
-				} else {
-					console.log('Cannot get directions: user location or destination not defined.');
-				}
+			
+			getDestination() {
+				return endPos;
 			},
 		};
 	},

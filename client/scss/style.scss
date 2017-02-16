@@ -3,6 +3,9 @@
 @include foundation-global-styles;
 @include foundation-grid;
 
+/*
+ * GLOBAL STYLES
+ */
 body {
 	@include grid-row();
 	background-color: #6FFFE9;
@@ -34,6 +37,9 @@ button {
 	padding: 15px 50px;
 }
 
+/*
+ * NAV STYLES
+ */
 nav {
 	@include grid-row();
 	//background-color: lightseagreen;
@@ -54,6 +60,16 @@ nav ul {
 	width: 40px;
 }
 
+/*
+ * NEW SESSION
+ */
+.start-message {
+	background: yellow;
+}
+
+/*
+ * MAP STYLES
+ */
 #sessionMap, #sessionPano {
 	width: 45%;
 	height: 400px;
@@ -80,5 +96,17 @@ nav ul {
 	select {
 		width: 100%;
 	}
+}
+
+#container {
+	margin: 20px;
+  	width: 400px;
+  	height: 8px;
+}
+
+footer {
+	bottom: 0;
+	left: 0;
+	right: 0;
 }
 

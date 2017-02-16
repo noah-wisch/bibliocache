@@ -21,11 +21,8 @@ module.exports = {
 				password: password,
 				readingLevel: readingLevel,
 			};
-			console.log(user);
-
-			UserService.registerUser(user).then(() => {
-				$state.go('new-session');
-			});
+			
+			UserService.registerUser(user);
 		};
 	},
 };

@@ -1121,6 +1121,9 @@ nav ul {
 #logo {
   width: 40px; }
 
+.start-message {
+  background: yellow; }
+
 #sessionMap, #sessionPano {
   width: 45%;
   height: 400px;
@@ -1143,3 +1146,13 @@ nav ul {
   font-size: 15px; }
   #directions select {
     width: 100%; }
+
+#container {
+  margin: 20px;
+  width: 400px;
+  height: 8px; }
+
+footer {
+  bottom: 0;
+  left: 0;
+  right: 0; }

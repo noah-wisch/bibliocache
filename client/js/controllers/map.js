@@ -1,38 +1,42 @@
 module.exports = {
 	name: 'MapController',
-	func($scope, LocationService) {
-
-		/* Get required data to render map */
-		let location = LocationService.getUserLocation();
-		if (location === undefined) {
-			console.log('location not defined');
+	func($scope, $state, LocationService) {
+		/*
+		 * Get required data to render map (from location service)
+		 * User is not directed to map view until all data is received and updated in service
+		 */ 
+		let userPos = LocationService.getUserLocation();
+		let endPos = LocationService.getDestination();
+		
+		if (userPos.length === 0) {
+			$state.go('new-session');
 		}
 
 		let Map, Street;
-		let currentPos = { // 'currentPos' object is defined with 'location' array elements
-			lat: location[0],
-			lng: location[1],
+		let currentPos = { // convert 'userPos' array to 'currentPos' object
+			lat: userPos[0],
+			lng: userPos[1],
 		};
-		let destination = {
-			lat: 35.226143,
-			lng: -80.852892,
+		let destination = { // convert 'endPos' array to 'destination' object
+			lat: endPos[0],
+			lng: endPos[1],
 		};
 
 		let geo = navigator.geolocation;
 
-		
+
 		/* Initiate map canvas */
 		function initMap() {
-			
+
 			Map = new google.maps.Map(document.querySelector('#sessionMap'), {
 				zoom: 15,
 				center: currentPos,
 			});
-			
+
 			// Display directions
 			const directionsService = new google.maps.DirectionsService;
 			const directionsDisplay = new google.maps.DirectionsRenderer;
-			
+
 			directionsDisplay.setMap(Map);
 			directionsDisplay.setPanel(document.querySelector('#directions'));
 
@@ -40,7 +44,7 @@ module.exports = {
 				directionsService.route({
 					origin: currentPos,
 					destination: destination,
-					travelMode: 'DRIVING'
+					travelMode: 'WALKING'
 				}, (response, status) => {
 					if (status === 'OK') {
 						directionsDisplay.setDirections(response);
@@ -67,24 +71,14 @@ module.exports = {
 				center: currentPos,
 				radius: 50,
 			});
-			/*GeoMarker = new BlueDot.GeolocationMarker();
-			GeoMarker.setCircleOptions({fillColor: '#808080'});
-			google.maps.event.addListenerOnce(GeoMarker, 'position_changed', function() {
-				Map.setCenter(this.getPosition());
-				Map.fitBounds(this.getBounds());
-			});
-			google.maps.event.addListener(GeoMarker, 'geolocation_error', function(e) {
-				alert('There was an error obtaining your position. Message: ' + e.message);
-			});
-			GeoMarker.setMap(Map);*/
-
+			
 			// Set marker on destination
 			let destMarker = new google.maps.Marker({
 				position: destination,
 				map: Map,
 				icon: "assets/marker.png",
 			});
-			
+
 			// Set street view
 			Street = new google.maps.StreetViewPanorama(
 				document.querySelector('#sessionPano'), {
@@ -93,13 +87,13 @@ module.exports = {
 						heading: 34,
 						pitch: 10
 					}
-				});
+				}
+			);
 			Map.setStreetView(Street);
-			
 		};
 		initMap();
 
-		
+
 		/* Watch for changes in user location */
 		function watchUserPos() {
 
@@ -138,6 +132,6 @@ module.exports = {
 		} else {
 			alert("Geolocation services are not supported by your browser.");
 		}
-		
+
 	},
 };
