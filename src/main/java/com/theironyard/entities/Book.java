@@ -1,5 +1,8 @@
 package com.theironyard.entities;
 
+import com.google.api.services.books.model.Volume;
+
+import javax.jws.soap.SOAPBinding;
 import javax.persistence.*;
 
 import java.text.BreakIterator;
@@ -19,7 +22,7 @@ public class Book {
     @Column(nullable = false)
     String title;
 
-    @Column(nullable = false)
+    @Column
     String author;
 
     @Column(nullable = false)
@@ -29,6 +32,13 @@ public class Book {
     Integer readingLevel;
 
     public Book() {
+    }
+
+    public Book(Volume volume, User user) {
+        this.title = volume.getVolumeInfo().getTitle();
+        this.author = volume.getVolumeInfo().getAuthors().get(0);
+        this.category = user.getCategory();
+        this.readingLevel = 4;
     }
 
     public Book(String title, String author, String category, Integer readingLevel) {
