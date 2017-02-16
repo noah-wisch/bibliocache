@@ -9,10 +9,16 @@ module.exports = {
 		// $scope.compare = (repass) => {
 		// 	$scope.isconfirm = $scope.password === repass ? true : false;
 		// }
-		$scope.readingLevelValidation = /^[0-0]+$/;
+		$scope.readingLevelValidation = /^[0-9]+$/;
 		$scope.ageValidation = /^[0-9]+$/;
 
+		$scope.form = {
+			readingLevel: 0,
+			age: 0,
+		};
+
 		$scope.createAccount = (email, password, readingLevel, age) => {
+
 			let user = {
 				age: age,
 				category: 'Horror', // hardcoded for now
