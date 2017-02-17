@@ -13,8 +13,8 @@ module.exports = {
 		$scope.ageValidation = /^[0-9]+$/;
 
 		$scope.form = {
-			readingLevel: 0,
-			age: 0,
+			readingLevel: null,
+			age: null,
 		};
 
 		$scope.createAccount = (email, password, readingLevel, age) => {

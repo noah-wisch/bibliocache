@@ -116,7 +116,7 @@ module.exports = {
 		let userPos = LocationService.getUserLocation();
 		let endPos = LocationService.getDestination();
 
-				if (userPos.length === 0) {
+		if (userPos.length === 0) {
 			$state.go('new-session');
 		}
 
@@ -135,18 +135,18 @@ module.exports = {
 
 		function initMap() {
 
-						let styledMapType = new google.maps.StyledMapType(
-				[{"stylers":[{"hue":"#16A085"},{"saturation":0}]},{"featureType":"road","elementType":"geometry","stylers":[{"lightness":100},{"visibility":"simplified"}]},{"featureType":"road","elementType":"labels","stylers":[{"visibility":"off"}]}],
-				{name: 'Styled Map'}
+			let styledMapType = new google.maps.StyledMapType(
+				[{ "stylers": [{ "hue": "#16A085" }, { "saturation": 0 }] }, { "featureType": "road", "elementType": "geometry", "stylers": [{ "lightness": 100 }, { "visibility": "simplified" }] }, { "featureType": "road", "elementType": "labels", "stylers": [{ "visibility": "off" }] }],
+				{ name: 'Styled Map' }
 			);
 
-						Map = new google.maps.Map(document.querySelector('#sessionMap'), {
+			Map = new google.maps.Map(document.querySelector('#sessionMap'), {
 				zoom: 15,
 				center: currentPos,
 			});
 
-						Map.mapTypes.set('styled_map', styledMapType);
-        	Map.setMapTypeId('styled_map');
+			Map.mapTypes.set('styled_map', styledMapType);
+			Map.setMapTypeId('styled_map');
 
 			let rendererOptions = {
 				map: Map,
@@ -163,7 +163,7 @@ module.exports = {
 				}
 			});
 
-						function createMarker(position, icon) {
+			function createMarker(position, icon) {
 				let marker = new google.maps.Marker({
 					position: position,
 					map: Map,
@@ -178,7 +178,7 @@ module.exports = {
 					travelMode: 'WALKING',
 				}, (response, status) => {
 					if (status === 'OK') {
-						let route = response.routes[0].legs[0]; 
+						let route = response.routes[0].legs[0];
 						createMarker(route.start_location, 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png');
 						createMarker(route.end_location, 'http://maps.google.com/mapfiles/ms/icons/yellow-dot.png');
 						directionsDisplay.setDirections(response);
@@ -206,7 +206,7 @@ module.exports = {
 				radius: 50,
 			});
 
-					};
+		};
 		initMap();
 
 
@@ -227,6 +227,8 @@ module.exports = {
 
 			let watch_options = {
 				enableHighAccuracy: true,
+				maximumAge: 30000,
+				timeout: 10000,
 			};
 
 			if (navigator.geolocation) {
@@ -251,27 +253,27 @@ module.exports = {
 	name: 'NewSessionController',
 	func($scope, $state, $interval, UserService, LocationService, BookService) {
 
-				let haveGenre = false;
+		let haveGenre = false;
 		let haveLocation = false;
 		let haveDestination = false;
 
 		$scope.genres = BookService.getAllGenres(); 
 
-				$scope.submitGenre = () => { 
+		$scope.submitGenre = () => { 
 			UserService.setGenre($scope.selectedGenre);
 			haveGenre = true;
 
-						const ProgressBar = require('progressbar.js')
-			const bar = new ProgressBar.Line(container, {
+			const ProgressBar = require('progressbar.js')
+			const bar = new ProgressBar.Line(loadingBar, {
 				strokeWidth: 4,
 				easing: 'easeInOut',
 				duration: 5000,
-				color: '#FFEA82',
-				trailColor: '#eee',
+				color: '#4E978A',
+				trailColor: '#581845',
 				trailWidth: 1,
 				svgStyle: { width: '100%', height: '100%' },
-				from: { color: '#FFEA82' },
-				to: { color: '#ED6A5A' },
+				from: { color: '#A3E6D9' },
+				to: { color: '#4E978A' },
 				step: (state, bar) => {
 					bar.path.setAttribute('stroke', state.color);
 				}
@@ -279,29 +281,28 @@ module.exports = {
 			bar.animate(1.0);  
 		};
 
-
-		function getUserLocation(tries=0) {
+		function getUserLocation(tries = 0) {
 
 			let geo = navigator.geolocation;
 
-			if(tries > 3) { 
+			if (tries > 3) { 
 				console.warn(`ERROR(${err.code}): ${err.message}`);
 				return;
 			}
 
-						function geo_success(position) {
+			function geo_success(position) {
 				let pos = position.coords;
 				console.log(`current position: [${pos.latitude}, ${pos.longitude}]`);
 
 				LocationService.updateUserLocation(pos.latitude, pos.longitude);
 				haveLocation = true;
 
-								getUserDestination();
+				getUserDestination();
 			};
 
-						function geo_error(err) {
+			function geo_error(err) {
 				console.log('noah tell margo that the recursion function worked!');
-				getUserLocation(tries+1);
+				getUserLocation(tries + 1);
 			};
 
 			let geo_options = {
@@ -342,15 +343,15 @@ module.exports = {
 
 		let wait;
 
-				function checkForData() {
+		function checkForData() {
 			wait = $interval(startGame, 1000);
 		};
 
-				function stopChecking() {
+		function stopChecking() {
 			$interval.cancel(wait);
 		};
 
-				checkForData();
+		checkForData();
 	},
 };
 
@@ -367,8 +368,8 @@ module.exports = {
 		$scope.ageValidation = /^[0-9]+$/;
 
 		$scope.form = {
-			readingLevel: 0,
-			age: 0,
+			readingLevel: null,
+			age: null,
 		};
 
 		$scope.createAccount = (email, password, readingLevel, age) => {

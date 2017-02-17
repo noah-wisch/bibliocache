@@ -1,7 +1,8 @@
 <section ng-controller="NewSessionController" class="form-container">
-	<select ng-model="selectedGenre">
+	<select ng-init="selectedGenre = options[0]" ng-model="selectedGenre">
+        <option value="" disabled><span id="selectGenre">Select a genre</span></option>
         <option ng-repeat="currentGenre in genres" value="{{ currentGenre }}">{{ currentGenre }}</option>
     </select>
 	<button type="submit" ng-click="submitGenre()">Start game</button>
-    <div id="container"></div>
+    <div id="loadingBar"></div>
 </section>
