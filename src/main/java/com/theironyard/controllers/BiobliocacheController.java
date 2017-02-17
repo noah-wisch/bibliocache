@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -46,21 +47,23 @@ public class BiobliocacheController {
     }
 
     @RequestMapping(path = "/login", method = RequestMethod.POST)
-    public String login(HttpSession session, String email, String password) throws Exception{
+    public User login(HttpSession session, String email, String password, HttpServletResponse response) throws Exception{
        User user = users.findFirstByEmail(email);
         if (user == null) {
-        return "notLoggedIn";
+        response.sendRedirect("notLoggedIn.html");
         } else if (!PasswordStorage.verifyPassword(password, user.getPassword())) {
             throw new Exception("Incorrect Password");
-        }
+        } else {
         session.setAttribute("email", email);
-        return "redirect:/";
+        response.sendRedirect("/");
+        }
+        return user;
         //todo find out how to send back user's info
     }
 
     @RequestMapping(path = "/registration", method = RequestMethod.POST)
-    public String register(HttpSession session, String email, String password,
-                            Integer readingLevel, String category, int [] location, Integer age) throws Exception {
+    public User register(HttpSession session, String email, String password,
+                            Integer readingLevel, String category, int [] location, Integer age, HttpServletResponse response) throws Exception {
         User newUser = new User(email,
                 PasswordStorage.createHash(password),
                 readingLevel,
@@ -69,7 +72,8 @@ public class BiobliocacheController {
                 age);
         users.save(newUser);
         session.setAttribute("email", email);
-        return "redirect:/";
+        response.sendRedirect("/");
+        return newUser;
 
     }
 
@@ -125,5 +129,11 @@ public class BiobliocacheController {
 //            }
 //        }
         return returnedBooks;
+    }
+
+    @RequestMapping("/logout")
+    public void logout(HttpSession session, HttpServletResponse response) throws IOException {
+        session.invalidate();
+        response.sendRedirect("/");
     }
 }
