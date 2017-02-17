@@ -3,7 +3,7 @@
 
 	<form method="post" action="/registration">
 		<ng-form name="loginForm">
-			<input type="email" ng-model="email" ng-pattern="emailValidation" name="email" placeholder="name@something.com">
+			<input type="email" ng-model="email" ng-pattern="emailValidation" name="email" placeholder="example@domain.com">
 			<span ng-show="loginForm.email.$error.pattern" style="color:red">Please enter valid email.</span>
 		</ng-form>
 
