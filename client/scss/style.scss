@@ -3,11 +3,13 @@
 @include foundation-global-styles;
 @include foundation-grid;
 
+$dark-green: #4E978A;
+$mint-green: #A3E6D9;
+
 /*
  * GLOBAL STYLES
  */
 body {
-	
 	input {
 		@include grid-column(12);
 		margin: 5px 0;
@@ -19,25 +21,45 @@ body {
 	}
 }
 
-h1 {
-	text-align: center;
-	color: #4E978A;
-}
-
 button {
 	@include button;
-	border-radius: 5px;
+	padding: 15px 50px;
+	background-color: $dark-green;
+	font-weight: bold;
+	width: 100%;
+	
+	&:hover {
+		background-color: $dark-green;
+		opacity: 0.8;
+	}
 	&:disabled {
+		background-color: $mint-green;
 		opacity: 0.6;
 	}
-	padding: 15px 50px;
 }
 
 /*
- * NAV STYLES
+ * HEADER STYLES
  */
-nav {
-	@include grid-row();
+header {
+	height: 200px;
+	background: $mint-green url("assets/header.png") no-repeat center center;
+	background-size: cover;
+	h1 {
+		margin: 0;
+		line-height: 200px;
+		text-align: center;
+		color: $dark-green;
+		text-transform: lowercase;
+	}
+	.left {
+		position: absolute;
+		right: 50%;
+	}
+	.right {
+		position: absolute;
+		left: 50%;
+	}
 }
 
 nav ul {
@@ -53,6 +75,22 @@ nav ul {
 
 #logo {
 	width: 40px;
+}
+
+/*
+ * FORMS
+ */
+.form-container {
+	max-width: 400px;
+	margin: 1.5em auto;
+}
+
+select, input {
+	height: 2.5em;
+	border-style: solid;
+	border-color: $dark-green;
+	border-radius: 0;
+	margin: .5em 0;
 }
 
 /*
@@ -88,8 +126,8 @@ nav ul {
 
 #container {
 	margin: 20px;
-  	width: 400px;
-  	height: 8px;
+	width: 400px;
+	height: 8px;
 }
 
 footer {
