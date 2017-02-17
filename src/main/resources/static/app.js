@@ -231,10 +231,19 @@ module.exports = {
 			function watch_success(pos) {
 				console.log(pos.coords.latitude + ', ' + pos.coords.longitude);
 
-				if (destination.lat === pos.lat && destination.lng === pos.lng) {
-					console.log('Congratulations, you reached the cache');
+								let destRange = new google.maps.Circle({
+					map: Map,
+					center: destination,
+					strokeWeight: 2,
+					fillOpacity: 0,
+					radius: 250,
+				});
+
+								if (destRange.containsLocation(pos.coords)) {
 					geo.clearWatch(watch_id);
+					alert('you win!!!!!!');
 				}
+
 			};
 
 			function watch_error(err) {
