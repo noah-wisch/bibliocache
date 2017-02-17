@@ -32,6 +32,7 @@ const components = [
 	require('./components/map'),
 	require('./components/endSession'),
 	require('./components/header'),
+	require('./components/footer'),
 ];
 
 for (let i = 0; i < components.length; i++) {
@@ -47,7 +48,7 @@ const services = [
 for (let i = 0; i < services.length; i++) {
 	app.factory(services[i].name, services[i].func);
 }
-},{"./components/endSession":2,"./components/header":3,"./components/login":4,"./components/map":5,"./components/newSession":6,"./components/registration":7,"./controllers/endSession":8,"./controllers/login":9,"./controllers/map":10,"./controllers/newSession":11,"./controllers/registration":12,"./routes":13,"./services/book-service":14,"./services/location-service":15,"./services/user-service":16}],2:[function(require,module,exports){
+},{"./components/endSession":2,"./components/footer":3,"./components/header":4,"./components/login":5,"./components/map":6,"./components/newSession":7,"./components/registration":8,"./controllers/endSession":9,"./controllers/login":10,"./controllers/map":11,"./controllers/newSession":12,"./controllers/registration":13,"./routes":14,"./services/book-service":15,"./services/location-service":16,"./services/user-service":17}],2:[function(require,module,exports){
 module.exports = {
 	name: 'endSession',
 	func: {
@@ -56,47 +57,54 @@ module.exports = {
 };
 },{}],3:[function(require,module,exports){
 module.exports = {
+	name: 'bibFooter',
+	func: {
+		templateUrl: 'templates/footer.html',
+	},
+};
+},{}],4:[function(require,module,exports){
+module.exports = {
 	name: 'bibHeader',
 	func: {
 		templateUrl: 'templates/header.html',
 	},
 };
-},{}],4:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 module.exports = {
 	name: 'login',
 	func: {
 		templateUrl: 'templates/userLogin.html',
 	},
 };
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 module.exports = {
 	name: 'map',
 	func: {
 		templateUrl: 'templates/map.html',
 	},
 };
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 module.exports = {
 	name: 'newSession',
 	func: {
 		templateUrl: 'templates/newSession.html',
 	},
 };
-},{}],7:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 module.exports = {
 	name: 'registration',
 	func: {
 		templateUrl: 'templates/userRegistration.html',
 	},
 };
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 module.exports = {
     name: 'EndSessionController',
     func($scope) {
 		console.log('ending session');
     },
 };
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 module.exports = {
 	name: 'LoginController',
 
@@ -117,7 +125,7 @@ module.exports = {
 		};
 	},
 };
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 module.exports = {
 	name: 'MapController',
 	func($scope, $state, LocationService) {
@@ -254,7 +262,7 @@ module.exports = {
 
 	},
 };
-},{}],11:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 module.exports = {
 	name: 'NewSessionController',
 	func($scope, $state, $interval, UserService, LocationService, BookService) {
@@ -362,7 +370,7 @@ module.exports = {
 	},
 };
 
-},{"progressbar.js":19}],12:[function(require,module,exports){
+},{"progressbar.js":20}],13:[function(require,module,exports){
 module.exports = {
 	name: 'RegistrationController',
 
@@ -394,7 +402,7 @@ module.exports = {
 		};
 	},
 };
-},{}],13:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 
 module.exports = [
 	{
@@ -425,7 +433,7 @@ module.exports = [
 ];
 
 
-},{}],14:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 module.exports = {
 	name: 'BookService',
 
@@ -458,7 +466,7 @@ module.exports = {
 			        };
 	},
 }
-},{}],15:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 module.exports = {
 	name: 'LocationService',
 
@@ -481,12 +489,8 @@ module.exports = {
 				let latRange = maxRange * 0.015; 
 				let lngRange = maxRange * 0.019; 
 
-				let intensity = () => {
-					return Math.random() * (.99 - .01) + .01;
-				};
-
-				let latDest = currentPos[0] + (intensity() * (1 - latRange/2));
-				let lngDest = currentPos[1] + (intensity() * (1 - lngRange/2));
+				let latDest = currentPos[0] + (Math.random() - 0.5) * latRange;
+				let lngDest = currentPos[1] + (Math.random() - 0.5) * lngRange;
 
 								console.log('destination: [' + latDest, lngDest + ']');
 				endPos = [latDest, lngDest];
@@ -500,7 +504,7 @@ module.exports = {
 	},
 
 };
-},{}],16:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 module.exports = {
 	name: 'UserService',
 
@@ -540,7 +544,7 @@ module.exports = {
 	},
 
 };
-},{}],17:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 
 var Shape = require('./shape');
 var utils = require('./utils');
@@ -579,7 +583,7 @@ Circle.prototype._trailString = function _trailString(opts) {
 
 module.exports = Circle;
 
-},{"./shape":22,"./utils":23}],18:[function(require,module,exports){
+},{"./shape":23,"./utils":24}],19:[function(require,module,exports){
 
 var Shape = require('./shape');
 var utils = require('./utils');
@@ -609,7 +613,7 @@ Line.prototype._trailString = function _trailString(opts) {
 
 module.exports = Line;
 
-},{"./shape":22,"./utils":23}],19:[function(require,module,exports){
+},{"./shape":23,"./utils":24}],20:[function(require,module,exports){
 module.exports = {
     Line: require('./line'),
     Circle: require('./circle'),
@@ -622,7 +626,7 @@ module.exports = {
     utils: require('./utils')
 };
 
-},{"./circle":17,"./line":18,"./path":20,"./semicircle":21,"./shape":22,"./utils":23}],20:[function(require,module,exports){
+},{"./circle":18,"./line":19,"./path":21,"./semicircle":22,"./shape":23,"./utils":24}],21:[function(require,module,exports){
 
 var Tweenable = require('shifty');
 var utils = require('./utils');
@@ -781,7 +785,7 @@ Path.prototype._easing = function _easing(easing) {
 
 module.exports = Path;
 
-},{"./utils":23,"shifty":24}],21:[function(require,module,exports){
+},{"./utils":24,"shifty":25}],22:[function(require,module,exports){
 
 var Shape = require('./shape');
 var Circle = require('./circle');
@@ -826,7 +830,7 @@ SemiCircle.prototype._trailString = Circle.prototype._trailString;
 
 module.exports = SemiCircle;
 
-},{"./circle":17,"./shape":22,"./utils":23}],22:[function(require,module,exports){
+},{"./circle":18,"./shape":23,"./utils":24}],23:[function(require,module,exports){
 
 var Path = require('./path');
 var utils = require('./utils');
@@ -1119,7 +1123,7 @@ Shape.prototype._warnContainerAspectRatio = function _warnContainerAspectRatio(c
 
 module.exports = Shape;
 
-},{"./path":20,"./utils":23}],23:[function(require,module,exports){
+},{"./path":21,"./utils":24}],24:[function(require,module,exports){
 
 var PREFIXES = 'Webkit Moz O ms'.split(' ');
 var FLOAT_COMPARISON_EPSILON = 0.001;
@@ -1243,7 +1247,7 @@ module.exports = {
     removeChildren: removeChildren
 };
 
-},{}],24:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 ;(function () {
   var root = this || Function('return this')();
 

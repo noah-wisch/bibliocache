@@ -34,6 +34,7 @@ const components = [
 	require('./components/map'),
 	require('./components/endSession'),
 	require('./components/header'),
+	require('./components/footer'),
 ];
 
 for (let i = 0; i < components.length; i++) {
