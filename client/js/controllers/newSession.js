@@ -37,8 +37,8 @@ module.exports = {
 			// Initiate geolocation service
 			let geo = navigator.geolocation;
 
-			if (tries > 3) { // Prevent infinite recursion
-				console.warn(`ERROR(${err.code}): ${err.message}`);
+			if(tries > 3) { // Prevent infinite recursion
+				console.log('geolocation error');
 				return;
 			}
 
@@ -54,8 +54,8 @@ module.exports = {
 			};
 
 			function geo_error(err) {
-				console.log('noah tell margo that the recursion function worked!');
-				getUserLocation(tries + 1);
+				console.warn(`ERROR(${err.code}): ${err.message}`);
+				getUserLocation(tries+1);
 			};
 
 			let geo_options = {
