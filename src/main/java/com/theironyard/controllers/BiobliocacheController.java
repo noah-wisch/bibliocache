@@ -10,9 +10,7 @@ import com.theironyard.services.BookRepository;
 import com.theironyard.services.BookSample;
 import com.theironyard.services.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletResponse;
@@ -83,6 +81,15 @@ public class BiobliocacheController {
 //            }
 //        }
             return returnedBooks;
+    }
+
+    @RequestMapping(path="/add-excerpt", method = RequestMethod.PUT)
+    public Book addExcerpt(@RequestBody String [] excerpt) {
+        Book book = books.findByTitle(excerpt[0]);
+        book.setBookExcerpt(excerpt[1]);
+        book.setReadingLevel(Book.readingLevelOfBook(book));
+        books.save(book);
+        return book;
     }
 
 }

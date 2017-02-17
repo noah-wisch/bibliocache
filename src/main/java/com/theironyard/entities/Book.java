@@ -33,22 +33,22 @@ public class Book {
     @Column(nullable = false)
     Integer readingLevel;
 
-//    ObjectMapper mapper = new ObjectMapper();
-//    JsonNode root = mapper.createObjectNode();
-//    JsonNode authorNode = root.path("author");
+    @Column
+    String bookExcerpt;
 
     public Book() {
     }
 
-//    public Book(Volume volume, User user) {
-//        this.title = volume.getVolumeInfo().getTitle();
-//        this.category = user.getCategory();
-//        this.readingLevel = 12;
-//    }
-
     public Book(Volume volume, User user) {
         this.title = volume.getVolumeInfo().getTitle();
-        this.author = volume.getVolumeInfo().getAuthors().get(0);
+
+        List<String> authors = volume.getVolumeInfo().getAuthors();
+
+        if (authors != null && authors.size() > 0) {
+            this.author = authors.get(0);
+        } else {
+            this.author = "Unknown";
+        }
         this.category = user.getCategory();
         this.readingLevel = 4;
     }
@@ -108,14 +108,23 @@ public class Book {
         this.readingLevel = readingLevel;
     }
 
+    public String getBookExcerpt() {
+        return bookExcerpt;
+    }
+
+    public void setBookExcerpt(String bookExcerpt) {
+        this.bookExcerpt = bookExcerpt;
+    }
+
     /*
-    Formula - Automated Readability Index
-    Reading Level = 4.71(characters/words) + 0.5 (words/sentences) - 21.43
-    Always round up (cast as an int and add 1).
-    Extract a passage from the book and find the number of characters, words and sentences in it to determine that book's
-    approximate reading level.
-    */
-    public static Integer readingLevelOfBook (String paragraph) {
+            Formula - Automated Readability Index
+            Reading Level = 4.71(characters/words) + 0.5 (words/sentences) - 21.43
+            Always round up (cast as an int and add 1).
+            Extract a passage from the book and find the number of characters, words and sentences in it to determine that book's
+            approximate reading level.
+            */
+    public static Integer readingLevelOfBook (Book book) {
+        String paragraph = book.getBookExcerpt();
       //  String paragraph = new String();//TODO: find out how to pull an excerpt from books to pass into algorithm
         //book.setReadingLevel(
         return (int)(4.71 * (charactersPresent(paragraph)/wordsPresent(paragraph))
