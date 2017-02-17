@@ -1,5 +1,7 @@
 package com.theironyard.entities;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.api.services.books.model.Volume;
 
 import javax.jws.soap.SOAPBinding;
@@ -31,8 +33,18 @@ public class Book {
     @Column(nullable = false)
     Integer readingLevel;
 
+//    ObjectMapper mapper = new ObjectMapper();
+//    JsonNode root = mapper.createObjectNode();
+//    JsonNode authorNode = root.path("author");
+
     public Book() {
     }
+
+//    public Book(Volume volume, User user) {
+//        this.title = volume.getVolumeInfo().getTitle();
+//        this.category = user.getCategory();
+//        this.readingLevel = 12;
+//    }
 
     public Book(Volume volume, User user) {
         this.title = volume.getVolumeInfo().getTitle();
