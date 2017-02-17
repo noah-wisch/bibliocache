@@ -4,10 +4,10 @@ module.exports = {
 		/*
 		 * Get required data to render map (from location service)
 		 * User is not directed to map view until all data is received and updated in service
-		 */ 
+		 */
 		let userPos = LocationService.getUserLocation();
 		let endPos = LocationService.getDestination();
-		
+
 		if (userPos.length === 0) {
 			$state.go('new-session');
 		}
@@ -27,19 +27,19 @@ module.exports = {
 
 		/* Initiate map canvas */
 		function initMap() {
-			
+
 			let styledMapType = new google.maps.StyledMapType(
-				[{"stylers":[{"hue":"#16A085"},{"saturation":0}]},{"featureType":"road","elementType":"geometry","stylers":[{"lightness":100},{"visibility":"simplified"}]},{"featureType":"road","elementType":"labels","stylers":[{"visibility":"off"}]}],
-				{name: 'Styled Map'}
+				[{ "stylers": [{ "hue": "#16A085" }, { "saturation": 0 }] }, { "featureType": "road", "elementType": "geometry", "stylers": [{ "lightness": 100 }, { "visibility": "simplified" }] }, { "featureType": "road", "elementType": "labels", "stylers": [{ "visibility": "off" }] }],
+				{ name: 'Styled Map' }
 			);
-			
+
 			Map = new google.maps.Map(document.querySelector('#sessionMap'), {
 				zoom: 15,
 				center: currentPos,
 			});
-			
+
 			Map.mapTypes.set('styled_map', styledMapType);
-        	Map.setMapTypeId('styled_map');
+			Map.setMapTypeId('styled_map');
 
 			// Display directions
 			let rendererOptions = {
@@ -56,7 +56,7 @@ module.exports = {
 					strokeColor: '#581845',
 				}
 			});
-			
+
 			function createMarker(position, icon) {
 				let marker = new google.maps.Marker({
 					position: position,
@@ -72,7 +72,7 @@ module.exports = {
 					travelMode: 'WALKING',
 				}, (response, status) => {
 					if (status === 'OK') {
-						let route = response.routes[0].legs[0]; 
+						let route = response.routes[0].legs[0];
 						createMarker(route.start_location, 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png');
 						createMarker(route.end_location, 'http://maps.google.com/mapfiles/ms/icons/yellow-dot.png');
 						directionsDisplay.setDirections(response);
@@ -100,7 +100,7 @@ module.exports = {
 				center: currentPos,
 				radius: 50,
 			});
-			
+
 		};
 		initMap();
 
@@ -123,8 +123,8 @@ module.exports = {
 
 			let watch_options = {
 				enableHighAccuracy: true,
-				//timeout: 5000,
-				//maximumAge: 0
+				maximumAge: 30000,
+				timeout: 10000,
 			};
 
 			// Start watching user position
