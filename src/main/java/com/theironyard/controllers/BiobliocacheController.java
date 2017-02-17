@@ -41,68 +41,26 @@ public class BiobliocacheController {
     RestTemplate template;
 
 
-    @PostConstruct
-    public void init() {
-
-    }
-
-    @RequestMapping(path = "/login", method = RequestMethod.POST)
-    public User login(HttpSession session, String email, String password, HttpServletResponse response) throws Exception{
-       User user = users.findFirstByEmail(email);
-        if (user == null) {
-        response.sendRedirect("notLoggedIn.html");
-        } else if (!PasswordStorage.verifyPassword(password, user.getPassword())) {
-            throw new Exception("Incorrect Password");
-        } else {
-        session.setAttribute("email", email);
-        response.sendRedirect("/");
-        }
-        return user;
-        //todo find out how to send back user's info
-    }
-
-    @RequestMapping(path = "/registration", method = RequestMethod.POST)
-    public User register(HttpSession session, String email, String password,
-                            Integer readingLevel, String category, int [] location, Integer age, HttpServletResponse response) throws Exception {
-        User newUser = new User(email,
-                PasswordStorage.createHash(password),
-                readingLevel,
-                category,
-                location,
-                age);
-        users.save(newUser);
-        session.setAttribute("email", email);
-        response.sendRedirect("/");
-        return newUser;
-
-    }
-
     @RequestMapping(path = "/end-round", method = RequestMethod.GET)
-    public List<Book> getList(HttpSession session, boolean flag) throws IOException{
+    public List<Book> getList(HttpSession session, boolean flag, HttpServletResponse response) throws IOException{
         String userEmail = (String)session.getAttribute("email");
         User user = users.findFirstByEmail(userEmail);
         List<Book> returnedBooks = new ArrayList<>();
         String query = user.getCategory();
-
         JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
-
         try {
             List<Volume> volumes = BookSample.queryGoogleBooks(jsonFactory, query);
-                for (Volume volume : volumes) {
-                    Book storedBook = books.findByTitle(volume.getVolumeInfo().getTitle());
-                    if (storedBook == null) {
-                        if (volume.getVolumeInfo().getAuthors().size() == 0) {
-                            volume.getVolumeInfo().set("author", "Unknown");
-                        }
-                        books.save(new Book(volume, user));
-                        System.out.println("New books saved.");
-
-                        Map<String, String> urlParams = new HashMap<>();
-                        urlParams.put("ISBN", volume.getVolumeInfo().getIndustryIdentifiers().get(0).getIdentifier());
-                        LibraryBook libraryBook = template.getForObject("https://openlibrary.org/api/books?bibkeys=ISBN:{ISBN}&jscmd=data&format=json", LibraryBook.class, urlParams);
-                        System.out.println(libraryBook.toString());
-                    }
+            for (Volume volume : volumes) {
+                Book storedBook = books.findByTitle(volume.getVolumeInfo().getTitle());
+                if (storedBook == null) {
+                    books.save(new Book(volume, user));
+                    System.out.println("New books saved.");
+                    Map<String, String> urlParams = new HashMap<>();
+                    urlParams.put("ISBN", volume.getVolumeInfo().getIndustryIdentifiers().get(0).getIdentifier());
+                    LibraryBook libraryBook = template.getForObject("https://openlibrary.org/api/books?bibkeys=ISBN:{ISBN}&jscmd=data&format=json", LibraryBook.class, urlParams);
+                    System.out.println(libraryBook.toString());
                 }
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -117,7 +75,6 @@ public class BiobliocacheController {
             }
         }
 
-
 //     if(user != null) {
 //            if (flag) {//if flag is set to true
 //                returnedBooks = books.findByCategory(user.getCategory())//get all the books by category that matches our user's
@@ -125,15 +82,9 @@ public class BiobliocacheController {
 //                        .filter(b -> b.getReadingLevel() == user.getReadingLevel())//filter books by reading level that matches our user's
 //                        .collect(Collectors.toList())//put those books that are left into a list
 //                        .subList(0, 5);//get the first five items of that list (toIndex is exclusive)
-//                //TODO need to incorporate if statement to be sure that returnedBooks is more than 5 items, or sublist will break it
 //            }
 //        }
-        return returnedBooks;
+            return returnedBooks;
     }
 
-    @RequestMapping("/logout")
-    public void logout(HttpSession session, HttpServletResponse response) throws IOException {
-        session.invalidate();
-        response.sendRedirect("/");
-    }
 }

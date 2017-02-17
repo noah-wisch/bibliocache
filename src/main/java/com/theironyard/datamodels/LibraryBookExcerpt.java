@@ -9,13 +9,6 @@ public class LibraryBookExcerpt {
     private String comment;
     private String text;
 
-    public String getComment() {
-        return comment;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
 
     public String getText() {
         return text;
@@ -28,8 +21,7 @@ public class LibraryBookExcerpt {
     @Override
     public String toString() {
         return "LibraryBookExcerpt{" +
-                "comment='" + comment + '\'' +
-                ", text='" + text + '\'' +
+                "text='" + text + '\'' +
                 '}';
     }
 }
