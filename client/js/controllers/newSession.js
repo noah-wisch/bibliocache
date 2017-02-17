@@ -1,29 +1,29 @@
 module.exports = {
 	name: 'NewSessionController',
 	func($scope, $state, $interval, UserService, LocationService, BookService) {
-		
+
 		let haveGenre = false;
 		let haveLocation = false;
 		let haveDestination = false;
 
 		/* Update user's genre selection */
 		$scope.genres = BookService.getAllGenres(); // Get all book categories for dropdown menu
-		
+
 		$scope.submitGenre = () => { // Set genre after user makes selection
 			UserService.setGenre($scope.selectedGenre);
 			haveGenre = true;
-			
+
 			const ProgressBar = require('progressbar.js')
-			const bar = new ProgressBar.Line(container, {
+			const bar = new ProgressBar.Line(loadingBar, {
 				strokeWidth: 4,
 				easing: 'easeInOut',
 				duration: 5000,
-				color: '#FFEA82',
-				trailColor: '#eee',
+				color: '#4E978A',
+				trailColor: '#581845',
 				trailWidth: 1,
 				svgStyle: { width: '100%', height: '100%' },
-				from: { color: '#FFEA82' },
-				to: { color: '#ED6A5A' },
+				from: { color: '#A3E6D9' },
+				to: { color: '#4E978A' },
 				step: (state, bar) => {
 					bar.path.setAttribute('stroke', state.color);
 				}
@@ -31,31 +31,30 @@ module.exports = {
 			bar.animate(1.0);  // Number from 0.0 to 1.0
 		};
 
-
 		/* Get user location */
-		function getUserLocation(tries=0) {
-			
+		function getUserLocation(tries = 0) {
+
 			// Initiate geolocation service
 			let geo = navigator.geolocation;
 
 			if(tries > 3) { // Prevent infinite recursion
-				console.warn(`ERROR(${err.code}): ${err.message}`);
+				console.log('geolocation error');
 				return;
 			}
-			
+
 			function geo_success(position) {
 				let pos = position.coords;
 				console.log(`current position: [${pos.latitude}, ${pos.longitude}]`);
-				
+
 				// Update user location in service
 				LocationService.updateUserLocation(pos.latitude, pos.longitude);
 				haveLocation = true;
-				
+
 				getUserDestination();
 			};
-			
+
 			function geo_error(err) {
-				console.log('noah tell margo that the recursion function worked!');
+				console.warn(`ERROR(${err.code}): ${err.message}`);
 				getUserLocation(tries+1);
 			};
 
@@ -82,16 +81,16 @@ module.exports = {
 			LocationService.setDestination(range);
 			haveDestination = true;
 		};
-		
-		
+
+
 		/* Check if user gives permission to share location */
 		if ("geolocation" in navigator) {
 			getUserLocation();
 		} else {
 			alert("Geolocation services are not supported by your browser.");
 		}
-		
-		
+
+
 		/* Once we have genre, user location, and destination => display map view */
 		function startGame() {
 			if (haveGenre && haveLocation && haveDestination) {
@@ -99,18 +98,18 @@ module.exports = {
 				$state.go('map');
 			}
 		};
-		
+
 		// Set interval to check if we can start game or not
 		let wait;
-		
+
 		function checkForData() {
 			wait = $interval(startGame, 1000);
 		};
-		
+
 		function stopChecking() {
 			$interval.cancel(wait);
 		};
-		
+
 		checkForData();
 	},
 };

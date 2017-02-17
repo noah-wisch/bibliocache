@@ -3,16 +3,13 @@
 
 	<form method="post" action="/registration">
 		<ng-form name="loginForm">
-			<input type="email" ng-model="email" ng-pattern="emailValidation" name="email" placeholder="name@something.com">
+			<input type="email" ng-model="email" ng-pattern="emailValidation" name="email" placeholder="example@domain.com">
 			<span ng-show="loginForm.email.$error.pattern" style="color:red">Please enter valid email.</span>
 		</ng-form>
 
 		<ng-form name="passwordForm">
 			<input type="password" ng-model="password" ng-pattern="passwordValidation" name="password" placeholder="password">
 			<span ng-show="passwordForm.password.$error.pattern" style="color:red">Invalid Password</span>
-		<!--Confirm:
-		<input type="password" ng-model="password2" ng-keyup="compare(repassword)" ng-pattern="passwordValidation" name="password2" placeholder="password">
-		<span ng-show="isconfirm || passwordForm.password2.$dirty" ng-class="{true:'green',false:'red'}[isconfirm]">Passwords {{isconfirm===true?'':'do not'}} match</span>-->
 		</ng-form>
 
 		<input type="number" min="1" max="14" ng-model="form.readingLevel" ng-pattern="readingLevelValidation" name="readingLevel"

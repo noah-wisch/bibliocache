@@ -31,6 +31,8 @@ const components = [
 	require('./components/newSession'),
 	require('./components/map'),
 	require('./components/endSession'),
+	require('./components/header'),
+	require('./components/footer'),
 ];
 
 for (let i = 0; i < components.length; i++) {
@@ -46,7 +48,7 @@ const services = [
 for (let i = 0; i < services.length; i++) {
 	app.factory(services[i].name, services[i].func);
 }
-},{"./components/endSession":2,"./components/login":3,"./components/map":4,"./components/newSession":5,"./components/registration":6,"./controllers/endSession":7,"./controllers/login":8,"./controllers/map":9,"./controllers/newSession":10,"./controllers/registration":11,"./routes":12,"./services/book-service":13,"./services/location-service":14,"./services/user-service":15}],2:[function(require,module,exports){
+},{"./components/endSession":2,"./components/footer":3,"./components/header":4,"./components/login":5,"./components/map":6,"./components/newSession":7,"./components/registration":8,"./controllers/endSession":9,"./controllers/login":10,"./controllers/map":11,"./controllers/newSession":12,"./controllers/registration":13,"./routes":14,"./services/book-service":15,"./services/location-service":16,"./services/user-service":17}],2:[function(require,module,exports){
 module.exports = {
 	name: 'endSession',
 	func: {
@@ -55,40 +57,54 @@ module.exports = {
 };
 },{}],3:[function(require,module,exports){
 module.exports = {
+	name: 'bibFooter',
+	func: {
+		templateUrl: 'templates/footer.html',
+	},
+};
+},{}],4:[function(require,module,exports){
+module.exports = {
+	name: 'bibHeader',
+	func: {
+		templateUrl: 'templates/header.html',
+	},
+};
+},{}],5:[function(require,module,exports){
+module.exports = {
 	name: 'login',
 	func: {
 		templateUrl: 'templates/userLogin.html',
 	},
 };
-},{}],4:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 module.exports = {
 	name: 'map',
 	func: {
 		templateUrl: 'templates/map.html',
 	},
 };
-},{}],5:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 module.exports = {
 	name: 'newSession',
 	func: {
 		templateUrl: 'templates/newSession.html',
 	},
 };
-},{}],6:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 module.exports = {
 	name: 'registration',
 	func: {
 		templateUrl: 'templates/userRegistration.html',
 	},
 };
-},{}],7:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 module.exports = {
     name: 'EndSessionController',
     func($scope) {
 		console.log('ending session');
     },
 };
-},{}],8:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 module.exports = {
 	name: 'LoginController',
 
@@ -97,7 +113,7 @@ module.exports = {
 		$scope.emailValidation = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
 
 		$scope.password = '';
-		$scope.passwordValidation = /^[a-zA-Z]\w{3,14}$/;
+		$scope.passwordValidation = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{4,12}$/;
 
 		$scope.loginToAccount = (email, password) => {
 			let user = {
@@ -109,14 +125,14 @@ module.exports = {
 		};
 	},
 };
-},{}],9:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 module.exports = {
 	name: 'MapController',
 	func($scope, $state, LocationService) {
 		let userPos = LocationService.getUserLocation();
 		let endPos = LocationService.getDestination();
 
-				if (userPos.length === 0) {
+		if (userPos.length === 0) {
 			$state.go('new-session');
 		}
 
@@ -135,18 +151,18 @@ module.exports = {
 
 		function initMap() {
 
-						let styledMapType = new google.maps.StyledMapType(
-				[{"stylers":[{"hue":"#16A085"},{"saturation":0}]},{"featureType":"road","elementType":"geometry","stylers":[{"lightness":100},{"visibility":"simplified"}]},{"featureType":"road","elementType":"labels","stylers":[{"visibility":"off"}]}],
-				{name: 'Styled Map'}
+			let styledMapType = new google.maps.StyledMapType(
+				[{ "stylers": [{ "hue": "#16A085" }, { "saturation": 0 }] }, { "featureType": "road", "elementType": "geometry", "stylers": [{ "lightness": 100 }, { "visibility": "simplified" }] }, { "featureType": "road", "elementType": "labels", "stylers": [{ "visibility": "off" }] }],
+				{ name: 'Styled Map' }
 			);
 
-						Map = new google.maps.Map(document.querySelector('#sessionMap'), {
+			Map = new google.maps.Map(document.querySelector('#sessionMap'), {
 				zoom: 15,
 				center: currentPos,
 			});
 
-						Map.mapTypes.set('styled_map', styledMapType);
-        	Map.setMapTypeId('styled_map');
+			Map.mapTypes.set('styled_map', styledMapType);
+			Map.setMapTypeId('styled_map');
 
 			let rendererOptions = {
 				map: Map,
@@ -163,7 +179,7 @@ module.exports = {
 				}
 			});
 
-						function createMarker(position, icon) {
+			function createMarker(position, icon) {
 				let marker = new google.maps.Marker({
 					position: position,
 					map: Map,
@@ -178,7 +194,7 @@ module.exports = {
 					travelMode: 'WALKING',
 				}, (response, status) => {
 					if (status === 'OK') {
-						let route = response.routes[0].legs[0]; 
+						let route = response.routes[0].legs[0];
 						createMarker(route.start_location, 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png');
 						createMarker(route.end_location, 'http://maps.google.com/mapfiles/ms/icons/yellow-dot.png');
 						directionsDisplay.setDirections(response);
@@ -206,7 +222,7 @@ module.exports = {
 				radius: 50,
 			});
 
-					};
+		};
 		initMap();
 
 
@@ -227,6 +243,8 @@ module.exports = {
 
 			let watch_options = {
 				enableHighAccuracy: true,
+				maximumAge: 30000,
+				timeout: 10000,
 			};
 
 			if (navigator.geolocation) {
@@ -246,32 +264,32 @@ module.exports = {
 
 	},
 };
-},{}],10:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 module.exports = {
 	name: 'NewSessionController',
 	func($scope, $state, $interval, UserService, LocationService, BookService) {
 
-				let haveGenre = false;
+		let haveGenre = false;
 		let haveLocation = false;
 		let haveDestination = false;
 
 		$scope.genres = BookService.getAllGenres(); 
 
-				$scope.submitGenre = () => { 
+		$scope.submitGenre = () => { 
 			UserService.setGenre($scope.selectedGenre);
 			haveGenre = true;
 
-						const ProgressBar = require('progressbar.js')
-			const bar = new ProgressBar.Line(container, {
+			const ProgressBar = require('progressbar.js')
+			const bar = new ProgressBar.Line(loadingBar, {
 				strokeWidth: 4,
 				easing: 'easeInOut',
 				duration: 5000,
-				color: '#FFEA82',
-				trailColor: '#eee',
+				color: '#4E978A',
+				trailColor: '#581845',
 				trailWidth: 1,
 				svgStyle: { width: '100%', height: '100%' },
-				from: { color: '#FFEA82' },
-				to: { color: '#ED6A5A' },
+				from: { color: '#A3E6D9' },
+				to: { color: '#4E978A' },
 				step: (state, bar) => {
 					bar.path.setAttribute('stroke', state.color);
 				}
@@ -279,28 +297,27 @@ module.exports = {
 			bar.animate(1.0);  
 		};
 
-
-		function getUserLocation(tries=0) {
+		function getUserLocation(tries = 0) {
 
 			let geo = navigator.geolocation;
 
 			if(tries > 3) { 
-				console.warn(`ERROR(${err.code}): ${err.message}`);
+				console.log('geolocation error');
 				return;
 			}
 
-						function geo_success(position) {
+			function geo_success(position) {
 				let pos = position.coords;
 				console.log(`current position: [${pos.latitude}, ${pos.longitude}]`);
 
 				LocationService.updateUserLocation(pos.latitude, pos.longitude);
 				haveLocation = true;
 
-								getUserDestination();
+				getUserDestination();
 			};
 
-						function geo_error(err) {
-				console.log('noah tell margo that the recursion function worked!');
+			function geo_error(err) {
+				console.warn(`ERROR(${err.code}): ${err.message}`);
 				getUserLocation(tries+1);
 			};
 
@@ -342,19 +359,19 @@ module.exports = {
 
 		let wait;
 
-				function checkForData() {
+		function checkForData() {
 			wait = $interval(startGame, 1000);
 		};
 
-				function stopChecking() {
+		function stopChecking() {
 			$interval.cancel(wait);
 		};
 
-				checkForData();
+		checkForData();
 	},
 };
 
-},{"progressbar.js":18}],11:[function(require,module,exports){
+},{"progressbar.js":20}],13:[function(require,module,exports){
 module.exports = {
 	name: 'RegistrationController',
 
@@ -362,13 +379,14 @@ module.exports = {
 		$scope.emailValidation = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 		$scope.password = '';
-		$scope.passwordValidation = /^[a-zA-Z]\w{3,14}$/;
+		$scope.passwordValidation = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{4,12}$/;
+
 		$scope.readingLevelValidation = /^[0-9]+$/;
 		$scope.ageValidation = /^[0-9]+$/;
 
 		$scope.form = {
-			readingLevel: 0,
-			age: 0,
+			readingLevel: null,
+			age: null,
 		};
 
 		$scope.createAccount = (email, password, readingLevel, age) => {
@@ -386,7 +404,7 @@ module.exports = {
 		};
 	},
 };
-},{}],12:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 
 module.exports = [
 	{
@@ -417,40 +435,40 @@ module.exports = [
 ];
 
 
-},{}],13:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 module.exports = {
 	name: 'BookService',
 
-		func($http) {
+	func($http) {
 		let genres = [
-			'Comedy', 'Horror', 'Fantasy', 'Children\'s Books', 'Action', 'Romance', 'Fiction', 'Non-Fiction'
+			'Fiction', 'Romance', 'Children\'s', 'Non-Fiction', 'Young Adult', 'Thrillers/Suspense', 'Science Fiction & Fantasy'
 		];
 		let sessionGenre = '';
 
-				return {
-            submitGenre(value) {
-                $http.post('https://enigmatic-woodland-53824.herokuapp.com/registration')
-            },
+		return {
+			submitGenre(value) {
+				$http.post('https://enigmatic-woodland-53824.herokuapp.com/registration')
+			},
 
-						getAllGenres() {
+			getAllGenres() {
 				return genres;
 			},
 
-						getBooks() { 
-				return $http.get('https://enigmatic-woodland-53824.herokuapp.com/').then(function(response) {
+			getBooks() { 
+				return $http.get('https://enigmatic-woodland-53824.herokuapp.com/').then(function (response) {
 					let bookList = response.data;;
 					console.log(bookList);
 
-										for (let i=0; i<bookList.length; i++) {
+					for (let i = 0; i < bookList.length; i++) {
 						console.log(bookList[i].title);
 					}
 				});
 			},
 
-			        };
+		};
 	},
 }
-},{}],14:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 module.exports = {
 	name: 'LocationService',
 
@@ -473,12 +491,8 @@ module.exports = {
 				let latRange = maxRange * 0.015; 
 				let lngRange = maxRange * 0.019; 
 
-				let intensity = () => {
-					return Math.random() * (.99 - .01) + .01;
-				};
-
-				let latDest = currentPos[0] + (intensity() * (1 - latRange/2));
-				let lngDest = currentPos[1] + (intensity() * (1 - lngRange/2));
+				let latDest = currentPos[0] + (Math.random() - 0.5) * latRange;
+				let lngDest = currentPos[1] + (Math.random() - 0.5) * lngRange;
 
 								console.log('destination: [' + latDest, lngDest + ']');
 				endPos = [latDest, lngDest];
@@ -492,7 +506,7 @@ module.exports = {
 	},
 
 };
-},{}],15:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 module.exports = {
 	name: 'UserService',
 
@@ -532,7 +546,7 @@ module.exports = {
 	},
 
 };
-},{}],16:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 
 var Shape = require('./shape');
 var utils = require('./utils');
@@ -571,7 +585,7 @@ Circle.prototype._trailString = function _trailString(opts) {
 
 module.exports = Circle;
 
-},{"./shape":21,"./utils":22}],17:[function(require,module,exports){
+},{"./shape":23,"./utils":24}],19:[function(require,module,exports){
 
 var Shape = require('./shape');
 var utils = require('./utils');
@@ -601,7 +615,7 @@ Line.prototype._trailString = function _trailString(opts) {
 
 module.exports = Line;
 
-},{"./shape":21,"./utils":22}],18:[function(require,module,exports){
+},{"./shape":23,"./utils":24}],20:[function(require,module,exports){
 module.exports = {
     Line: require('./line'),
     Circle: require('./circle'),
@@ -614,7 +628,7 @@ module.exports = {
     utils: require('./utils')
 };
 
-},{"./circle":16,"./line":17,"./path":19,"./semicircle":20,"./shape":21,"./utils":22}],19:[function(require,module,exports){
+},{"./circle":18,"./line":19,"./path":21,"./semicircle":22,"./shape":23,"./utils":24}],21:[function(require,module,exports){
 
 var Tweenable = require('shifty');
 var utils = require('./utils');
@@ -773,7 +787,7 @@ Path.prototype._easing = function _easing(easing) {
 
 module.exports = Path;
 
-},{"./utils":22,"shifty":23}],20:[function(require,module,exports){
+},{"./utils":24,"shifty":25}],22:[function(require,module,exports){
 
 var Shape = require('./shape');
 var Circle = require('./circle');
@@ -818,7 +832,7 @@ SemiCircle.prototype._trailString = Circle.prototype._trailString;
 
 module.exports = SemiCircle;
 
-},{"./circle":16,"./shape":21,"./utils":22}],21:[function(require,module,exports){
+},{"./circle":18,"./shape":23,"./utils":24}],23:[function(require,module,exports){
 
 var Path = require('./path');
 var utils = require('./utils');
@@ -1111,7 +1125,7 @@ Shape.prototype._warnContainerAspectRatio = function _warnContainerAspectRatio(c
 
 module.exports = Shape;
 
-},{"./path":19,"./utils":22}],22:[function(require,module,exports){
+},{"./path":21,"./utils":24}],24:[function(require,module,exports){
 
 var PREFIXES = 'Webkit Moz O ms'.split(' ');
 var FLOAT_COMPARISON_EPSILON = 0.001;
@@ -1235,7 +1249,7 @@ module.exports = {
     removeChildren: removeChildren
 };
 
-},{}],23:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 ;(function () {
   var root = this || Function('return this')();
 
