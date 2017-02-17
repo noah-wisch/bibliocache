@@ -110,11 +110,28 @@ module.exports = {
 
 			function watch_success(pos) {
 				console.log(pos.coords.latitude + ', ' + pos.coords.longitude);
-
-				if (destination.lat === pos.lat && destination.lng === pos.lng) {
-					console.log('Congratulations, you reached the cache');
-					geo.clearWatch(watch_id);
+				
+				google.maps.Circle.prototype.contains = function(latLng) {
+					return this.getBounds().contains(latLng) && google.maps.geometry.spherical.computeDistanceBetween(this.getCenter(), latLng) <= this.getRadius();
 				}
+				
+				let destRange = new google.maps.Circle({
+					map: Map,
+					center: destination,
+					strokeWeight: 2,
+					fillOpacity: 0,
+					radius: 250,
+				});
+				
+				if (destRange.contains(pos.coords)) {
+					geo.clearWatch(watch_id);
+					alert('you win!!!!!!');
+				}
+
+				/*if (destination.lat === pos.lat && destination.lng === pos.lng) {
+					console.log('you win!!!!!!');
+					geo.clearWatch(watch_id);
+				}*/
 			};
 
 			function watch_error(err) {
