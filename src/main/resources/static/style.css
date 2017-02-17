@@ -1063,10 +1063,6 @@ body a {
   text-decoration: none;
   font-weight: bold; }
 
-h1 {
-  text-align: center;
-  color: #4E978A; }
-
 button {
   display: inline-block;
   vertical-align: middle;
@@ -1082,25 +1078,38 @@ button {
   cursor: pointer;
   background-color: #1779ba;
   color: #fefefe;
-  border-radius: 5px;
-  padding: 15px 50px; }
+  padding: 15px 50px;
+  background-color: #4E978A;
+  font-weight: bold;
+  width: 100%; }
   [data-whatinput='mouse'] button {
     outline: 0; }
   button:hover, button:focus {
     background-color: #14679e;
     color: #fefefe; }
+  button:hover {
+    background-color: #4E978A;
+    opacity: 0.8; }
   button:disabled {
+    background-color: #A3E6D9;
     opacity: 0.6; }
 
-nav {
-  max-width: 75rem;
-  margin-right: auto;
-  margin-left: auto; }
-  nav::before, nav::after {
-    display: table;
-    content: ' '; }
-  nav::after {
-    clear: both; }
+header {
+  height: 200px;
+  background: #A3E6D9 url("assets/header.png") no-repeat center center;
+  background-size: cover; }
+  header h1 {
+    margin: 0;
+    line-height: 200px;
+    text-align: center;
+    color: #4E978A;
+    text-transform: lowercase; }
+  header .left {
+    position: absolute;
+    right: 50%; }
+  header .right {
+    position: absolute;
+    left: 50%; }
 
 nav ul {
   display: flex;
@@ -1112,6 +1121,17 @@ nav ul {
 
 #logo {
   width: 40px; }
+
+.form-container {
+  max-width: 400px;
+  margin: 1.5em auto; }
+
+select, input {
+  height: 2.5em;
+  border-style: solid;
+  border-color: #4E978A;
+  border-radius: 0;
+  margin: .5em 0; }
 
 .start-message {
   background: yellow; }
