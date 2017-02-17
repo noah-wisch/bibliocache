@@ -31,6 +31,7 @@ const components = [
 	require('./components/newSession'),
 	require('./components/map'),
 	require('./components/endSession'),
+	require('./components/header'),
 ];
 
 for (let i = 0; i < components.length; i++) {
@@ -46,7 +47,7 @@ const services = [
 for (let i = 0; i < services.length; i++) {
 	app.factory(services[i].name, services[i].func);
 }
-},{"./components/endSession":2,"./components/login":3,"./components/map":4,"./components/newSession":5,"./components/registration":6,"./controllers/endSession":7,"./controllers/login":8,"./controllers/map":9,"./controllers/newSession":10,"./controllers/registration":11,"./routes":12,"./services/book-service":13,"./services/location-service":14,"./services/user-service":15}],2:[function(require,module,exports){
+},{"./components/endSession":2,"./components/header":3,"./components/login":4,"./components/map":5,"./components/newSession":6,"./components/registration":7,"./controllers/endSession":8,"./controllers/login":9,"./controllers/map":10,"./controllers/newSession":11,"./controllers/registration":12,"./routes":13,"./services/book-service":14,"./services/location-service":15,"./services/user-service":16}],2:[function(require,module,exports){
 module.exports = {
 	name: 'endSession',
 	func: {
@@ -55,40 +56,47 @@ module.exports = {
 };
 },{}],3:[function(require,module,exports){
 module.exports = {
+	name: 'bibHeader',
+	func: {
+		templateUrl: 'templates/header.html',
+	},
+};
+},{}],4:[function(require,module,exports){
+module.exports = {
 	name: 'login',
 	func: {
 		templateUrl: 'templates/userLogin.html',
 	},
 };
-},{}],4:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 module.exports = {
 	name: 'map',
 	func: {
 		templateUrl: 'templates/map.html',
 	},
 };
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 module.exports = {
 	name: 'newSession',
 	func: {
 		templateUrl: 'templates/newSession.html',
 	},
 };
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 module.exports = {
 	name: 'registration',
 	func: {
 		templateUrl: 'templates/userRegistration.html',
 	},
 };
-},{}],7:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 module.exports = {
     name: 'EndSessionController',
     func($scope) {
 		console.log('ending session');
     },
 };
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 module.exports = {
 	name: 'LoginController',
 
@@ -109,7 +117,7 @@ module.exports = {
 		};
 	},
 };
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 module.exports = {
 	name: 'MapController',
 	func($scope, $state, LocationService) {
@@ -246,7 +254,7 @@ module.exports = {
 
 	},
 };
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 module.exports = {
 	name: 'NewSessionController',
 	func($scope, $state, $interval, UserService, LocationService, BookService) {
@@ -285,7 +293,7 @@ module.exports = {
 			let geo = navigator.geolocation;
 
 			if(tries > 3) { 
-				console.warn(`ERROR(${err.code}): ${err.message}`);
+				console.log('geolocation error');
 				return;
 			}
 
@@ -300,7 +308,7 @@ module.exports = {
 			};
 
 						function geo_error(err) {
-				console.log('noah tell margo that the recursion function worked!');
+				console.warn(`ERROR(${err.code}): ${err.message}`);
 				getUserLocation(tries+1);
 			};
 
@@ -354,7 +362,7 @@ module.exports = {
 	},
 };
 
-},{"progressbar.js":18}],11:[function(require,module,exports){
+},{"progressbar.js":19}],12:[function(require,module,exports){
 module.exports = {
 	name: 'RegistrationController',
 
@@ -386,7 +394,7 @@ module.exports = {
 		};
 	},
 };
-},{}],12:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 
 module.exports = [
 	{
@@ -417,7 +425,7 @@ module.exports = [
 ];
 
 
-},{}],13:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 module.exports = {
 	name: 'BookService',
 
@@ -450,7 +458,7 @@ module.exports = {
 			        };
 	},
 }
-},{}],14:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 module.exports = {
 	name: 'LocationService',
 
@@ -492,7 +500,7 @@ module.exports = {
 	},
 
 };
-},{}],15:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 module.exports = {
 	name: 'UserService',
 
@@ -532,7 +540,7 @@ module.exports = {
 	},
 
 };
-},{}],16:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 
 var Shape = require('./shape');
 var utils = require('./utils');
@@ -571,7 +579,7 @@ Circle.prototype._trailString = function _trailString(opts) {
 
 module.exports = Circle;
 
-},{"./shape":21,"./utils":22}],17:[function(require,module,exports){
+},{"./shape":22,"./utils":23}],18:[function(require,module,exports){
 
 var Shape = require('./shape');
 var utils = require('./utils');
@@ -601,7 +609,7 @@ Line.prototype._trailString = function _trailString(opts) {
 
 module.exports = Line;
 
-},{"./shape":21,"./utils":22}],18:[function(require,module,exports){
+},{"./shape":22,"./utils":23}],19:[function(require,module,exports){
 module.exports = {
     Line: require('./line'),
     Circle: require('./circle'),
@@ -614,7 +622,7 @@ module.exports = {
     utils: require('./utils')
 };
 
-},{"./circle":16,"./line":17,"./path":19,"./semicircle":20,"./shape":21,"./utils":22}],19:[function(require,module,exports){
+},{"./circle":17,"./line":18,"./path":20,"./semicircle":21,"./shape":22,"./utils":23}],20:[function(require,module,exports){
 
 var Tweenable = require('shifty');
 var utils = require('./utils');
@@ -773,7 +781,7 @@ Path.prototype._easing = function _easing(easing) {
 
 module.exports = Path;
 
-},{"./utils":22,"shifty":23}],20:[function(require,module,exports){
+},{"./utils":23,"shifty":24}],21:[function(require,module,exports){
 
 var Shape = require('./shape');
 var Circle = require('./circle');
@@ -818,7 +826,7 @@ SemiCircle.prototype._trailString = Circle.prototype._trailString;
 
 module.exports = SemiCircle;
 
-},{"./circle":16,"./shape":21,"./utils":22}],21:[function(require,module,exports){
+},{"./circle":17,"./shape":22,"./utils":23}],22:[function(require,module,exports){
 
 var Path = require('./path');
 var utils = require('./utils');
@@ -1111,7 +1119,7 @@ Shape.prototype._warnContainerAspectRatio = function _warnContainerAspectRatio(c
 
 module.exports = Shape;
 
-},{"./path":19,"./utils":22}],22:[function(require,module,exports){
+},{"./path":20,"./utils":23}],23:[function(require,module,exports){
 
 var PREFIXES = 'Webkit Moz O ms'.split(' ');
 var FLOAT_COMPARISON_EPSILON = 0.001;
@@ -1235,7 +1243,7 @@ module.exports = {
     removeChildren: removeChildren
 };
 
-},{}],23:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 ;(function () {
   var root = this || Function('return this')();
 

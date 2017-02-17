@@ -3,6 +3,7 @@
 
 <head>
 	<title>Bibliocache</title>
+	<link href="https://fonts.googleapis.com/css?family=Scope+One" rel="stylesheet">
 	<link rel="stylesheet" href="style.css">
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular.min.js"></script>
 	<script src="https://npmcdn.com/angular-ui-router@1.0.0-beta.3/release/angular-ui-router.min.js"></script>
@@ -12,16 +13,13 @@
 </head>
 
 <body ng-app="BibliocacheApp">
-	<header>
-		<h1><span class="left">Biblio</span><span class="right">cache</span></h1>
-
-		<nav>
-			<ul>
-				<li><a ui-sref="login">Login</a></li>
-				<li><a ui-sref="registration">Register</a></li>
-			</ul>
-		</nav>
-	</header>
+	<bib-header></bib-header>
+	<nav>
+		<ul>
+			<li><a ui-sref="login">Login</a></li>
+			<li><a ui-sref="registration">Register</a></li>
+		</ul>
+	</nav>
 
 	<ui-view>
 		<login></login>

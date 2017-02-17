@@ -5,6 +5,11 @@
 
 $dark-green: #4E978A;
 $mint-green: #A3E6D9;
+$header-font: 'Scope One', serif;
+
+h1, h2, h3, h4, h5 {
+	font-family: $header-font;
+}
 
 /*
  * GLOBAL STYLES
@@ -42,23 +47,21 @@ button {
  * HEADER STYLES
  */
 header {
-	height: 200px;
-	background: $mint-green url("assets/header.png") no-repeat center center;
-	background-size: cover;
+	background-color: $mint-green;
 	h1 {
 		margin: 0;
-		line-height: 200px;
 		text-align: center;
 		color: $dark-green;
 		text-transform: lowercase;
 	}
-	.left {
-		position: absolute;
-		right: 50%;
-	}
-	.right {
-		position: absolute;
-		left: 50%;
+	
+	&#bannerHeader {
+		height: 200px;
+		background: $mint-green url("assets/header.png") no-repeat center center;
+		background-size: cover;
+		h1 {
+			line-height: 200px;
+		}
 	}
 }
 
@@ -88,6 +91,7 @@ nav ul {
 select, input {
 	height: 2.5em;
 	border-style: solid;
+	border-width: 2px;
 	border-color: $dark-green;
 	border-radius: 0;
 	margin: .5em 0;

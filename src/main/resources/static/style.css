@@ -1046,6 +1046,9 @@ button {
       .column-block > :last-child {
         margin-bottom: 0; } }
 
+h1, h2, h3, h4, h5 {
+  font-family: "Scope One", serif; }
+
 body input {
   width: 100%;
   float: left;
@@ -1095,21 +1098,18 @@ button {
     opacity: 0.6; }
 
 header {
-  height: 200px;
-  background: #A3E6D9 url("assets/header.png") no-repeat center center;
-  background-size: cover; }
+  background-color: #A3E6D9; }
   header h1 {
     margin: 0;
-    line-height: 200px;
     text-align: center;
     color: #4E978A;
     text-transform: lowercase; }
-  header .left {
-    position: absolute;
-    right: 50%; }
-  header .right {
-    position: absolute;
-    left: 50%; }
+  header#bannerHeader {
+    height: 200px;
+    background: #A3E6D9 url("assets/header.png") no-repeat center center;
+    background-size: cover; }
+    header#bannerHeader h1 {
+      line-height: 200px; }
 
 nav ul {
   display: flex;
@@ -1129,6 +1129,7 @@ nav ul {
 select, input {
   height: 2.5em;
   border-style: solid;
+  border-width: 2px;
   border-color: #4E978A;
   border-radius: 0;
   margin: .5em 0; }
