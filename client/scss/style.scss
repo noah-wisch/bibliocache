@@ -6,26 +6,19 @@
 $dark-green: #4E978A;
 $mint-green: #A3E6D9;
 $header-font: 'Scope One', serif;
+$font-color: #292929;
 
 h1, h2, h3, h4, h5 {
 	font-family: $header-font;
 }
 
+body {
+	color: $font-color;
+}
+
 /*
  * GLOBAL STYLES
  */
-body {
-	input {
-		@include grid-column(12);
-		margin: 5px 0;
-	}
-
-	a {
-		text-decoration: none;
-		font-weight: bold;
-	}
-}
-
 button {
 	@include button;
 	padding: 15px 50px;
@@ -53,6 +46,7 @@ header {
 		text-align: center;
 		color: $dark-green;
 		text-transform: lowercase;
+		letter-spacing: 2px;
 	}
 	
 	&#bannerHeader {
@@ -60,7 +54,26 @@ header {
 		background: $mint-green url("assets/header.png") no-repeat center center;
 		background-size: cover;
 		h1 {
+			font-size: 3em;
 			line-height: 200px;
+		}
+	}
+	
+	&#defaultHeader {
+		display: flex;
+		justify-content: flex-start;
+		h1 {
+			text-align: left;
+			font-size: 1.2em; 
+			margin: 0 0.5em;
+			padding: 0.25em 0;
+		}
+		ul.toolbar {
+			list-style: none;
+			margin: 0 0.5em;
+    		padding: 0.25em 0;
+			position: absolute;
+			right: 0;
 		}
 	}
 }
@@ -89,12 +102,24 @@ nav ul {
 }
 
 select, input {
+	display: block;
+	width: 100%;
 	height: 2.5em;
 	border-style: solid;
 	border-width: 2px;
 	border-color: $dark-green;
 	border-radius: 0;
-	margin: .5em 0;
+	margin: 0.5em 0;
+	padding: 0 0.5em;
+	
+	&[type="number"] {
+		width: calc(50% - 4px);
+		display: inline-block;
+		
+		&:last-of-type {
+			float: right;
+		}
+	}
 }
 
 /*
