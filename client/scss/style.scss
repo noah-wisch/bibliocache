@@ -17,9 +17,6 @@ body {
 	color: $font-color;
 }
 
-/*
- * GLOBAL STYLES
- */
 button {
 	@include button;
 	padding: 15px 50px;

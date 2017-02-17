@@ -5,10 +5,8 @@ module.exports = {
 		$scope.emailValidation = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 		$scope.password = '';
-		$scope.passwordValidation = /^[a-zA-Z]\w{3,14}$/;
-		// $scope.compare = (repass) => {
-		// 	$scope.isconfirm = $scope.password === repass ? true : false;
-		// }
+		$scope.passwordValidation = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{4,12}$/;
+
 		$scope.readingLevelValidation = /^[0-9]+$/;
 		$scope.ageValidation = /^[0-9]+$/;
 
