@@ -7,6 +7,7 @@ $dark-green: #4E978A;
 $mint-green: #A3E6D9;
 $header-font: 'Scope One', serif;
 $font-color: #292929;
+$tablet: 400px;
 
 /* GLOBAL STYLES */
 h1, h2, h3, h4, h5 {
@@ -78,6 +79,12 @@ header {
 	}
 }
 
+footer {
+	font-size: 0.8em;
+	margin: 0 0.5em;
+	padding: 0.25em 0;
+}
+
 nav ul {
 	display: flex;
 	padding: 0;
@@ -87,10 +94,6 @@ nav ul {
 	li {
 		margin-right: 10px;
 	}
-}
-
-#logo {
-	width: 40px;
 }
 
 /* FORMS */
@@ -137,33 +140,25 @@ select {
 	background: yellow;
 }
 
-/* MAP STYLES */
-#sessionMap {
-	width: 100%;
-	height: 50%;
-	display: inline-block;
-	border-radius: 5px;
-}
-
 #loadingBar {
 	margin: 20px 0;
 	width: 400px;
 	height: 6px;
 }
 
-footer {
-	font-size: 0.8em;
-	margin: 0 0.5em;
-	padding: 0.25em 0;
+/* MAP STYLES */
+#sessionMap {
+	width: 100%;
+	min-height: 365px;
+	height: 100%;
+	display: inline-block;
+	border-radius: 5px;
 }
 
-
-/* DIRECTIONS */
 #directions {
 	font-family: 'Roboto','sans-serif';
     line-height: 30px;
     padding-left: 10px;
-	height: 50%;
     width: 390px;
 	overflow: auto;
 	font-size: 15px;
@@ -172,6 +167,18 @@ footer {
 		width: 100%;
 	}
 }
+
+@include breakpoint($tablet) {
+	#showMap {
+		display: flex;
+	}
+	
+	#sessionMap {
+		min-height: 400px;
+		height: 100%;
+	}
+}
+
 .adp table {
 	background-color: white;
 	//font-family: serif !important;
