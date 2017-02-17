@@ -140,23 +140,9 @@ select {
 /* MAP STYLES */
 #sessionMap {
 	width: 100%;
-	height: 400px;
+	height: 50%;
 	display: inline-block;
 	border-radius: 5px;
-}
-
-#directions {
-	font-family: 'Roboto','sans-serif';
-    line-height: 30px;
-    padding-left: 10px;
-	height: 100%;
-    width: 390px;
-	overflow: auto;
-	font-size: 15px;
-	
-	select {
-		width: 100%;
-	}
 }
 
 #loadingBar {
@@ -173,7 +159,20 @@ footer {
 
 
 /* DIRECTIONS */
+#directions {
+	font-family: 'Roboto','sans-serif';
+    line-height: 30px;
+    padding-left: 10px;
+	height: 50%;
+    width: 390px;
+	overflow: auto;
+	font-size: 15px;
+	
+	select {
+		width: 100%;
+	}
+}
 .adp table {
-	background-color: red;
-	font-family: serif !important;
+	background-color: white;
+	//font-family: serif !important;
 }
