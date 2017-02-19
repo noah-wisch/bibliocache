@@ -41,6 +41,7 @@ public class BiobliocacheController {
     public List<Book> getList(HttpSession session, boolean flag, HttpServletResponse response) throws IOException{
         String userEmail = (String)session.getAttribute("email");
         User user = users.findFirstByEmail(userEmail);
+        List<Book> sortedBooks;
         List<Book> returnedBooks = new ArrayList<>();
         String query = user.getCategory();
         JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
@@ -60,26 +61,32 @@ public class BiobliocacheController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if (user != null) {
-            if (flag) {
-                if (books.findByCategory(user.getCategory()).size() > 5) {
-                    returnedBooks = books.findByCategory(user.getCategory())
-                            .stream().collect(Collectors.toList()).subList(0, 5);
-                } else {
-                    returnedBooks = books.findByCategory(user.getCategory()).stream().collect(Collectors.toList());
-                }
-            }
-        }
-
-//     if(user != null) {
-//            if (flag) {//if flag is set to true
-//                returnedBooks = books.findByCategory(user.getCategory())//get all the books by category that matches our user's
-//                        .stream()
-//                        .filter(b -> b.getReadingLevel() == user.getReadingLevel())//filter books by reading level that matches our user's
-//                        .collect(Collectors.toList())//put those books that are left into a list
-//                        .subList(0, 5);//get the first five items of that list (toIndex is exclusive)
+//        if (user != null) {
+//            if (flag) {
+//                if (books.findByCategory(user.getCategory()).size() > 5) {
+//                    returnedBooks = books.findByCategory(user.getCategory())
+//                            .stream().collect(Collectors.toList()).subList(0, 5);
+//                } else {
+//                    returnedBooks = books.findByCategory(user.getCategory()).stream().collect(Collectors.toList());
+//                }
 //            }
 //        }
+
+     if(user != null) {
+            if (flag) {//if flag is set to true
+                    sortedBooks = books.findByCategory(user.getCategory())//get all the books by category that matches our user's
+                            .stream()
+                            .filter(b -> b.getReadingLevel() == user.getReadingLevel())//filter books by reading level that matches our user's
+                            .collect(Collectors.toList());//put those books that are left into a list
+                    if (sortedBooks.size() > 5) {//if sortedBooks is greater than 5 items
+                        returnedBooks = sortedBooks.stream().collect(Collectors.toList()).subList(0, 5);
+                        //get the first five items of that list (toIndex is exclusive) if list is greater than 5
+                    } else {
+                        returnedBooks = sortedBooks;
+                        //else return all the books in sortedBooks list.
+                    }
+            }
+        }
             return returnedBooks;
     }
 

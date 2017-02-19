@@ -22,7 +22,6 @@ public class UserAccessController {
 
     @PostConstruct
     public void init() {
-
     }
 
     @RequestMapping(path = "/", method = RequestMethod.GET)
