@@ -67,7 +67,6 @@ public class BiobliocacheController {
             }
         }
             return returnedBooks;
-        //TODO: return link to book on google as well -- create column in table
     }
 
     @RequestMapping(path="/add-excerpt", method = RequestMethod.PUT)

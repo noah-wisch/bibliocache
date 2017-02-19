@@ -42,8 +42,7 @@ public class UserAccessController {
             throw new Exception("Incorrect Password");
         }
         session.setAttribute("email", email);
-        return "redirect:/";
-        //todo find out how to send back user's info
+        return "redirect:index.html";
     }
 
     @RequestMapping(path = "/registration", method = RequestMethod.POST)
@@ -57,7 +56,7 @@ public class UserAccessController {
                 age);
         users.save(newUser);
         session.setAttribute("email", email);
-        return "redirect:/";
+        return "redirect:index.html";
     }
 
     @RequestMapping("/logout")
@@ -70,10 +69,6 @@ public class UserAccessController {
     public void setCategory(HttpSession session, String category) {
         String userEmail = (String)session.getAttribute("email");
         User user = users.findFirstByEmail(userEmail);
-        if (category == "Science Fiction & Fantasy") {
-
-
-        }
         user.setCategory(category);
     }
 
