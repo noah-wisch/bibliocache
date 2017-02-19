@@ -30,6 +30,10 @@ module.exports = {
 				return $http.post('/login', user);
 			},
 
+			logOut(user) {
+				return $http.post('/logout', user);
+			},
+
 			getUserInfo() {
 				return user;
 			},
