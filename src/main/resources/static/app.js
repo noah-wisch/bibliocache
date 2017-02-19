@@ -99,10 +99,23 @@ module.exports = {
 };
 },{}],9:[function(require,module,exports){
 module.exports = {
-    name: 'EndSessionController',
-    func($scope) {
-		console.log('ending session');
-    },
+  name: 'EndSessionController',
+  func($scope, BookService, UserService) {
+
+    console.log('Congrats! Ending your session.');
+
+    let haveCode = false;
+    $scope.codes = BookService.testGetBooks();
+
+    $scope.submitCodeChoice = () => {
+      haveCode = true;
+      console.log('I choose you, Pikachu!');
+    }
+
+    $scope.playAgain = () => {
+      console.log('They\'re playing again!');
+    }
+  },
 };
 },{}],10:[function(require,module,exports){
 module.exports = {
@@ -314,7 +327,7 @@ module.exports = {
 
 			let geo = navigator.geolocation;
 
-			if(tries > 3) { 
+			if (tries > 3) { 
 				console.log('geolocation error');
 				return;
 			}
@@ -331,7 +344,7 @@ module.exports = {
 
 			function geo_error(err) {
 				console.warn(`ERROR(${err.code}): ${err.message}`);
-				getUserLocation(tries+1);
+				getUserLocation(tries + 1);
 			};
 
 			let geo_options = {
@@ -458,17 +471,22 @@ module.exports = {
 		];
 		let sessionGenre = '';
 
+		let codes = ['url1', 'url2', 'url3', 'url4', 'url5'];
+		let sessionCode = '';
+
 		return {
 			submitGenre(value) {
 				$http.post('https://enigmatic-woodland-53824.herokuapp.com/registration')
 			},
+
+
 
 			getAllGenres() {
 				return genres;
 			},
 
 			getBooks() { 
-				return $http.get('https://enigmatic-woodland-53824.herokuapp.com/').then(function (response) {
+				return $http.get('https://enigmatic-woodland-53824.herokuapp.com/').then((response) => {
 					let bookList = response.data;;
 					console.log(bookList);
 
@@ -477,6 +495,11 @@ module.exports = {
 					}
 				});
 			},
+
+
+			testGetBooks() {
+				return codes;
+			}
 
 		};
 	},
@@ -545,6 +568,10 @@ module.exports = {
 
 			logInUser(user) {
 				return $http.post('/login', user);
+			},
+
+			logOut(user) {
+				return $http.post('/logout', user);
 			},
 
 			getUserInfo() {
