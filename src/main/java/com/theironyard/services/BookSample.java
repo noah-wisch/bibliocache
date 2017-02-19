@@ -10,6 +10,7 @@ import com.google.api.services.books.BooksRequestInitializer;
 import com.google.api.services.books.Books.Volumes.List;
 import com.google.api.services.books.model.Volume;
 import com.google.api.services.books.model.Volumes;
+import com.theironyard.entities.User;
 
 import java.io.IOException;
 import java.net.URLEncoder;
@@ -27,10 +28,11 @@ public class BookSample {
         .build();
 
 
-    //Set filter string and filter only Google eBooks
+    //Set filter string and filter only free Google eBooks
     System.out.println("Query: [" + query + "]");
     List volumesList = books.volumes().list(query);
-    volumesList.setFilter("ebooks");
+    volumesList.setFilter("free-ebooks");
+
 
     //Execute the query
     Volumes volumes = volumesList.execute();
@@ -43,6 +45,7 @@ public class BookSample {
     for (Volume volume: volumes.getItems()) {
         Volume.VolumeInfo volumeInfo = volume.getVolumeInfo();
         System.out.println("==========");
+
 
     //    Title
         System.out.println("Title: " + volumeInfo.getTitle());
@@ -64,13 +67,16 @@ public class BookSample {
 
         //Link to Google eBooks.
         System.out.println(volumeInfo.getInfoLink());
+
+        if (volume.getVolumeInfo().getMainCategory() != query) {
+            volumes.remove(volume);
+        }
     }
         System.out.println("==========");
         System.out.println(
                 volumes.getTotalItems() + " total results at http://books.google.com/ebooks?q="
                 + URLEncoder.encode(query, "UTF-8"));
 
-//        HttpResponse response = new HttpResponse(200, volumesList, null, new HttpHeaders("volume", volumesList.get))
         return volumes.getItems();
     }
 }

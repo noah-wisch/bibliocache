@@ -15,9 +15,4 @@ public class FinalProjectApplication {
 		SpringApplication.run(FinalProjectApplication.class, args);
 
 	}
-
-	@Bean //sets up a class for dependency injection inside Spring container
-	public RestTemplate restTemplate(RestTemplateBuilder builder) {
-		return builder.build();
-	}
 }

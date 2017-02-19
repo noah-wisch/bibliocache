@@ -3,7 +3,6 @@ package com.theironyard.controllers;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.books.model.Volume;
-import com.theironyard.datamodels.LibraryBook;
 import com.theironyard.entities.Book;
 import com.theironyard.entities.User;
 import com.theironyard.services.BookRepository;
@@ -11,15 +10,12 @@ import com.theironyard.services.BookSample;
 import com.theironyard.services.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -32,9 +28,6 @@ public class BiobliocacheController {
 
     @Autowired
     UserRepository users;
-
-    @Autowired
-    RestTemplate template;
 
 
     @RequestMapping(path = "/end-round", method = RequestMethod.GET)
@@ -52,25 +45,11 @@ public class BiobliocacheController {
                 if (storedBook == null) {
                     books.save(new Book(volume, user));
                     System.out.println("New books saved.");
-                    Map<String, String> urlParams = new HashMap<>();
-                    urlParams.put("ISBN", volume.getVolumeInfo().getIndustryIdentifiers().get(0).getIdentifier());
-                    LibraryBook libraryBook = template.getForObject("https://openlibrary.org/api/books?bibkeys=ISBN:{ISBN}&jscmd=data&format=json", LibraryBook.class, urlParams);
-                    System.out.println(libraryBook.toString());
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-//        if (user != null) {
-//            if (flag) {
-//                if (books.findByCategory(user.getCategory()).size() > 5) {
-//                    returnedBooks = books.findByCategory(user.getCategory())
-//                            .stream().collect(Collectors.toList()).subList(0, 5);
-//                } else {
-//                    returnedBooks = books.findByCategory(user.getCategory()).stream().collect(Collectors.toList());
-//                }
-//            }
-//        }
 
      if(user != null) {
             if (flag) {//if flag is set to true
@@ -88,6 +67,7 @@ public class BiobliocacheController {
             }
         }
             return returnedBooks;
+        //TODO: return link to book on google as well -- create column in table
     }
 
     @RequestMapping(path="/add-excerpt", method = RequestMethod.PUT)

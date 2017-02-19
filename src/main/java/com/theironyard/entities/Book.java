@@ -36,6 +36,9 @@ public class Book {
     @Column
     String bookExcerpt;
 
+    @Column
+    String infoLink;
+
     public Book() {
     }
 
@@ -50,7 +53,8 @@ public class Book {
             this.author = "Unknown";
         }
         this.category = user.getCategory();
-        this.readingLevel = 4;
+        this.readingLevel = 1;
+        this.infoLink = volume.getVolumeInfo().getInfoLink();
     }
 
     public Book(String title, String author, String category, Integer readingLevel) {
@@ -66,6 +70,14 @@ public class Book {
         this.author = author;
         this.category = category;
         this.readingLevel = readingLevel;
+    }
+
+    public String getInfoLink() {
+        return infoLink;
+    }
+
+    public void setInfoLink(String infoLink) {
+        this.infoLink = infoLink;
     }
 
     public int getId() {

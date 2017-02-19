@@ -70,6 +70,10 @@ public class UserAccessController {
     public void setCategory(HttpSession session, String category) {
         String userEmail = (String)session.getAttribute("email");
         User user = users.findFirstByEmail(userEmail);
+        if (category == "Science Fiction & Fantasy") {
+
+
+        }
         user.setCategory(category);
     }
 
