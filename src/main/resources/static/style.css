@@ -1142,7 +1142,7 @@ nav ul {
   padding: 0 0.5em;
   margin: 1.5em auto; }
 
-@media screen and (min-width: 25em) {
+@media screen and (min-width: 46.875em) {
   .form-container {
     max-width: 400px; } }
 
@@ -1181,34 +1181,6 @@ p#loadingMessage {
   width: 400px;
   height: 6px; }
 
-<<<<<<< HEAD
-#sessionMap {
-  width: 100%;
-  min-height: 365px;
-  height: 100%;
-  display: inline-block;
-  border-radius: 5px; }
-
-#directions {
-  font-family: 'Roboto','sans-serif';
-  line-height: 30px;
-  padding-left: 10px;
-  width: 390px;
-  overflow: auto;
-  font-size: 15px; }
-  #directions select {
-    width: 100%; }
-
-.warnbox-content {
-  line-height: 20px; }
-
-@media screen and (min-width: 25em) {
-  #showMap {
-    display: flex; }
-  #sessionMap {
-    min-height: 400px;
-    height: 100%; } }
-=======
 #showMap {
   max-width: 75rem;
   margin-right: auto;
@@ -1307,9 +1279,11 @@ p#loadingMessage {
     @media screen and (min-width: 56.25em) {
         #showMap #directions:last-child:not(:first-child) {
           float: right; } }
+    #showMap #directions .warnbox-content {
+      line-height: 20px; }
     #showMap #directions select {
       width: 100%; }
->>>>>>> f0fcd41c12d037ca648e79b728127aa81fb7c917
 
 .adp table {
-  background-color: white; }
+  background-color: white;
+  width: 100%; }
