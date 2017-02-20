@@ -302,8 +302,7 @@ module.exports = {
 		$scope.genres = BookService.getAllGenres(); 
 
 		$scope.submitGenre = (genre) => { 
-			console.log(genre);
-			BookService.setGenre('Biography');
+			UserService.setGenre(genre);
 			haveGenre = true;
 
 			const ProgressBar = require('progressbar.js')
@@ -469,20 +468,11 @@ module.exports = {
 		let genres = [
 			'History', 'Romance', 'Folklore', 'Biography', 'Young Adult', 'Thrillers/Suspense', 'Science Fiction & Fantasy', 'Poetry'
 		];
-		let sessionGenre = '';
 
 		let codes = ['url1', 'url2', 'url3', 'url4', 'url5'];
 		let sessionCode = '';
 
 		return {
-
-						setGenre(value) {
-				sessionGenre = value;
-				console.log(sessionGenre);
-				$http.post('https://enigmatic-woodland-53824.herokuapp.com/set-category', {
-					category: value,
-				});
-			},
 
 			getAllGenres() {
 				return genres;
@@ -581,8 +571,12 @@ module.exports = {
 				return user;
 			},
 
-						setGenre(genre) {
-				user.genre = genre;
+						setGenre(value) {
+				user.genre = value;
+				console.log(user.genre);
+				$http.post('https://enigmatic-woodland-53824.herokuapp.com/set-category', {
+					category: value,
+				});
 			},
 
 		};

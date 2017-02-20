@@ -38,11 +38,12 @@ module.exports = {
 				return user;
 			},
 			
-			setGenre(genre) {
-				user.genre = genre;
-				/*return $http.post('/update', {
-					category: genre,
-				});*/
+			setGenre(value) {
+				user.genre = value;
+				console.log(user.genre);
+				$http.post('https://enigmatic-woodland-53824.herokuapp.com/set-category', {
+					category: value,
+				});
 			},
 
 		};
