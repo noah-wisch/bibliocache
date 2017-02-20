@@ -78,4 +78,11 @@ public class BiobliocacheController {
         return book;
     }
 
+    @RequestMapping(path = "/set-category", method = RequestMethod.POST)
+    public void setCategory(HttpSession session, String category) {
+        String userEmail = (String)session.getAttribute("email");
+        User user = users.findFirstByEmail(userEmail);
+        user.setCategory(category);
+    }
+
 }
