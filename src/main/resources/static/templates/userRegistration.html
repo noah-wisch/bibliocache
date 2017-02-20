@@ -8,8 +8,7 @@
 		</ng-form>
 
 		<ng-form name="passwordForm">
-			<input type="password" ng-model="password" ng-pattern="passwordValidation" name="password" placeholder="password">
-			<span ng-show="passwordForm.password.$error.pattern" style="color:red">Invalid Password</span>
+			<input type="password" name="password" placeholder="password">
 		</ng-form>
 
 		<input type="number" min="1" max="14" ng-model="form.readingLevel" ng-pattern="readingLevelValidation" name="readingLevel"
