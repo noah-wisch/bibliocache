@@ -10,7 +10,9 @@
 	<p ng-show="clicked" id="loadingMessage">Loading...</p>
 	<div id="loadingBar"></div>
 	
-	<input type="textbox" placeholder="address" ng-model="address">
-	<button type="submit" ng-click="addAddress(address)">Set Starting Location</button>
+	<form ng-model="addressForm" class="hidden">
+		<input type="textbox" placeholder="address" ng-model="address">
+		<button type="submit" ng-click="addAddress(address)">Set Starting Location</button>
+	</form>
 	
 </section>

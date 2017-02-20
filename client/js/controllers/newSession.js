@@ -33,22 +33,30 @@ module.exports = {
 		
 		
 		/* Get user location manually if geolocation fails */
+		function displayAddressForm() {
+			// display
+		}
+		
 		let geocoder = new google.maps.Geocoder();
 		$scope.addAddress = (userAddress) => {
-			let manualPos = [];
+			let pos = [];
 			geocoder.geocode( { 'address': userAddress}, function(results, status) {
 				if (status == 'OK') {
-					manualPos[0]=results[0].geometry.location.lat();
-        			manualPos[1]=results[0].geometry.location.lng();
-					console.log(manualPos);
+					pos[0] = results[0].geometry.location.lat();
+        			pos[1] = results[0].geometry.location.lng();
+					
+					// TODO
+					// copied from geo_success
+					// consolidate later
+					// Update user location in service
+					LocationService.updateUserLocation(pos[0], pos[1]);
+					haveLocation = true;
+
+					getUserDestination();
 				} else {
 					alert('Geocode was not successful for the following reason: ' + status);
 				}
 			});
-		};
-		
-		let getManualPos = () => {
-			console.log('manual');
 		};
 		
 
@@ -71,7 +79,7 @@ module.exports = {
 
 			function geo_error(err) {
 				console.log(`ERROR(${err.code}): ${err.message}`);
-				getManualPos();
+				displayAddressForm();
 			};
 
 			let geo_options = {
@@ -82,7 +90,7 @@ module.exports = {
 
 			geo.getCurrentPosition(geo_success, geo_error, geo_options);
 		};
-
+		
 
 		/* Generate user destination */
 		function getUserDestination() {
