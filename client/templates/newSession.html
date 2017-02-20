@@ -3,6 +3,6 @@
         <option value="" disabled><span id="selectGenre">Select a genre</span></option>
         <option ng-repeat="currentGenre in genres" value="{{ currentGenre }}">{{ currentGenre }}</option>
     </select>
-	<button type="submit" ng-click="submitGenre()">Start game</button>
+	<button type="submit" ng-click="submitGenre('Biography')">Start game</button>
     <div id="loadingBar"></div>
 </section>

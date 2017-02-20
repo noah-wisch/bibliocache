@@ -3,7 +3,7 @@ module.exports = {
 
 	func($http) {
 		let genres = [
-			'Fiction', 'Romance', 'Children\'s', 'Non-Fiction', 'Young Adult', 'Thrillers/Suspense', 'Science Fiction & Fantasy'
+			'History', 'Romance', 'Folklore', 'Biography', 'Young Adult', 'Thrillers/Suspense', 'Science Fiction & Fantasy', 'Poetry'
 		];
 		let sessionGenre = '';
 
@@ -11,25 +11,20 @@ module.exports = {
 		let sessionCode = '';
 
 		return {
-			submitGenre(value) {
-				$http.post('https://enigmatic-woodland-53824.herokuapp.com/registration')
+			
+			setGenre(value) {
+				sessionGenre = value;
+				console.log(sessionGenre);
+				$http.post('https://enigmatic-woodland-53824.herokuapp.com/set-category', {
+					category: value,
+				});
 			},
-
-			/**
-			 * Mock setup for setting the category. 
-			 * I think we need to set a new value for submitGenre() above now...
-			 * NOAH LOOK HERE ON MONDAY
-			 */
-
-			// submitGenre(value) {
-			// 	$http.post('https://enigmatic-woodland-53824.herokuapp.com/set-category')
-			// },
 
 			getAllGenres() {
 				return genres;
 			},
 
-			getBooks() { // this method is for testing purposes
+			getBooks() {
 				return $http.get('https://enigmatic-woodland-53824.herokuapp.com/').then((response) => {
 					let bookList = response.data;;
 					console.log(bookList);

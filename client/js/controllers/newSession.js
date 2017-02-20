@@ -9,8 +9,9 @@ module.exports = {
 		/* Update user's genre selection */
 		$scope.genres = BookService.getAllGenres(); // Get all book categories for dropdown menu
 
-		$scope.submitGenre = () => { // Set genre after user makes selection
-			UserService.setGenre($scope.selectedGenre);
+		$scope.submitGenre = (genre) => { // Set genre after user makes selection
+			console.log(genre);
+			BookService.setGenre('Biography');
 			haveGenre = true;
 
 			const ProgressBar = require('progressbar.js')
@@ -85,7 +86,7 @@ module.exports = {
 
 		/* Check if user gives permission to share location */
 		if ("geolocation" in navigator) {
-			getUserLocation();
+			//getUserLocation();
 		} else {
 			alert("Geolocation services are not supported by your browser.");
 		}

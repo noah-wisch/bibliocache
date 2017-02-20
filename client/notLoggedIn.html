@@ -13,21 +13,13 @@
 </head>
 
 <body ng-app="BibliocacheApp">
-	<bib-header></bib-header> <!--<a ui-sref="new-session">Bibliocache</a>-->
-	<nav>
-		<ul>
-			<li><a ui-sref="login">Login</a></li>
-			<li><a ui-sref="registration">Register</a></li>
-		</ul>
-	</nav>
+	<bib-header></bib-header>
 
 	<ui-view>
 		<login></login>
 	</ui-view>
 
-	<footer>
-		<p>Copyright 2017, MKN.</p>
-	</footer>
+	<bib-footer></bib-footer>
 
 </body>
 
