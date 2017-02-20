@@ -137,7 +137,7 @@ public class Book {
             */
     public static Integer readingLevelOfBook (Book book) {
         String paragraph = book.getBookExcerpt();
-      //  String paragraph = new String();//TODO: find out how to pull an excerpt from books to pass into algorithm
+      //  String paragraph = new String();
         //book.setReadingLevel(
         return (int)(4.71 * (charactersPresent(paragraph)/wordsPresent(paragraph))
                 + 0.5 * (wordsPresent(paragraph)/sentencesPresent(paragraph)) - 21.43) + 1;
