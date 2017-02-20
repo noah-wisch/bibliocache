@@ -160,7 +160,7 @@ module.exports = {
 		let destRadius = 50; 
 
 		let geo = navigator.geolocation;
-
+		let watch_id;
 
 		function initMap() {
 
@@ -253,24 +253,25 @@ module.exports = {
 		};
 		initMap();
 
+
 		function watchUserPos() {
 
 			function watch_success(pos) {
 				console.log(`new position: ${pos.coords.latitude}, ${pos.coords.longitude}`);
 
+				const current = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
+				const target = new google.maps.LatLng(destination.lat, destination.lng);
 
-								let destBounds = destRange.getBounds();
-				console.log(destBounds);
-				const current = {
-					lat: pos.coords.latitude,
-					long: pos.coords.longitude,
-				};
+				let destBounds = destRange.getBounds();
+				let userInRange = google.maps.geometry.spherical.computeDistanceBetween(target, current) <= destRadius;
 
-								let userInRange = google.maps.geometry.spherical.computeDistanceBetween(destination, current) <= destRadius;
-				console.log('is user in range?');
-				console.log(userInRange);
+								console.log(userInRange);
+				if(userInRange) { 
+					geo.clearWatch(watch_id);
+					$state.go('end-session');
+				}
 
-			};
+							};
 
 			function watch_error(err) {
 				console.warn('ERROR(' + err.code + '): ' + err.message);
@@ -279,11 +280,11 @@ module.exports = {
 			let watch_options = {
 				enableHighAccuracy: true,
 				maximumAge: 3000, 
-				timeout: 10000,
+				timeout: 5000,
 			};
 
 			if (navigator.geolocation) {
-				let watch_id = geo.watchPosition(watch_success, watch_error, watch_options);
+				watch_id = geo.watchPosition(watch_success, watch_error, watch_options);
 			} else {
 				console.log('error');
 			}

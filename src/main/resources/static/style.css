@@ -1139,12 +1139,8 @@ nav ul {
     margin-right: 10px; }
 
 .form-container {
-  padding: 0 0.5em;
+  max-width: 400px;
   margin: 1.5em auto; }
-
-@media screen and (min-width: 25em) {
-  .form-container {
-    max-width: 400px; } }
 
 select, input {
   display: block;
@@ -1169,8 +1165,8 @@ select {
   background-position: 100% 50%;
   background-repeat: no-repeat; }
 
-#addressMessage {
-  font-size: 0.8em; }
+.start-message {
+  background: yellow; }
 
 p#loadingMessage {
   margin: 0 0 -20px 0;
@@ -1181,34 +1177,6 @@ p#loadingMessage {
   width: 400px;
   height: 6px; }
 
-<<<<<<< HEAD
-#sessionMap {
-  width: 100%;
-  min-height: 365px;
-  height: 100%;
-  display: inline-block;
-  border-radius: 5px; }
-
-#directions {
-  font-family: 'Roboto','sans-serif';
-  line-height: 30px;
-  padding-left: 10px;
-  width: 390px;
-  overflow: auto;
-  font-size: 15px; }
-  #directions select {
-    width: 100%; }
-
-.warnbox-content {
-  line-height: 20px; }
-
-@media screen and (min-width: 25em) {
-  #showMap {
-    display: flex; }
-  #sessionMap {
-    min-height: 400px;
-    height: 100%; } }
-=======
 #showMap {
   max-width: 75rem;
   margin-right: auto;
@@ -1309,7 +1277,6 @@ p#loadingMessage {
           float: right; } }
     #showMap #directions select {
       width: 100%; }
->>>>>>> f0fcd41c12d037ca648e79b728127aa81fb7c917
 
 .adp table {
   background-color: white; }

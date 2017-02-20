@@ -111,14 +111,8 @@ nav ul {
 
 /* FORMS */
 .form-container {
-	padding: 0 0.5em;
+	max-width: 400px;
 	margin: 1.5em auto;
-}
-
-@include breakpoint($tablet) {
-	.form-container {
-		max-width: 400px;
-	}
 }
 
 select, input {
@@ -151,8 +145,8 @@ select {
 }
 
 /* NEW SESSION */
-#addressMessage {
-	font-size: 0.8em;
+.start-message {
+	background: yellow;
 }
 
 p#loadingMessage {
@@ -181,13 +175,6 @@ p#loadingMessage {
 		display: block;
 		border-radius: 5px;
 
-.warnbox-content {
-	line-height: 20px;
-}
-
-@include breakpoint($tablet) {
-	#showMap {
-		display: flex;
 		@include breakpoint($medium) {
 			@include grid-column(12);
 			display: block;

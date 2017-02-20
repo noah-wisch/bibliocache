@@ -25,7 +25,7 @@ module.exports = {
 		let destRadius = 50; // in meters
 
 		let geo = navigator.geolocation;
-
+		let watch_id;
 
 		/* Initiate map canvas */
 		function initMap() {
@@ -121,31 +121,28 @@ module.exports = {
 		};
 		initMap();
 		
+		
 		/* Watch for changes in user location */
 		function watchUserPos() {
 
 			function watch_success(pos) {
 				console.log(`new position: ${pos.coords.latitude}, ${pos.coords.longitude}`);
 				
-				/*google.maps.Circle.prototype.contains = function(latLng) {
-					return this.getBounds().contains(latLng) && google.maps.geometry.spherical.computeDistanceBetween(this.getCenter(), latLng) <= this.getRadius();
-				}*/
+				// Convert current position and destination into a google maps LatLng object
+				const current = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
+				const target = new google.maps.LatLng(destination.lat, destination.lng);
 				
+				// Get bounds of destination (destRange includes 50m radius around destination)
 				let destBounds = destRange.getBounds();
-				console.log(destBounds);
-				const current = {
-					lat: pos.coords.latitude,
-					long: pos.coords.longitude,
-				};
+				// Determine if user's distance from target is within range
+				let userInRange = google.maps.geometry.spherical.computeDistanceBetween(target, current) <= destRadius;
 				
-				let userInRange = google.maps.geometry.spherical.computeDistanceBetween(destination, current) <= destRadius;
-				console.log('is user in range?');
 				console.log(userInRange);
-				
-				/*if (destRange.contains(pos.coords)) {
+				if(userInRange) { // User has arrived at destination
 					geo.clearWatch(watch_id);
-					alert('you win!!!!!!');
-				}*/
+					$state.go('end-session');
+				}
+				
 			};
 
 			function watch_error(err) {
@@ -155,12 +152,12 @@ module.exports = {
 			let watch_options = {
 				enableHighAccuracy: true,
 				maximumAge: 3000, // time between readings, in ms
-				timeout: 10000,
+				timeout: 5000,
 			};
 
 			// Start watching user position
 			if (navigator.geolocation) {
-				let watch_id = geo.watchPosition(watch_success, watch_error, watch_options);
+				watch_id = geo.watchPosition(watch_success, watch_error, watch_options);
 			} else {
 				console.log('error');
 			}
