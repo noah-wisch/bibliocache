@@ -33,9 +33,7 @@ module.exports = {
 		
 		
 		/* Get user location manually if geolocation fails */
-		function displayAddressForm() {
-			// display
-		}
+		$scope.displayAddressField = false;
 		
 		let geocoder = new google.maps.Geocoder();
 		$scope.addAddress = (userAddress) => {
@@ -79,13 +77,11 @@ module.exports = {
 
 			function geo_error(err) {
 				console.log(`ERROR(${err.code}): ${err.message}`);
-				displayAddressForm();
+				$scope.displayAddressField = true;
 			};
 
 			let geo_options = {
-				// enableHighAccuracy: true,
 				timeout: 5000,
-				maximumAge: 0,
 			};
 
 			geo.getCurrentPosition(geo_success, geo_error, geo_options);
@@ -109,7 +105,7 @@ module.exports = {
 
 		/* Check if user gives permission to share location */
 		if ("geolocation" in navigator) {
-			//getUserLocation();
+			getUserLocation();
 		} else {
 			alert("Geolocation services are not supported by your browser.");
 		}

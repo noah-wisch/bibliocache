@@ -102,8 +102,14 @@ nav ul {
 
 /* FORMS */
 .form-container {
-	max-width: 400px;
+	padding: 0 0.5em;
 	margin: 1.5em auto;
+}
+
+@include breakpoint($tablet) {
+	.form-container {
+		max-width: 400px;
+	}
 }
 
 select, input {
@@ -136,8 +142,8 @@ select {
 }
 
 /* NEW SESSION */
-.start-message {
-	background: yellow;
+#addressMessage {
+	font-size: 0.8em;
 }
 
 p#loadingMessage {
@@ -171,6 +177,10 @@ p#loadingMessage {
 	select {
 		width: 100%;
 	}
+}
+
+.warnbox-content {
+	line-height: 20px;
 }
 
 @include breakpoint($tablet) {

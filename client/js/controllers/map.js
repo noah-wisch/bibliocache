@@ -21,6 +21,8 @@ module.exports = {
 			lat: endPos[0],
 			lng: endPos[1],
 		};
+		let destRange;
+		let destRadius = 50; // in meters
 
 		let geo = navigator.geolocation;
 
@@ -36,6 +38,11 @@ module.exports = {
 			Map = new google.maps.Map(document.querySelector('#sessionMap'), {
 				zoom: 15,
 				center: currentPos,
+				disableDefaultUI: true,
+				zoomControl: true,
+				zoomControlOptions: {
+					style: google.maps.ZoomControlStyle.LARGE 
+				},
 			});
 
 			Map.mapTypes.set('styled_map', styledMapType);
@@ -100,37 +107,44 @@ module.exports = {
 				center: currentPos,
 				radius: 50,
 			});
+			
+			destRange = new google.maps.Circle({
+				strokeColor: 'black',
+				strokeOpacity: 1,
+				fillColor: 'black',
+				fillOpacity: 0,
+				map: Map,
+				center: destination,
+				radius: destRadius,
+			});
 
 		};
 		initMap();
-
-
+		
 		/* Watch for changes in user location */
 		function watchUserPos() {
 
 			function watch_success(pos) {
-				console.log(pos.coords.latitude + ', ' + pos.coords.longitude);
+				console.log(`new position: ${pos.coords.latitude}, ${pos.coords.longitude}`);
 				
-				google.maps.Circle.prototype.contains = function(latLng) {
+				/*google.maps.Circle.prototype.contains = function(latLng) {
 					return this.getBounds().contains(latLng) && google.maps.geometry.spherical.computeDistanceBetween(this.getCenter(), latLng) <= this.getRadius();
-				}
+				}*/
 				
-				let destRange = new google.maps.Circle({
-					map: Map,
-					center: destination,
-					strokeWeight: 2,
-					fillOpacity: 0,
-					radius: 250,
-				});
+				let destBounds = destRange.getBounds();
+				console.log(destBounds);
+				const current = {
+					lat: pos.coords.latitude,
+					long: pos.coords.longitude,
+				};
 				
-				if (destRange.contains(pos.coords)) {
+				let userInRange = google.maps.geometry.spherical.computeDistanceBetween(destination, current) <= destRadius;
+				console.log('is user in range?');
+				console.log(userInRange);
+				
+				/*if (destRange.contains(pos.coords)) {
 					geo.clearWatch(watch_id);
 					alert('you win!!!!!!');
-				}
-
-				/*if (destination.lat === pos.lat && destination.lng === pos.lng) {
-					console.log('you win!!!!!!');
-					geo.clearWatch(watch_id);
 				}*/
 			};
 
@@ -140,13 +154,13 @@ module.exports = {
 
 			let watch_options = {
 				enableHighAccuracy: true,
-				maximumAge: 30000,
+				maximumAge: 3000, // time between readings, in ms
 				timeout: 10000,
 			};
 
 			// Start watching user position
 			if (navigator.geolocation) {
-				let watch_id = navigator.geolocation.watchPosition(watch_success, watch_error, watch_options);
+				let watch_id = geo.watchPosition(watch_success, watch_error, watch_options);
 			} else {
 				console.log('error');
 			}

@@ -156,6 +156,8 @@ module.exports = {
 			lat: endPos[0],
 			lng: endPos[1],
 		};
+		let destRange;
+		let destRadius = 50; 
 
 		let geo = navigator.geolocation;
 
@@ -170,6 +172,11 @@ module.exports = {
 			Map = new google.maps.Map(document.querySelector('#sessionMap'), {
 				zoom: 15,
 				center: currentPos,
+				disableDefaultUI: true,
+				zoomControl: true,
+				zoomControlOptions: {
+					style: google.maps.ZoomControlStyle.LARGE 
+				},
 			});
 
 			Map.mapTypes.set('styled_map', styledMapType);
@@ -233,31 +240,35 @@ module.exports = {
 				radius: 50,
 			});
 
+						destRange = new google.maps.Circle({
+				strokeColor: 'black',
+				strokeOpacity: 1,
+				fillColor: 'black',
+				fillOpacity: 0,
+				map: Map,
+				center: destination,
+				radius: destRadius,
+			});
+
 		};
 		initMap();
-
 
 		function watchUserPos() {
 
 			function watch_success(pos) {
-				console.log(pos.coords.latitude + ', ' + pos.coords.longitude);
+				console.log(`new position: ${pos.coords.latitude}, ${pos.coords.longitude}`);
 
-								google.maps.Circle.prototype.contains = function(latLng) {
-					return this.getBounds().contains(latLng) && google.maps.geometry.spherical.computeDistanceBetween(this.getCenter(), latLng) <= this.getRadius();
-				}
 
-								let destRange = new google.maps.Circle({
-					map: Map,
-					center: destination,
-					strokeWeight: 2,
-					fillOpacity: 0,
-					radius: 250,
-				});
+								let destBounds = destRange.getBounds();
+				console.log(destBounds);
+				const current = {
+					lat: pos.coords.latitude,
+					long: pos.coords.longitude,
+				};
 
-								if (destRange.contains(pos.coords)) {
-					geo.clearWatch(watch_id);
-					alert('you win!!!!!!');
-				}
+								let userInRange = google.maps.geometry.spherical.computeDistanceBetween(destination, current) <= destRadius;
+				console.log('is user in range?');
+				console.log(userInRange);
 
 			};
 
@@ -267,12 +278,12 @@ module.exports = {
 
 			let watch_options = {
 				enableHighAccuracy: true,
-				maximumAge: 30000,
+				maximumAge: 3000, 
 				timeout: 10000,
 			};
 
 			if (navigator.geolocation) {
-				let watch_id = navigator.geolocation.watchPosition(watch_success, watch_error, watch_options);
+				let watch_id = geo.watchPosition(watch_success, watch_error, watch_options);
 			} else {
 				console.log('error');
 			}
@@ -322,8 +333,7 @@ module.exports = {
 		};
 
 
-		function displayAddressForm() {
-		}
+		$scope.displayAddressField = false;
 
 				let geocoder = new google.maps.Geocoder();
 		$scope.addAddress = (userAddress) => {
@@ -360,12 +370,11 @@ module.exports = {
 
 			function geo_error(err) {
 				console.log(`ERROR(${err.code}): ${err.message}`);
-				displayAddressForm();
+				$scope.displayAddressField = true;
 			};
 
 			let geo_options = {
 				timeout: 5000,
-				maximumAge: 0,
 			};
 
 			geo.getCurrentPosition(geo_success, geo_error, geo_options);
@@ -386,6 +395,7 @@ module.exports = {
 
 
 		if ("geolocation" in navigator) {
+			getUserLocation();
 		} else {
 			alert("Geolocation services are not supported by your browser.");
 		}
