@@ -59,7 +59,7 @@ public class UserAccessController {
         return "redirect:index.html";
     }
 
-    @RequestMapping("/logout")
+    @RequestMapping(path ="/logout", method = RequestMethod.POST)
     public String logout(HttpSession session) throws IOException {
         session.invalidate();
         return "redirect:notLoggedIn.html";
