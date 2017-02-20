@@ -29,7 +29,7 @@ public class UserAccessController {
         String userEmail = (String) session.getAttribute("email");
         User user = users.findFirstByEmail(userEmail);
         if (user == null) {
-            return "redirect:notLoggedIn.html";
+            return "redirect:notloggedin.html";
         }
         return "index.html";
     }
@@ -37,7 +37,7 @@ public class UserAccessController {
     public String login(HttpSession session, String email, String password) throws Exception{
         User user = users.findFirstByEmail(email);
         if (user == null) {
-            return "redirect:notLoggedIn.html";
+            return "redirect:notloggedin.html";
         } else if (!PasswordStorage.verifyPassword(password, user.getPassword())) {
             throw new Exception("Incorrect Password");
         }
@@ -59,10 +59,10 @@ public class UserAccessController {
         return "redirect:index.html";
     }
 
-    @RequestMapping("/logout")
+    @RequestMapping(path ="/logout", method = RequestMethod.POST)
     public String logout(HttpSession session) throws IOException {
         session.invalidate();
-        return "redirect:notLoggedIn.html";
+        return "redirect:notloggedin.html";
     }
 
 }
