@@ -11,8 +11,7 @@ module.exports = {
 			
 			return this;
 		}
-		//let user = new User(null, null, null);
-		let user = new User(30, 'Horror', 14);
+		let user = new User(null, null, null);
 		
 		return {
 			registerUser(newUser) {
@@ -24,14 +23,11 @@ module.exports = {
 			},
 
 			logInUser(user) {
-				// get user info from server to update user constructor
-				//
-				// DO THINGS HERE
 				return $http.post('/login', user);
 			},
 
-			logOut(user) {
-				return $http.post('/logout', user);
+			logOutUser() {
+				$http.post('/logout', {});
 			},
 
 			getUserInfo() {
@@ -40,7 +36,6 @@ module.exports = {
 			
 			setGenre(value) {
 				user.genre = value;
-				console.log(user.genre);
 				$http.post('https://enigmatic-woodland-53824.herokuapp.com/set-category', {
 					category: value,
 				});

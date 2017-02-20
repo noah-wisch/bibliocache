@@ -3,7 +3,7 @@ module.exports = {
 
 	func($http) {
 		let genres = [
-			'History', 'Romance', 'Folklore', 'Biography', 'Young Adult', 'Thrillers/Suspense', 'Science Fiction & Fantasy', 'Poetry'
+			'Biography', 'Folklore', 'History', 'Poetry', 'Romance', 'Science Fiction & Fantasy', 'Thrillers & Suspense', 'Young Adult'
 		];
 
 		let codes = ['url1', 'url2', 'url3', 'url4', 'url5'];

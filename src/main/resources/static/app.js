@@ -99,23 +99,21 @@ module.exports = {
 };
 },{}],9:[function(require,module,exports){
 module.exports = {
-  name: 'EndSessionController',
-  func($scope, BookService, UserService) {
+	name: 'EndSessionController',
+	func($scope, BookService, UserService) {
 
-    console.log('Congrats! Ending your session.');
+		let haveCode = false;
+		$scope.codes = BookService.testGetBooks();
 
-    let haveCode = false;
-    $scope.codes = BookService.testGetBooks();
+		$scope.submitCodeChoice = () => {
+			haveCode = true;
+			console.log('I choose you, Pikachu!');
+		}
 
-    $scope.submitCodeChoice = () => {
-      haveCode = true;
-      console.log('I choose you, Pikachu!');
-    }
-
-    $scope.playAgain = () => {
-      console.log('They\'re playing again!');
-    }
-  },
+		$scope.playAgain = () => {
+			console.log('They\'re playing again!');
+		}
+	},
 };
 },{}],10:[function(require,module,exports){
 module.exports = {
@@ -323,14 +321,17 @@ module.exports = {
 			bar.animate(1.0);  
 		};
 
-		function getUserLocation(tries = 0) {
+
+
+
+				let getManualPos = () => {
+			console.log('manual');
+		};
+
+
+		function getUserLocation() {
 
 			let geo = navigator.geolocation;
-
-			if (tries > 3) { 
-				console.log('geolocation error');
-				return;
-			}
 
 			function geo_success(position) {
 				let pos = position.coords;
@@ -343,8 +344,8 @@ module.exports = {
 			};
 
 			function geo_error(err) {
-				console.warn(`ERROR(${err.code}): ${err.message}`);
-				getUserLocation(tries + 1);
+				console.log(`ERROR(${err.code}): ${err.message}`);
+				getManualPos();
 			};
 
 			let geo_options = {
@@ -370,6 +371,7 @@ module.exports = {
 
 
 		if ("geolocation" in navigator) {
+			getUserLocation();
 		} else {
 			alert("Geolocation services are not supported by your browser.");
 		}
@@ -466,7 +468,7 @@ module.exports = {
 
 	func($http) {
 		let genres = [
-			'History', 'Romance', 'Folklore', 'Biography', 'Young Adult', 'Thrillers/Suspense', 'Science Fiction & Fantasy', 'Poetry'
+			'Biography', 'Folklore', 'History', 'Poetry', 'Romance', 'Science Fiction & Fantasy', 'Thrillers & Suspense', 'Young Adult'
 		];
 
 		let codes = ['url1', 'url2', 'url3', 'url4', 'url5'];
@@ -548,7 +550,7 @@ module.exports = {
 
 						return this;
 		}
-		let user = new User(30, 'Horror', 14);
+		let user = new User(null, null, null);
 
 				return {
 			registerUser(newUser) {
@@ -563,8 +565,8 @@ module.exports = {
 				return $http.post('/login', user);
 			},
 
-			logOut(user) {
-				return $http.post('/logout', user);
+			logOutUser() {
+				$http.post('/logout', {});
 			},
 
 			getUserInfo() {
@@ -573,7 +575,6 @@ module.exports = {
 
 						setGenre(value) {
 				user.genre = value;
-				console.log(user.genre);
 				$http.post('https://enigmatic-woodland-53824.herokuapp.com/set-category', {
 					category: value,
 				});

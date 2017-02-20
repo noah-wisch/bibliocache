@@ -1162,6 +1162,10 @@ select {
 .start-message {
   background: yellow; }
 
+p#loadingMessage {
+  margin: 0 0 -20px 0;
+  font-size: 0.8em; }
+
 #loadingBar {
   margin: 20px 0;
   width: 400px;

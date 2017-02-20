@@ -1,8 +1,15 @@
 <section ng-controller="NewSessionController" class="form-container">
+	<h2>Filter your reading choices</h2>
+	
 	<select ng-init="selectedGenre = options[0]" ng-model="selectedGenre">
         <option value="" disabled><span id="selectGenre">Select a genre</span></option>
         <option ng-repeat="currentGenre in genres" value="{{ currentGenre }}">{{ currentGenre }}</option>
     </select>
-	<button type="submit" ng-click="submitGenre(selectedGenre)">Start game</button>
-    <div id="loadingBar"></div>
+	<button type="submit" ng-click="submitGenre(selectedGenre); clicked=true">Start game</button>
+    
+	<p ng-show="clicked" id="loadingMessage">Loading...</p>
+	<div id="loadingBar"></div>
+	
+	<input type="textbox" placeholder="address" ng-model="address">
+	<button type="submit" ng-click="addAddress(address)"></button>
 </section>

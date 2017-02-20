@@ -30,17 +30,40 @@ module.exports = {
 			});
 			bar.animate(1.0);  // Number from 0.0 to 1.0
 		};
+		
+		
+		/* Get user location manually if geolocation fails */
+		
+		/*$scope.addAddress = (userAddress) => {
+			let geocoder = new google.maps.Geocoder();
 
-		/* Get user location */
-		function getUserLocation(tries = 0) {
+			document.getElementById('submit').addEventListener('click', function() {
+				geocodeAddress(geocoder, map);
+			});
+
+			function geocodeAddress(geocoder) {
+				let address = document.getElementById('address').value;
+				geocoder.geocode({'address': address}, function(results, status) {
+					if (status === 'OK') {
+						console.log(results[0].geometry.location);
+						});
+					} else {
+						alert('Geocode was not successful for the following reason: ' + status);
+					}
+				});
+			}
+		};*/
+		
+		let getManualPos = () => {
+			console.log('manual');
+		};
+		
+
+		/* Get user location with geolocation */
+		function getUserLocation() {
 
 			// Initiate geolocation service
 			let geo = navigator.geolocation;
-
-			if (tries > 3) { // Prevent infinite recursion
-				console.log('geolocation error');
-				return;
-			}
 
 			function geo_success(position) {
 				let pos = position.coords;
@@ -54,8 +77,8 @@ module.exports = {
 			};
 
 			function geo_error(err) {
-				console.warn(`ERROR(${err.code}): ${err.message}`);
-				getUserLocation(tries + 1);
+				console.log(`ERROR(${err.code}): ${err.message}`);
+				getManualPos();
 			};
 
 			let geo_options = {
@@ -85,7 +108,7 @@ module.exports = {
 
 		/* Check if user gives permission to share location */
 		if ("geolocation" in navigator) {
-			//getUserLocation();
+			getUserLocation();
 		} else {
 			alert("Geolocation services are not supported by your browser.");
 		}
