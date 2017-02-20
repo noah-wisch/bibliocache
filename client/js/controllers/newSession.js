@@ -10,8 +10,7 @@ module.exports = {
 		$scope.genres = BookService.getAllGenres(); // Get all book categories for dropdown menu
 
 		$scope.submitGenre = (genre) => { // Set genre after user makes selection
-			console.log(genre);
-			BookService.setGenre('Biography');
+			UserService.setGenre(genre);
 			haveGenre = true;
 
 			const ProgressBar = require('progressbar.js')
