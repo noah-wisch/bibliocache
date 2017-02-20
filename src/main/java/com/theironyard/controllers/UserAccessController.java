@@ -33,6 +33,7 @@ public class UserAccessController {
         }
         return "index.html";
     }
+
     @RequestMapping(path = "/login", method = RequestMethod.POST)
     public String login(HttpSession session, String email, String password) throws Exception{
         User user = users.findFirstByEmail(email);
@@ -64,5 +65,4 @@ public class UserAccessController {
         session.invalidate();
         return "redirect:notloggedin.html";
     }
-
 }

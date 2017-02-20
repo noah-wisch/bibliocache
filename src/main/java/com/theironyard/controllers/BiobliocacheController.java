@@ -13,9 +13,12 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 import java.util.stream.Collectors;
 
 /**
@@ -28,7 +31,6 @@ public class BiobliocacheController {
 
     @Autowired
     UserRepository users;
-
 
     @RequestMapping(path = "/end-round", method = RequestMethod.GET)
     public List<Book> getList(HttpSession session, boolean flag, HttpServletResponse response) throws IOException{
@@ -70,11 +72,18 @@ public class BiobliocacheController {
     }
 
     @RequestMapping(path="/add-excerpt", method = RequestMethod.PUT)
-    public Book addExcerpt(@RequestBody String [] excerpt) {
-        Book book = books.findByTitle(excerpt[0]);
-        book.setBookExcerpt(excerpt[1]);
-        book.setReadingLevel(Book.readingLevelOfBook(book));
-        books.save(book);
+    public Book addExcerpt() throws FileNotFoundException {
+        File file = new File("bookExcerpts.csv");
+        Book book = new Book();
+        Scanner scanner = new Scanner(file);
+        while (scanner.hasNext()) {
+            String line = scanner.nextLine();
+            String [] columns = line.split("\\,\\s\\[");
+            book = books.findById(Integer.valueOf(columns[0]));
+            book.setBookExcerpt(columns[1]);
+            book.setReadingLevel(Book.readingLevelOfBook(book));
+            books.save(book);
+        }
         return book;
     }
 
@@ -84,5 +93,4 @@ public class BiobliocacheController {
         User user = users.findFirstByEmail(userEmail);
         user.setCategory(category);
     }
-
 }

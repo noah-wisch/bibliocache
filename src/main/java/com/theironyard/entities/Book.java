@@ -33,7 +33,7 @@ public class Book {
     @Column(nullable = false)
     Integer readingLevel;
 
-    @Column
+    @Column(length = 1000)
     String bookExcerpt;
 
     @Column
