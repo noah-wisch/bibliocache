@@ -33,26 +33,19 @@ module.exports = {
 		
 		
 		/* Get user location manually if geolocation fails */
-		
-		/*$scope.addAddress = (userAddress) => {
-			let geocoder = new google.maps.Geocoder();
-
-			document.getElementById('submit').addEventListener('click', function() {
-				geocodeAddress(geocoder, map);
+		let geocoder = new google.maps.Geocoder();
+		$scope.addAddress = (userAddress) => {
+			let manualPos = [];
+			geocoder.geocode( { 'address': userAddress}, function(results, status) {
+				if (status == 'OK') {
+					manualPos[0]=results[0].geometry.location.lat();
+        			manualPos[1]=results[0].geometry.location.lng();
+					console.log(manualPos);
+				} else {
+					alert('Geocode was not successful for the following reason: ' + status);
+				}
 			});
-
-			function geocodeAddress(geocoder) {
-				let address = document.getElementById('address').value;
-				geocoder.geocode({'address': address}, function(results, status) {
-					if (status === 'OK') {
-						console.log(results[0].geometry.location);
-						});
-					} else {
-						alert('Geocode was not successful for the following reason: ' + status);
-					}
-				});
-			}
-		};*/
+		};
 		
 		let getManualPos = () => {
 			console.log('manual');
@@ -108,7 +101,7 @@ module.exports = {
 
 		/* Check if user gives permission to share location */
 		if ("geolocation" in navigator) {
-			getUserLocation();
+			//getUserLocation();
 		} else {
 			alert("Geolocation services are not supported by your browser.");
 		}

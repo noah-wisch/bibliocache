@@ -14,19 +14,8 @@ module.exports = {
 		let user = new User(null, null, null);
 		
 		return {
-			registerUser(newUser) {
-				user.age = newUser.age;
-				user.genre = newUser.category;
-				user.readingLevel = newUser.readingLevel;
-				
-				return $http.post('/registration', newUser);
-			},
-
-			logInUser(user) {
-				return $http.post('/login', user);
-			},
-
-			logOutUser() {
+			logOut() {
+				console.log('logging out');
 				$http.post('/logout', {});
 			},
 

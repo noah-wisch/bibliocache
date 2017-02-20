@@ -322,7 +322,19 @@ module.exports = {
 		};
 
 
-
+		let geocoder = new google.maps.Geocoder();
+		$scope.addAddress = (userAddress) => {
+			let manualPos = [];
+			geocoder.geocode( { 'address': userAddress}, function(results, status) {
+				if (status == 'OK') {
+					manualPos[0]=results[0].geometry.location.lat();
+        			manualPos[1]=results[0].geometry.location.lng();
+					console.log(manualPos);
+				} else {
+					alert('Geocode was not successful for the following reason: ' + status);
+				}
+			});
+		};
 
 				let getManualPos = () => {
 			console.log('manual');
@@ -371,7 +383,6 @@ module.exports = {
 
 
 		if ("geolocation" in navigator) {
-			getUserLocation();
 		} else {
 			alert("Geolocation services are not supported by your browser.");
 		}
@@ -480,21 +491,10 @@ module.exports = {
 				return genres;
 			},
 
-			getBooks() {
-				return $http.get('https://enigmatic-woodland-53824.herokuapp.com/').then((response) => {
-					let bookList = response.data;;
-					console.log(bookList);
-
-					for (let i = 0; i < bookList.length; i++) {
-						console.log(bookList[i].title);
-					}
-				});
-			},
-
 
 			testGetBooks() {
 				return codes;
-			}
+			},
 
 		};
 	},
@@ -553,19 +553,8 @@ module.exports = {
 		let user = new User(null, null, null);
 
 				return {
-			registerUser(newUser) {
-				user.age = newUser.age;
-				user.genre = newUser.category;
-				user.readingLevel = newUser.readingLevel;
-
-								return $http.post('/registration', newUser);
-			},
-
-			logInUser(user) {
-				return $http.post('/login', user);
-			},
-
-			logOutUser() {
+			logOut() {
+				console.log('logging out');
 				$http.post('/logout', {});
 			},
 
