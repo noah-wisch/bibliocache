@@ -1139,13 +1139,16 @@ nav ul {
     margin-right: 10px; }
 
 .form-container {
-  padding: 0 0.5em;
+  max-width: 400px;
   margin: 1.5em auto; }
 
+<<<<<<< HEAD
+=======
 @media screen and (min-width: 46.875em) {
   .form-container {
     max-width: 400px; } }
 
+>>>>>>> 9085bd2d3d080b27f234b0c9145751ef17fb64b7
 select, input {
   display: block;
   width: 100%;
@@ -1169,8 +1172,8 @@ select {
   background-position: 100% 50%;
   background-repeat: no-repeat; }
 
-#addressMessage {
-  font-size: 0.8em; }
+.start-message {
+  background: yellow; }
 
 p#loadingMessage {
   margin: 0 0 -20px 0;
