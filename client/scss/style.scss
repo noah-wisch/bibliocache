@@ -16,9 +16,33 @@ h1, h2, h3, h4, h5 {
 	font-family: $header-font;
 }
 
-body {
+html, body {
 	color: $font-color;
 	font-family: $body-font;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	height: 100%;
+}
+
+#wrapper {
+	min-height: 100%;
+	position: relative;
+}
+
+#content {
+	padding-bottom: 100px;
+}
+
+footer {
+	font-size: 0.8em;
+	padding: 0.25em 0.5em;
+	background: $mint-green;
+	height: 100px;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
 }
 
 button {
@@ -51,6 +75,7 @@ button {
 
 	@include breakpoint($large) {
 		display: block;
+		padding: 5px 10px;
 	}
 }
 
@@ -92,12 +117,6 @@ header {
 			right: 0;
 		}
 	}
-}
-
-footer {
-	font-size: 0.8em;
-	margin: 0 0.5em;
-	padding: 0.25em 0;
 }
 
 nav ul {

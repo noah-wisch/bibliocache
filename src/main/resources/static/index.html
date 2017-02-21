@@ -16,13 +16,15 @@
 </head>
 
 <body ng-app="BibliocacheApp">
-	<bib-header></bib-header>
+	<div id="wrapper">
+		<bib-header></bib-header>
 
-    <ui-view>
-        <new-session></new-session>
-    </ui-view>
+		<ui-view id="content">
+			<new-session></new-session>
+		</ui-view>
 
-    <bib-footer></bib-footer>
+		<bib-footer></bib-footer>
+	</div>
 </body>
 
 </html>

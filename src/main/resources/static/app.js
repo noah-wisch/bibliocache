@@ -100,7 +100,7 @@ module.exports = {
 },{}],9:[function(require,module,exports){
 module.exports = {
 	name: 'EndSessionController',
-	func($scope, BookService, UserService) {
+	func($scope, $state, BookService, UserService) {
 
 		let haveCode = false;
 		$scope.codes = BookService.testGetBooks();
@@ -111,7 +111,7 @@ module.exports = {
 		}
 
 		$scope.playAgain = () => {
-			console.log('They\'re playing again!');
+			$state.go('new-session');
 		}
 	},
 };
