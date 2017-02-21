@@ -1050,7 +1050,8 @@ h1, h2, h3, h4, h5 {
   font-family: "Scope One", serif; }
 
 body {
-  color: #292929; }
+  color: #292929;
+  font-family: "Roboto", sans-serif; }
 
 button {
   display: inline-block;
@@ -1139,16 +1140,13 @@ nav ul {
     margin-right: 10px; }
 
 .form-container {
-  max-width: 400px;
+  padding: 0 0.5em;
   margin: 1.5em auto; }
 
-<<<<<<< HEAD
-=======
 @media screen and (min-width: 46.875em) {
   .form-container {
     max-width: 400px; } }
 
->>>>>>> 9085bd2d3d080b27f234b0c9145751ef17fb64b7
 select, input {
   display: block;
   width: 100%;
@@ -1172,8 +1170,8 @@ select {
   background-position: 100% 50%;
   background-repeat: no-repeat; }
 
-.start-message {
-  background: yellow; }
+#addressMessage {
+  font-size: 0.8em; }
 
 p#loadingMessage {
   margin: 0 0 -20px 0;
@@ -1242,7 +1240,7 @@ p#loadingMessage {
     float: left;
     padding-right: 0.625rem;
     padding-left: 0.625rem;
-    font-family: 'Roboto','sans-serif';
+    font-family: "Roboto", sans-serif;
     line-height: 30px;
     padding-left: 10px;
     width: 390px;
@@ -1283,10 +1281,14 @@ p#loadingMessage {
         #showMap #directions:last-child:not(:first-child) {
           float: right; } }
     #showMap #directions .warnbox-content {
-      line-height: 20px; }
+      line-height: 20px;
+      background: none; }
     #showMap #directions select {
       width: 100%; }
 
 .adp table {
   background-color: white;
   width: 100%; }
+
+td.adp-text {
+  font-weight: bold; }

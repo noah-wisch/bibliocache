@@ -12,15 +12,9 @@ module.exports = {
 			$state.go('new-session');
 		}
 
-		let Map, Street;
-		let currentPos = { // convert 'userPos' array to 'currentPos' object
-			lat: userPos[0],
-			lng: userPos[1],
-		};
-		let destination = { // convert 'endPos' array to 'destination' object
-			lat: endPos[0],
-			lng: endPos[1],
-		};
+		let Map, userMarker, userRadius;
+		let currentPos = new google.maps.LatLng(userPos[0], userPos[1]);
+		let destination = new google.maps.LatLng(endPos[0], endPos[1]);
 		let destRange;
 		let destRadius = 50; // in meters
 
@@ -80,8 +74,7 @@ module.exports = {
 				}, (response, status) => {
 					if (status === 'OK') {
 						let route = response.routes[0].legs[0];
-						createMarker(route.start_location, 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png');
-						createMarker(route.end_location, 'http://maps.google.com/mapfiles/ms/icons/yellow-dot.png');
+						createMarker(route.end_location, 'assets/endMarker.png');
 						directionsDisplay.setDirections(response);
 					} else {
 						window.alert('Directions request failed due to ' + status);
@@ -91,16 +84,16 @@ module.exports = {
 			calculateAndDisplayRoute(directionsService, directionsDisplay);
 
 			// Set marker and radius on user's current location
-			let userMarker = new google.maps.Marker({
+			userMarker = new google.maps.Marker({
 				position: currentPos,
 				map: Map,
 				icon: "assets/user.png",
 			});
 
-			let userRadius = new google.maps.Circle({
+			userRadius = new google.maps.Circle({
 				strokeColor: '#581845',
 				strokeOpacity: 1,
-				strokeWeight: 0.8,
+				strokeWeight: 2,
 				fillColor: '#581845',
 				fillOpacity: 0.4,
 				map: Map,
@@ -110,7 +103,7 @@ module.exports = {
 			
 			destRange = new google.maps.Circle({
 				strokeColor: 'black',
-				strokeOpacity: 1,
+				strokeOpacity: 0,
 				fillColor: 'black',
 				fillOpacity: 0,
 				map: Map,
@@ -128,14 +121,15 @@ module.exports = {
 			function watch_success(pos) {
 				console.log(`new position: ${pos.coords.latitude}, ${pos.coords.longitude}`);
 				
-				// Convert current position and destination into a google maps LatLng object
-				const current = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
-				const target = new google.maps.LatLng(destination.lat, destination.lng);
+				// Update currentPos coordinates, and rerender user on map
+				currentPos = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
+				userMarker.setPosition(currentPos);
+				userRadius.setCenter(currentPos);
 				
 				// Get bounds of destination (destRange includes 50m radius around destination)
 				let destBounds = destRange.getBounds();
 				// Determine if user's distance from target is within range
-				let userInRange = google.maps.geometry.spherical.computeDistanceBetween(target, current) <= destRadius;
+				let userInRange = google.maps.geometry.spherical.computeDistanceBetween(destination, currentPos) <= destRadius;
 				
 				console.log(userInRange);
 				if(userInRange) { // User has arrived at destination

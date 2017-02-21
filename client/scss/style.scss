@@ -6,6 +6,7 @@
 $dark-green: #4E978A;
 $mint-green: #A3E6D9;
 $header-font: 'Scope One', serif;
+$body-font: 'Roboto', sans-serif;
 $font-color: #292929;
 $medium: 750px;
 $large: 900px;
@@ -17,6 +18,7 @@ h1, h2, h3, h4, h5 {
 
 body {
 	color: $font-color;
+	font-family: $body-font;
 }
 
 button {
@@ -191,7 +193,7 @@ p#loadingMessage {
 
 		#directions {
 			@include grid-column(12);
-			font-family: 'Roboto','sans-serif';
+			font-family: $body-font;
 			line-height: 30px;
 			padding-left: 10px;
 			width: 390px;
@@ -210,6 +212,7 @@ p#loadingMessage {
 
 			.warnbox-content {
     			line-height: 20px;
+				background: none;
 			}
 			
 			select {
@@ -221,4 +224,8 @@ p#loadingMessage {
 .adp table {
 	background-color: white;
 	width: 100%;
+}
+
+td.adp-text {
+	font-weight: bold;
 }
