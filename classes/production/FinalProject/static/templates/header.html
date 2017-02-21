@@ -1,0 +1,10 @@
+<header ng-hide="('map' | isState) || ('end-session' | isState)" id="bannerHeader">
+	<h1>Bibliocache</h1>
+</header>
+
+<header ng-show="('map' | isState) || ('end-session' | isState)" id="defaultHeader">
+	<h1>Bibliocache</h1>
+	<ul class="toolbar">
+		<li><button id="logOutBtn" ng-click="logOut()">Log out</button></li>
+	</ul>
+</header>
