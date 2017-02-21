@@ -330,23 +330,41 @@ module.exports = {
 
 		$scope.displayAddressField = false;
 
-				let geocoder = new google.maps.Geocoder();
-		$scope.addAddress = (userAddress) => {
-			let pos = [];
-			geocoder.geocode( { 'address': userAddress}, function(results, status) {
-				if (status == 'OK') {
-					pos[0] = results[0].geometry.location.lat();
-        			pos[1] = results[0].geometry.location.lng();
+				function initPlacesAutocomplete() {
+			let input = document.querySelector('#pac-input');
 
-					LocationService.updateUserLocation(pos[0], pos[1]);
-					haveLocation = true;
+						const autocomplete = new google.maps.places.Autocomplete(input);
+			const infowindow = new google.maps.InfoWindow();
+			const infowindowContent = document.querySelector('#infowindow-content');
+			infowindow.setContent(infowindowContent);
 
-					getUserDestination();
-				} else {
-					alert('Geocode was not successful for the following reason: ' + status);
+			autocomplete.addListener('place_changed', function () {
+				infowindow.close();
+				let place = autocomplete.getPlace();
+				if (!place.geometry) { 
+					window.alert("No details available for input: '" + place.name + "'");
+					return;
 				}
+
+				let lat = place.geometry.location.lat();
+				let lng = place.geometry.location.lng();
+				LocationService.updateUserLocation(lat, lng);
+				haveLocation = true;
+
+				let address = '';
+				if (place.address_components) {
+					address = [
+						(place.address_components[0] && place.address_components[0].short_name || ''),
+						(place.address_components[1] && place.address_components[1].short_name || ''),
+						(place.address_components[2] && place.address_components[2].short_name || '')
+					].join(' ');
+				}
+
+				infowindowContent.children['place-icon'].src = place.icon;
+				infowindowContent.children['place-name'].textContent = place.name;
+				infowindowContent.children['place-address'].textContent = address;
 			});
-		};
+		}
 
 
 		function getUserLocation() {
@@ -366,6 +384,7 @@ module.exports = {
 			function geo_error(err) {
 				console.log(`ERROR(${err.code}): ${err.message}`);
 				$scope.displayAddressField = true;
+				initPlacesAutocomplete();
 			};
 
 			let geo_options = {
