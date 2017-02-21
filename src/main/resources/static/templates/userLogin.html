@@ -3,13 +3,11 @@
 
 	<form method="post" action="/login">
 		<ng-form name="loginForm">
-			<input type="email" ng-model="email" ng-pattern="emailValidation" name="email" placeholder="example@domain.com">
-			<span class="invalid" ng-show="loginForm.email.$error.pattern" style="color:red">Please enter valid email.</span>
+			<input type="email" ng-model="email" name="email" placeholder="example@domain.com">
 		</ng-form>
 
 		<ng-form name="passwordForm">
-			<input type="password" ng-model="password" ng-pattern="passwordValidation" name="password" placeholder="password">
-			<span class="invalid" ng-show="passwordForm.password.$error.pattern" style="color:red">Invalid Password</span>
+			<input type="password" ng-model="password" name="password" placeholder="password">
 		</ng-form>
 
 		<button>Log In</button>
