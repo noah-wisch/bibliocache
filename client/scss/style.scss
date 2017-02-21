@@ -77,6 +77,11 @@ button {
 		display: block;
 		padding: 5px 10px;
 	}
+
+	@include breakpoint($medium) {
+		display: block;
+		padding: 5px 10px;
+	}
 }
 
 /* HEADER STYLES */
@@ -215,7 +220,7 @@ p#loadingMessage {
 			font-family: $body-font;
 			line-height: 30px;
 			padding-left: 10px;
-			width: 390px;
+			width: 100%;
 			overflow: auto;
 			font-size: 15px;
 			display: block;
