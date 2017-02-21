@@ -72,10 +72,6 @@ button {
 
 #logOutBtn {
 	display: none;
-	@include breakpoint($large) {
-		display: block;
-		padding: 5px 10px;
-	}
 	@include breakpoint($medium) {
 		display: block;
 		padding: 5px 10px;

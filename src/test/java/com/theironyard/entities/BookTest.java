@@ -25,7 +25,7 @@ public class BookTest {
     public void sentencesTest()throws Exception {
         assertEquals(3, Book.sentencesPresent("This is a test. This is a T.L.A. test. Now with a Dr. in it."));
     }
-
+//
 //    @Test
 //    public void readingLevelTest() throws Exception  {
 //        assertEquals(9, Book.readingLevelOfBook("Harsh sounds of chains and pulleys, like the workings of an ancient steel factory, echoed through the room, bouncing off the walls with a hollow, tinny whine. The lightless elevator swayed back and forth as it ascended, turning the boy's stomach sour with nausea; a smell like burnt oil invaded his senses, making him feel worse. He wanted to cry, but no tears came; he could only sit there, alone, waiting."));

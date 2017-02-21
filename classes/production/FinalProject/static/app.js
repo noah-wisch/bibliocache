@@ -100,7 +100,7 @@ module.exports = {
 },{}],9:[function(require,module,exports){
 module.exports = {
 	name: 'EndSessionController',
-	func($scope, $state, BookService, UserService) {
+	func($scope, BookService, UserService) {
 
 		let haveCode = false;
 		$scope.codes = BookService.testGetBooks();
@@ -111,7 +111,7 @@ module.exports = {
 		}
 
 		$scope.playAgain = () => {
-			$state.go('new-session');
+			console.log('They\'re playing again!');
 		}
 	},
 };
@@ -121,7 +121,10 @@ module.exports = {
 
 	func($scope, $state, UserService) {
 		$scope.email = '';
+		$scope.emailValidation = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+
 		$scope.password = '';
+		$scope.passwordValidation = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{4,12}$/;
 
 		$scope.loginToAccount = (email, password) => {
 			let user = {
@@ -144,14 +147,18 @@ module.exports = {
 			$state.go('new-session');
 		}
 
-		let Map, userMarker, userRadius;
-		let currentPos = new google.maps.LatLng(userPos[0], userPos[1]);
-		let destination = new google.maps.LatLng(endPos[0], endPos[1]);
-		let destRange;
-		let destRadius = 50; 
+		let Map, Street;
+		let currentPos = { 
+			lat: userPos[0],
+			lng: userPos[1],
+		};
+		let destination = { 
+			lat: endPos[0],
+			lng: endPos[1],
+		};
 
 		let geo = navigator.geolocation;
-		let watch_id;
+
 
 		function initMap() {
 
@@ -163,11 +170,6 @@ module.exports = {
 			Map = new google.maps.Map(document.querySelector('#sessionMap'), {
 				zoom: 15,
 				center: currentPos,
-				disableDefaultUI: true,
-				zoomControl: true,
-				zoomControlOptions: {
-					style: google.maps.ZoomControlStyle.LARGE 
-				},
 			});
 
 			Map.mapTypes.set('styled_map', styledMapType);
@@ -204,7 +206,8 @@ module.exports = {
 				}, (response, status) => {
 					if (status === 'OK') {
 						let route = response.routes[0].legs[0];
-						createMarker(route.end_location, 'assets/endMarker.png');
+						createMarker(route.start_location, 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png');
+						createMarker(route.end_location, 'http://maps.google.com/mapfiles/ms/icons/yellow-dot.png');
 						directionsDisplay.setDirections(response);
 					} else {
 						window.alert('Directions request failed due to ' + status);
@@ -213,31 +216,21 @@ module.exports = {
 			};
 			calculateAndDisplayRoute(directionsService, directionsDisplay);
 
-			userMarker = new google.maps.Marker({
+			let userMarker = new google.maps.Marker({
 				position: currentPos,
 				map: Map,
 				icon: "assets/user.png",
 			});
 
-			userRadius = new google.maps.Circle({
+			let userRadius = new google.maps.Circle({
 				strokeColor: '#581845',
 				strokeOpacity: 1,
-				strokeWeight: 2,
+				strokeWeight: 0.8,
 				fillColor: '#581845',
 				fillOpacity: 0.4,
 				map: Map,
 				center: currentPos,
 				radius: 50,
-			});
-
-						destRange = new google.maps.Circle({
-				strokeColor: 'black',
-				strokeOpacity: 0,
-				fillColor: 'black',
-				fillOpacity: 0,
-				map: Map,
-				center: destination,
-				radius: destRadius,
 			});
 
 		};
@@ -247,22 +240,26 @@ module.exports = {
 		function watchUserPos() {
 
 			function watch_success(pos) {
-				console.log(`new position: ${pos.coords.latitude}, ${pos.coords.longitude}`);
+				console.log(pos.coords.latitude + ', ' + pos.coords.longitude);
 
-				currentPos = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
-				userMarker.setPosition(currentPos);
-				userRadius.setCenter(currentPos);
-
-				let destBounds = destRange.getBounds();
-				let userInRange = google.maps.geometry.spherical.computeDistanceBetween(destination, currentPos) <= destRadius;
-
-								console.log(userInRange);
-				if(userInRange) { 
-					geo.clearWatch(watch_id);
-					$state.go('end-session');
+								google.maps.Circle.prototype.contains = function(latLng) {
+					return this.getBounds().contains(latLng) && google.maps.geometry.spherical.computeDistanceBetween(this.getCenter(), latLng) <= this.getRadius();
 				}
 
-							};
+								let destRange = new google.maps.Circle({
+					map: Map,
+					center: destination,
+					strokeWeight: 2,
+					fillOpacity: 0,
+					radius: 250,
+				});
+
+								if (destRange.contains(pos.coords)) {
+					geo.clearWatch(watch_id);
+					alert('you win!!!!!!');
+				}
+
+			};
 
 			function watch_error(err) {
 				console.warn('ERROR(' + err.code + '): ' + err.message);
@@ -270,12 +267,12 @@ module.exports = {
 
 			let watch_options = {
 				enableHighAccuracy: true,
-				maximumAge: 3000, 
-				timeout: 5000,
+				maximumAge: 30000,
+				timeout: 10000,
 			};
 
 			if (navigator.geolocation) {
-				watch_id = geo.watchPosition(watch_success, watch_error, watch_options);
+				let watch_id = navigator.geolocation.watchPosition(watch_success, watch_error, watch_options);
 			} else {
 				console.log('error');
 			}
@@ -325,43 +322,26 @@ module.exports = {
 		};
 
 
-		$scope.displayAddressField = false;
-
-				function initPlacesAutocomplete() {
-			let input = document.querySelector('#pac-input');
-
-						const autocomplete = new google.maps.places.Autocomplete(input);
-			const infowindow = new google.maps.InfoWindow();
-			const infowindowContent = document.querySelector('#infowindow-content');
-			infowindow.setContent(infowindowContent);
-
-			autocomplete.addListener('place_changed', function () {
-				infowindow.close();
-				let place = autocomplete.getPlace();
-				if (!place.geometry) { 
-					window.alert("No details available for input: '" + place.name + "'");
-					return;
-				}
-
-				let lat = place.geometry.location.lat();
-				let lng = place.geometry.location.lng();
-				LocationService.updateUserLocation(lat, lng);
-				haveLocation = true;
-
-				let address = '';
-				if (place.address_components) {
-					address = [
-						(place.address_components[0] && place.address_components[0].short_name || ''),
-						(place.address_components[1] && place.address_components[1].short_name || ''),
-						(place.address_components[2] && place.address_components[2].short_name || '')
-					].join(' ');
-				}
-
-				infowindowContent.children['place-icon'].src = place.icon;
-				infowindowContent.children['place-name'].textContent = place.name;
-				infowindowContent.children['place-address'].textContent = address;
-			});
+		function displayAddressForm() {
 		}
+
+				let geocoder = new google.maps.Geocoder();
+		$scope.addAddress = (userAddress) => {
+			let pos = [];
+			geocoder.geocode( { 'address': userAddress}, function(results, status) {
+				if (status == 'OK') {
+					pos[0] = results[0].geometry.location.lat();
+        			pos[1] = results[0].geometry.location.lng();
+
+					LocationService.updateUserLocation(pos[0], pos[1]);
+					haveLocation = true;
+
+					getUserDestination();
+				} else {
+					alert('Geocode was not successful for the following reason: ' + status);
+				}
+			});
+		};
 
 
 		function getUserLocation() {
@@ -380,12 +360,12 @@ module.exports = {
 
 			function geo_error(err) {
 				console.log(`ERROR(${err.code}): ${err.message}`);
-				$scope.displayAddressField = true;
-				initPlacesAutocomplete();
+				displayAddressForm();
 			};
 
 			let geo_options = {
 				timeout: 5000,
+				maximumAge: 0,
 			};
 
 			geo.getCurrentPosition(geo_success, geo_error, geo_options);
@@ -406,7 +386,6 @@ module.exports = {
 
 
 		if ("geolocation" in navigator) {
-			getUserLocation();
 		} else {
 			alert("Geolocation services are not supported by your browser.");
 		}
@@ -503,7 +482,7 @@ module.exports = {
 
 	func($http) {
 		let genres = [
-			'Biography', 'Comedy', 'History', 'Poetry', 'Romance', 'Science Fiction & Fantasy', 'Thrillers & Suspense', 'Young Adult'
+			'Biography', 'Folklore', 'History', 'Poetry', 'Romance', 'Science Fiction & Fantasy', 'Thrillers & Suspense', 'Young Adult'
 		];
 
 		let codes = ['url1', 'url2', 'url3', 'url4', 'url5'];
@@ -515,9 +494,11 @@ module.exports = {
 				return genres;
 			},
 
+
 			testGetBooks() {
 				return codes;
 			},
+
 		};
 	},
 }

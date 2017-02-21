@@ -11,7 +11,6 @@ import com.theironyard.services.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -33,7 +32,7 @@ public class BiobliocacheController {
     UserRepository users;
 
     @RequestMapping(path = "/end-round", method = RequestMethod.GET)
-    public List<Book> getList(HttpSession session, boolean flag, HttpServletResponse response) throws IOException{
+    public List<Book> getList(HttpSession session, boolean flag) throws IOException{
         String userEmail = (String)session.getAttribute("email");
         User user = users.findFirstByEmail(userEmail);
         List<Book> sortedBooks;
@@ -57,7 +56,7 @@ public class BiobliocacheController {
             if (flag) {//if flag is set to true
                     sortedBooks = books.findByCategory(user.getCategory())//get all the books by category that matches our user's
                             .stream()
-                            .filter(b -> b.getReadingLevel() == user.getReadingLevel())//filter books by reading level that matches our user's
+                            .filter(b -> b.getReadingLevel() <= user.getReadingLevel())//filter books by reading level that matches our user's
                             .collect(Collectors.toList());//put those books that are left into a list
                     if (sortedBooks.size() > 5) {//if sortedBooks is greater than 5 items
                         returnedBooks = sortedBooks.stream().collect(Collectors.toList()).subList(0, 5);

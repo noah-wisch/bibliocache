@@ -1,7 +1,7 @@
 {
   "name": "client",
   "version": "1.0.0",
-  "description": "",
+  "description": "A web-based app that gamifies your reading selections. Based on the geocaching game, users are led around Charlotte to specific locations that send downloadable digital books when they are within the designated range.",
   "main": "gulpfile.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -10,8 +10,10 @@
   "author": "Margo Lanier (@margolanier), Kelsey Newman (@kelseynewman147), Noah Wisch (@noah-wisch)",
   "license": "ISC",
   "devDependencies": {
+    "babel-preset-es2015": "^6.22.0",
     "foundation-sites": "^6.3.0",
     "gulp": "^3.9.1",
+    "gulp-babel": "^6.1.2",
     "gulp-browser": "^3.0.4",
     "gulp-sass": "^3.1.0",
     "gulp-strip-comments": "^2.4.3",
