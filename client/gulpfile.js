@@ -1,10 +1,11 @@
 const gulp = require('gulp');
 const sass = require('gulp-sass');
+const babel = require('gulp-babel');
 const browser = require('gulp-browser');
 const strip = require('gulp-strip-comments');
 
-const build_path = '../build/resources/main/static';
 const src_path = '../src/main/resources/static';
+const build_path = '../build/resources/main/static';
 
 gulp.task('default', ['html', 'css', 'js']);
 
@@ -34,6 +35,9 @@ gulp.task('css', () => {
 gulp.task('js', () => {
     return gulp.src('js/app.js')
         .pipe(browser.browserify())
+        .pipe(babel({
+            presets: ['es2015']
+        }))
         .pipe(strip.text())
         .pipe(gulp.dest(build_path))
         .pipe(gulp.dest(src_path));

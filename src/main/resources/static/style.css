@@ -1112,15 +1112,8 @@ button {
   display: block; }
 
 #logOutBtn {
-  display: none; }
-  @media screen and (min-width: 56.25em) {
-    #logOutBtn {
-      display: block;
-      padding: 5px 10px; } }
-  @media screen and (min-width: 46.875em) {
-    #logOutBtn {
-      display: block;
-      padding: 5px 10px; } }
+  display: block;
+  padding: 5px 10px; }
 
 header {
   background-color: #A3E6D9; }
