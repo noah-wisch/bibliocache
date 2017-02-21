@@ -1,7 +1,7 @@
 {
   "name": "client",
   "version": "1.0.0",
-  "description": "",
+  "description": "A web-based app that gamifies your reading selections. Based on the geocaching game, users are led around Charlotte to specific locations that send downloadable digital books when they are within the designated range.",
   "main": "gulpfile.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

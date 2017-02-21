@@ -3,7 +3,7 @@ module.exports = {
 
 	func($http) {
 		let genres = [
-			'Biography', 'Folklore', 'History', 'Poetry', 'Romance', 'Science Fiction & Fantasy', 'Thrillers & Suspense', 'Young Adult'
+			'Biography', 'Comedy', 'History', 'Poetry', 'Romance', 'Science Fiction & Fantasy', 'Thrillers & Suspense', 'Young Adult'
 		];
 
 		let codes = ['url1', 'url2', 'url3', 'url4', 'url5'];
@@ -15,14 +15,9 @@ module.exports = {
 				return genres;
 			},
 
-			// setCode(code) {
-			// 	user.code = code;
-			// },
-
 			testGetBooks() {
 				return codes;
 			},
-
 		};
 	},
 }

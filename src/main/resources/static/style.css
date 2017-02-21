@@ -1049,8 +1049,30 @@ button {
 h1, h2, h3, h4, h5 {
   font-family: "Scope One", serif; }
 
-body {
-  color: #292929; }
+html, body {
+  color: #292929;
+  font-family: "Roboto", sans-serif;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%; }
+
+#wrapper {
+  min-height: 100%;
+  position: relative; }
+
+#content {
+  padding-bottom: 100px; }
+
+footer {
+  font-size: 0.8em;
+  padding: 0.25em 0.5em;
+  background: #A3E6D9;
+  height: 100px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0; }
 
 button {
   display: inline-block;
@@ -1086,8 +1108,19 @@ button {
     background-color: #A3E6D9;
     opacity: 0.6; }
 
+.invalid {
+  display: block; }
+
 #logOutBtn {
-  border: none; }
+  display: none; }
+  @media screen and (min-width: 56.25em) {
+    #logOutBtn {
+      display: block;
+      padding: 5px 10px; } }
+  @media screen and (min-width: 46.875em) {
+    #logOutBtn {
+      display: block;
+      padding: 5px 10px; } }
 
 header {
   background-color: #A3E6D9; }
@@ -1119,11 +1152,6 @@ header {
       position: absolute;
       right: 0; }
 
-footer {
-  font-size: 0.8em;
-  margin: 0 0.5em;
-  padding: 0.25em 0; }
-
 nav ul {
   display: flex;
   padding: 0;
@@ -1133,8 +1161,12 @@ nav ul {
     margin-right: 10px; }
 
 .form-container {
-  max-width: 400px;
+  padding: 0 0.5em;
   margin: 1.5em auto; }
+
+@media screen and (min-width: 46.875em) {
+  .form-container {
+    max-width: 400px; } }
 
 select, input {
   display: block;
@@ -1159,8 +1191,8 @@ select {
   background-position: 100% 50%;
   background-repeat: no-repeat; }
 
-.start-message {
-  background: yellow; }
+#addressMessage {
+  font-size: 0.8em; }
 
 p#loadingMessage {
   margin: 0 0 -20px 0;
@@ -1171,29 +1203,113 @@ p#loadingMessage {
   width: 400px;
   height: 6px; }
 
-#sessionMap {
-  width: 100%;
-  min-height: 365px;
-  height: 100%;
-  display: inline-block;
-  border-radius: 5px; }
-
-#directions {
-  font-family: 'Roboto','sans-serif';
-  line-height: 30px;
-  padding-left: 10px;
-  width: 390px;
-  overflow: auto;
-  font-size: 15px; }
-  #directions select {
-    width: 100%; }
-
-@media screen and (min-width: 25em) {
-  #showMap {
-    display: flex; }
-  #sessionMap {
-    min-height: 400px;
-    height: 100%; } }
+#showMap {
+  max-width: 75rem;
+  margin-right: auto;
+  margin-left: auto;
+  max-width: 100%; }
+  #showMap::before, #showMap::after {
+    display: table;
+    content: ' '; }
+  #showMap::after {
+    clear: both; }
+  #showMap #sessionMap {
+    width: 100%;
+    float: left;
+    padding-right: 0.625rem;
+    padding-left: 0.625rem;
+    width: 100%;
+    min-height: 365px;
+    height: 100%;
+    display: block;
+    border-radius: 5px; }
+    @media print, screen and (min-width: 40em) {
+      #showMap #sessionMap {
+        padding-right: 0.9375rem;
+        padding-left: 0.9375rem; } }
+    #showMap #sessionMap:last-child:not(:first-child) {
+      float: right; }
+    @media screen and (min-width: 46.875em) {
+      #showMap #sessionMap {
+        width: 100%;
+        float: left;
+        padding-right: 0.625rem;
+        padding-left: 0.625rem;
+        display: block; } }
+  @media screen and (min-width: 46.875em) and (min-width: 40em) {
+    #showMap #sessionMap {
+      padding-right: 0.9375rem;
+      padding-left: 0.9375rem; } }
+    @media screen and (min-width: 46.875em) {
+        #showMap #sessionMap:last-child:not(:first-child) {
+          float: right; } }
+    @media screen and (min-width: 56.25em) {
+      #showMap #sessionMap {
+        width: 58.33333%;
+        float: left;
+        padding-right: 0.625rem;
+        padding-left: 0.625rem; } }
+  @media screen and (min-width: 56.25em) and (min-width: 40em) {
+    #showMap #sessionMap {
+      padding-right: 0.9375rem;
+      padding-left: 0.9375rem; } }
+    @media screen and (min-width: 56.25em) {
+        #showMap #sessionMap:last-child:not(:first-child) {
+          float: right; } }
+  #showMap #directions {
+    width: 100%;
+    float: left;
+    padding-right: 0.625rem;
+    padding-left: 0.625rem;
+    font-family: "Roboto", sans-serif;
+    line-height: 30px;
+    padding-left: 10px;
+    width: 100%;
+    overflow: auto;
+    font-size: 15px;
+    display: block; }
+    @media print, screen and (min-width: 40em) {
+      #showMap #directions {
+        padding-right: 0.9375rem;
+        padding-left: 0.9375rem; } }
+    #showMap #directions:last-child:not(:first-child) {
+      float: right; }
+    @media screen and (min-width: 46.875em) {
+      #showMap #directions {
+        width: 100%;
+        float: left;
+        padding-right: 0.625rem;
+        padding-left: 0.625rem;
+        display: block; } }
+  @media screen and (min-width: 46.875em) and (min-width: 40em) {
+    #showMap #directions {
+      padding-right: 0.9375rem;
+      padding-left: 0.9375rem; } }
+    @media screen and (min-width: 46.875em) {
+        #showMap #directions:last-child:not(:first-child) {
+          float: right; } }
+    @media screen and (min-width: 56.25em) {
+      #showMap #directions {
+        width: 41.66667%;
+        float: left;
+        padding-right: 0.625rem;
+        padding-left: 0.625rem; } }
+  @media screen and (min-width: 56.25em) and (min-width: 40em) {
+    #showMap #directions {
+      padding-right: 0.9375rem;
+      padding-left: 0.9375rem; } }
+    @media screen and (min-width: 56.25em) {
+        #showMap #directions:last-child:not(:first-child) {
+          float: right; } }
+    #showMap #directions .warnbox-content {
+      line-height: 20px;
+      background: none; }
+    #showMap #directions select {
+      width: 100%; }
 
 .adp table {
-  background-color: white; }
+  background-color: white;
+  width: 100%; }
+
+td.adp-text {
+  font-weight: bold; }

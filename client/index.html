@@ -3,24 +3,29 @@
 
 <head>
     <title>Bibliocache</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+	<meta content="utf-8" http-equiv="encoding">
+	<meta name="description" content="A web-based app that gamifies your reading selections. Based on the geocaching game, users are led around Charlotte to specific locations that send downloadable digital books when they are within the designated range.">
 	<link href="https://fonts.googleapis.com/css?family=Scope+One" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular.min.js"></script>
     <script src="https://npmcdn.com/angular-ui-router@1.0.0-beta.3/release/angular-ui-router.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-messages/1.6.2/angular-messages.min.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAoCv60nVilICtLnfFn7JMYvN_s04li5V0" async defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAoCv60nVilICtLnfFn7JMYvN_s04li5V0&libraries=geometry,places" async defer></script>
     <script src="app.js"></script>
 </head>
 
 <body ng-app="BibliocacheApp">
-	<bib-header></bib-header>
+	<div id="wrapper">
+		<bib-header></bib-header>
 
-    <ui-view>
-        <new-session></new-session>
-    </ui-view>
+		<ui-view id="content">
+			<new-session></new-session>
+		</ui-view>
 
-    <bib-footer></bib-footer>
-
+		<bib-footer></bib-footer>
+	</div>
 </body>
 
 </html>

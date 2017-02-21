@@ -6,16 +6,43 @@
 $dark-green: #4E978A;
 $mint-green: #A3E6D9;
 $header-font: 'Scope One', serif;
+$body-font: 'Roboto', sans-serif;
 $font-color: #292929;
-$tablet: 400px;
+$medium: 750px;
+$large: 900px;
 
 /* GLOBAL STYLES */
 h1, h2, h3, h4, h5 {
 	font-family: $header-font;
 }
 
-body {
+html, body {
 	color: $font-color;
+	font-family: $body-font;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	height: 100%;
+}
+
+#wrapper {
+	min-height: 100%;
+	position: relative;
+}
+
+#content {
+	padding-bottom: 100px;
+}
+
+footer {
+	font-size: 0.8em;
+	padding: 0.25em 0.5em;
+	background: $mint-green;
+	height: 100px;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
 }
 
 button {
@@ -39,8 +66,22 @@ button {
 	}
 }
 
+.invalid {
+	display: block;
+}
+
 #logOutBtn {
-	border: none;
+	display: none;
+
+	@include breakpoint($large) {
+		display: block;
+		padding: 5px 10px;
+	}
+
+	@include breakpoint($medium) {
+		display: block;
+		padding: 5px 10px;
+	}
 }
 
 /* HEADER STYLES */
@@ -83,12 +124,6 @@ header {
 	}
 }
 
-footer {
-	font-size: 0.8em;
-	margin: 0 0.5em;
-	padding: 0.25em 0;
-}
-
 nav ul {
 	display: flex;
 	padding: 0;
@@ -102,8 +137,14 @@ nav ul {
 
 /* FORMS */
 .form-container {
-	max-width: 400px;
+	padding: 0 0.5em;
 	margin: 1.5em auto;
+}
+
+@include breakpoint($medium) {
+	.form-container {
+		max-width: 400px;
+	}
 }
 
 select, input {
@@ -136,8 +177,8 @@ select {
 }
 
 /* NEW SESSION */
-.start-message {
-	background: yellow;
+#addressMessage {
+	font-size: 0.8em;
 }
 
 p#loadingMessage {
@@ -152,39 +193,63 @@ p#loadingMessage {
 }
 
 /* MAP STYLES */
-#sessionMap {
-	width: 100%;
-	min-height: 365px;
-	height: 100%;
-	display: inline-block;
-	border-radius: 5px;
-}
+#showMap {
+	@include grid-row();
+	max-width: 100%;
 
-#directions {
-	font-family: 'Roboto','sans-serif';
-    line-height: 30px;
-    padding-left: 10px;
-    width: 390px;
-	overflow: auto;
-	font-size: 15px;
-	
-	select {
-		width: 100%;
-	}
-}
-
-@include breakpoint($tablet) {
-	#showMap {
-		display: flex;
-	}
-	
 	#sessionMap {
-		min-height: 400px;
+		@include grid-column(12);
+		width: 100%;
+		min-height: 365px;
 		height: 100%;
+		display: block;
+		border-radius: 5px;
+
+		@include breakpoint($medium) {
+			@include grid-column(12);
+			display: block;
+		}
+
+		@include breakpoint($large) {
+			@include grid-column(7);
+		}
 	}
-}
+
+		#directions {
+			@include grid-column(12);
+			font-family: $body-font;
+			line-height: 30px;
+			padding-left: 10px;
+			width: 100%;
+			overflow: auto;
+			font-size: 15px;
+			display: block;
+
+			@include breakpoint($medium) {
+				@include grid-column(12);
+				display: block;
+			}
+
+			@include breakpoint($large) {
+				@include grid-column(5);
+			}
+
+			.warnbox-content {
+    			line-height: 20px;
+				background: none;
+			}
+			
+			select {
+				width: 100%;
+			}
+		}
+	}
 
 .adp table {
 	background-color: white;
-	//font-family: serif !important;
+	width: 100%;
+}
+
+td.adp-text {
+	font-weight: bold;
 }
