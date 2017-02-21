@@ -15,14 +15,9 @@ module.exports = {
 				return genres;
 			},
 
-			// setCode(code) {
-			// 	user.code = code;
-			// },
-
 			testGetBooks() {
 				return codes;
 			},
-
 		};
 	},
 }
