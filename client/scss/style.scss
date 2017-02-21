@@ -111,8 +111,14 @@ nav ul {
 
 /* FORMS */
 .form-container {
-	max-width: 400px;
+	padding: 0 0.5em;
 	margin: 1.5em auto;
+}
+
+@include breakpoint($medium) {
+	.form-container {
+		max-width: 400px;
+	}
 }
 
 select, input {
@@ -145,8 +151,8 @@ select {
 }
 
 /* NEW SESSION */
-.start-message {
-	background: yellow;
+#addressMessage {
+	font-size: 0.8em;
 }
 
 p#loadingMessage {
@@ -164,8 +170,6 @@ p#loadingMessage {
 #showMap {
 	@include grid-row();
 	max-width: 100%;
-	// display: flex;
-	// flex-direction: row;
 
 	#sessionMap {
 		@include grid-column(12);
@@ -182,37 +186,39 @@ p#loadingMessage {
 
 		@include breakpoint($large) {
 			@include grid-column(7);
-			// flex-direction: row;
 		}
 	}
 
-	#directions {
-		@include grid-column(12);
-		font-family: 'Roboto','sans-serif';
-		line-height: 30px;
-		padding-left: 10px;
-		width: 390px;
-		overflow: auto;
-		font-size: 15px;
-		display: block;
-
-		@include breakpoint($medium) {
+		#directions {
 			@include grid-column(12);
+			font-family: 'Roboto','sans-serif';
+			line-height: 30px;
+			padding-left: 10px;
+			width: 390px;
+			overflow: auto;
+			font-size: 15px;
 			display: block;
-		}
 
-		@include breakpoint($large) {
-			@include grid-column(5);
-			// flex-direction: row;
-		}
-		
-		select {
-			width: 100%;
+			@include breakpoint($medium) {
+				@include grid-column(12);
+				display: block;
+			}
+
+			@include breakpoint($large) {
+				@include grid-column(5);
+			}
+
+			.warnbox-content {
+    			line-height: 20px;
+			}
+			
+			select {
+				width: 100%;
+			}
 		}
 	}
-}
 
 .adp table {
 	background-color: white;
-	//font-family: serif !important;
+	width: 100%;
 }

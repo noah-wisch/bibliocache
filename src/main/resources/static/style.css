@@ -1142,6 +1142,13 @@ nav ul {
   max-width: 400px;
   margin: 1.5em auto; }
 
+<<<<<<< HEAD
+=======
+@media screen and (min-width: 46.875em) {
+  .form-container {
+    max-width: 400px; } }
+
+>>>>>>> 9085bd2d3d080b27f234b0c9145751ef17fb64b7
 select, input {
   display: block;
   width: 100%;
@@ -1275,8 +1282,11 @@ p#loadingMessage {
     @media screen and (min-width: 56.25em) {
         #showMap #directions:last-child:not(:first-child) {
           float: right; } }
+    #showMap #directions .warnbox-content {
+      line-height: 20px; }
     #showMap #directions select {
       width: 100%; }
 
 .adp table {
-  background-color: white; }
+  background-color: white;
+  width: 100%; }
