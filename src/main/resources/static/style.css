@@ -1117,6 +1117,10 @@ button {
     #logOutBtn {
       display: block;
       padding: 5px 10px; } }
+  @media screen and (min-width: 46.875em) {
+    #logOutBtn {
+      display: block;
+      padding: 5px 10px; } }
 
 header {
   background-color: #A3E6D9; }
@@ -1260,7 +1264,7 @@ p#loadingMessage {
     font-family: "Roboto", sans-serif;
     line-height: 30px;
     padding-left: 10px;
-    width: 390px;
+    width: 100%;
     overflow: auto;
     font-size: 15px;
     display: block; }
