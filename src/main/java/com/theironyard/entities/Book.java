@@ -139,8 +139,8 @@ public class Book {
         String paragraph = book.getBookExcerpt();
       //  String paragraph = new String();
         //book.setReadingLevel(
-        return (int)(4.71 * (charactersPresent(paragraph)/wordsPresent(paragraph))
-                + 0.5 * (wordsPresent(paragraph)/sentencesPresent(paragraph)) - 21.43) + 1;
+        return (int)Math.ceil((4.71 * (charactersPresent(paragraph)/(double)wordsPresent(paragraph))) +
+                (0.5  * (wordsPresent(paragraph)/sentencesPresent(paragraph))) - 21.43);
     }
 
 
@@ -152,7 +152,7 @@ public class Book {
     }
 
     public static int wordsPresent (String paragraph) {
-        return paragraph.split(" ").length;//turns paragraph into an array of strings split on whitespace.
+        return paragraph.split(" ").length - 1;//turns paragraph into an array of strings split on whitespace.
          //returns the number of elements in the words array (i.e. number of words in the paragraph).
     }
 
