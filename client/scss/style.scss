@@ -1,5 +1,4 @@
 @import '../node_modules/foundation-sites/scss/foundation';
-
 @include foundation-global-styles;
 @include foundation-grid;
 
@@ -13,234 +12,223 @@ $large: 900px;
 
 /* GLOBAL STYLES */
 h1, h2, h3, h4, h5 {
-	font-family: $header-font;
+    font-family: $header-font;
 }
 
 html, body {
-	color: $font-color;
-	font-family: $body-font;
-	margin: 0;
-	padding: 0;
-	width: 100%;
-	height: 100%;
+    color: $font-color;
+    font-family: $body-font;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
 }
 
 #wrapper {
-	min-height: 100%;
-	position: relative;
+    min-height: 100%;
+    position: relative;
 }
 
 #content {
-	padding-bottom: 100px;
+    padding-bottom: 100px;
 }
 
 footer {
-	font-size: 0.8em;
-	padding: 0.25em 0.5em;
-	background: $mint-green;
-	height: 100px;
-	position: absolute;
-	bottom: 0;
-	left: 0;
-	right: 0;
+    font-size: 0.8em;
+    padding: 0.25em 0.5em;
+    background: $mint-green;
+    height: 100px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
 }
 
 button {
-	@include button;
-	padding: 15px 50px;
-	background-color: $dark-green;
-	font-weight: bold;
-	width: 100%;
-	
-	&:hover {
-		background-color: $dark-green;
-		opacity: 0.8;
-	}
-	&:disabled {
-		background-color: $mint-green;
-		opacity: 0.6;
-	}
-	&:focus {
-		background-color: $mint-green;
-		opacity: 0.6;
-	}
+    @include button;
+    padding: 15px 50px;
+    background-color: $dark-green;
+    font-weight: bold;
+    width: 100%;
+    &:hover {
+        background-color: $dark-green;
+        opacity: 0.8;
+    }
+    &:disabled {
+        background-color: $mint-green;
+        opacity: 0.6;
+    }
+    &:focus {
+        background-color: $mint-green;
+        opacity: 0.6;
+    }
 }
 
 .invalid {
-	display: block;
+    display: block;
 }
 
 #logOutBtn {
-	display: block;
-	padding: 5px 10px;
+    display: block;
+    padding: 5px 10px;
 }
 
 /* HEADER STYLES */
 header {
-	background-color: $mint-green;
-	h1 {
-		margin: 0;
-		text-align: center;
-		color: $dark-green;
-		text-transform: lowercase;
-		letter-spacing: 2px;
-	}
-	
-	&#bannerHeader {
-		height: 200px;
-		background: $mint-green url("assets/header.png") no-repeat center center;
-		background-size: cover;
-		h1 {
-			font-size: 3em;
-			line-height: 200px;
-		}
-	}
-	
-	&#defaultHeader {
-		display: flex;
-		justify-content: flex-start;
-		h1 {
-			text-align: left;
-			font-size: 1.2em; 
-			margin: 0 0.5em;
-			padding: 0.25em 0;
-		}
-		ul.toolbar {
-			list-style: none;
-			margin: 0 0.5em;
-    		padding: 0.25em 0;
-			position: absolute;
-			right: 0;
-		}
-	}
+    background-color: $mint-green;
+    h1 {
+        margin: 0;
+        text-align: center;
+        color: $dark-green;
+        text-transform: lowercase;
+        letter-spacing: 2px;
+    }
+    &#bannerHeader {
+        height: 200px;
+        background: $mint-green url("assets/header.png") no-repeat center center;
+        background-size: cover;
+        h1 {
+            font-size: 3em;
+            line-height: 200px;
+        }
+    }
+    &#defaultHeader {
+        display: flex;
+        justify-content: flex-start;
+        h1 {
+            text-align: left;
+            font-size: 1.2em;
+            margin: 0 0.5em;
+            padding: 0.25em 0;
+        }
+        ul.toolbar {
+            list-style: none;
+            margin: 0 0.5em;
+            padding: 0.25em 0;
+            position: absolute;
+            right: 0;
+        }
+    }
 }
 
 nav ul {
-	display: flex;
-	padding: 0;
-	margin: 0;
-	list-style: none;
-	
-	li {
-		margin-right: 10px;
-	}
+    display: flex;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    li {
+        margin-right: 10px;
+    }
 }
+
 
 /* FORMS */
 .form-container {
-	padding: 0 0.5em;
-	margin: 1.5em auto;
+    padding: 0 0.5em;
+    margin: 1.5em auto;
 }
 
 @include breakpoint($medium) {
-	.form-container {
-		max-width: 400px;
-	}
+    .form-container {
+        max-width: 400px;
+    }
 }
 
 select, input {
-	display: block;
-	width: 100%;
-	height: 2.5em;
-	border-style: solid;
-	border-width: 2px;
-	border-color: $dark-green;
-	border-radius: 0;
-	margin: 0.5em 0;
-	padding: 0 0.5em;
-	
-	&[type="number"] {
-		width: calc(50% - 4px);
-		display: inline-block;
-		
-		&:last-of-type {
-			float: right;
-		}
-	}
+    display: block;
+    width: 100%;
+    height: 2.5em;
+    border-style: solid;
+    border-width: 2px;
+    border-color: $dark-green;
+    border-radius: 0;
+    margin: 0.5em 0;
+    padding: 0 0.5em;
+    &[type="number"] {
+        width: calc(50% - 4px);
+        display: inline-block;
+        &:last-of-type {
+            float: right;
+        }
+    }
 }
 
 select {
-	-webkit-appearance: none;
+    -webkit-appearance: none;
     -webkit-border-radius: 0px;
     background: url("data:image/svg+xml;utf8,<svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='24' height='24' viewBox='0 0 24 24'><path fill='#444' d='M7.406 7.828l4.594 4.594 4.594-4.594 1.406 1.406-6 6-6-6z'></path></svg>");
     background-position: 100% 50%;
     background-repeat: no-repeat;
 }
 
+
 /* NEW SESSION */
 #addressMessage {
-	font-size: 0.8em;
+    font-size: 0.8em;
 }
 
 p#loadingMessage {
-	margin: 0 0 -20px 0;
-	font-size: 0.8em;
+    margin: 0 0 -20px 0;
+    font-size: 0.8em;
 }
 
 #loadingBar {
-	margin: 20px 0;
-	width: 400px;
-	height: 6px;
+    margin: 20px 0;
+    width: 400px;
+    height: 6px;
 }
+
 
 /* MAP STYLES */
 #showMap {
-	@include grid-row();
-	max-width: 100%;
-
-	#sessionMap {
-		@include grid-column(12);
-		width: 100%;
-		min-height: 365px;
-		height: 100%;
-		display: block;
-		border-radius: 5px;
-
-		@include breakpoint($medium) {
-			@include grid-column(12);
-			display: block;
-		}
-
-		@include breakpoint($large) {
-			@include grid-column(7);
-		}
-	}
-
-		#directions {
-			@include grid-column(12);
-			font-family: $body-font;
-			line-height: 30px;
-			padding-left: 10px;
-			width: 100%;
-			overflow: auto;
-			font-size: 15px;
-			display: block;
-
-			@include breakpoint($medium) {
-				@include grid-column(12);
-				display: block;
-			}
-
-			@include breakpoint($large) {
-				@include grid-column(5);
-			}
-
-			.warnbox-content {
-    			line-height: 20px;
-				background: none;
-			}
-			
-			select {
-				width: 100%;
-			}
-		}
-	}
+    @include grid-row();
+    max-width: 100%;
+    #sessionMap {
+        @include grid-column(12);
+        width: 100%;
+        min-height: 365px;
+        height: 100%;
+        display: block;
+        border-radius: 5px;
+        @include breakpoint($medium) {
+            @include grid-column(12);
+            display: block;
+        }
+        @include breakpoint($large) {
+            @include grid-column(7);
+        }
+    }
+    #directions {
+        @include grid-column(12);
+        font-family: $body-font;
+        line-height: 30px;
+        padding-left: 10px;
+        width: 100%;
+        overflow: auto;
+        font-size: 15px;
+        display: block;
+        @include breakpoint($medium) {
+            @include grid-column(12);
+            display: block;
+        }
+        @include breakpoint($large) {
+            @include grid-column(5);
+        }
+        .warnbox-content {
+            line-height: 20px;
+            background: none;
+        }
+        select {
+            width: 100%;
+        }
+    }
+}
 
 .adp table {
-	background-color: white;
-	width: 100%;
+    background-color: white;
+    width: 100%;
 }
 
 td.adp-text {
-	font-weight: bold;
+    font-weight: bold;
 }

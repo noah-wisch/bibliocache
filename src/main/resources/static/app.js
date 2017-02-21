@@ -100,7 +100,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       func: function func($scope, $state, BookService, UserService) {
 
         var haveCode = false;
-        $scope.codes = BookService.testGetBooks();
+        $scope.codes = BookService.getBooks();
 
         $scope.submitCodeChoice = function () {
           haveCode = true;
@@ -459,7 +459,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       name: 'BookService',
 
       func: function func($http) {
-        var genres = ['Biography', 'Comedy', 'History', 'Poetry', 'Romance', 'Science Fiction & Fantasy', 'Thrillers & Suspense', 'Young Adult'];
+        var genres = ['Biography', 'Comedy', 'History', 'Poetry', 'Romance', 'Science Fiction', 'Fantasy', 'Thrillers', 'Suspense', 'Young Adult'];
 
         var codes = ['url1', 'url2', 'url3', 'url4', 'url5'];
         var sessionCode = '';
@@ -468,8 +468,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
           getAllGenres: function getAllGenres() {
             return genres;
           },
-          testGetBooks: function testGetBooks() {
-            return codes;
+          getBooks: function getBooks() {
+            $http.get('/end-round', {});
           }
         };
       }
@@ -533,7 +533,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
           },
           setGenre: function setGenre(value) {
             user.genre = value;
-            $http.post('https://enigmatic-woodland-53824.herokuapp.com/set-category', {
+            $http.post('/set-category', {
               category: value
             });
           }

@@ -3,7 +3,7 @@ module.exports = {
 	func($scope, $state, BookService, UserService) {
 
 		let haveCode = false;
-		$scope.codes = BookService.testGetBooks();
+		$scope.codes = BookService.getBooks();
 
 		$scope.submitCodeChoice = () => {
 			// BookService.setCode($scope.selectedURL);

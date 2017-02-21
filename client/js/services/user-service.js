@@ -25,12 +25,10 @@ module.exports = {
 			
 			setGenre(value) {
 				user.genre = value;
-				$http.post('https://enigmatic-woodland-53824.herokuapp.com/set-category', {
+				$http.post('/set-category', {
 					category: value,
 				});
 			},
-
 		};
 	},
-
 };
