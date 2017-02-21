@@ -1196,6 +1196,17 @@ p#loadingMessage {
   width: 400px;
   height: 6px; }
 
+#description {
+  font-family: "Roboto", sans-serif;
+  font-size: 15px;
+  font-weight: 300; }
+
+#infowindow-content .title {
+  font-weight: bold; }
+
+#infowindow-content {
+  display: none; }
+
 #showMap {
   max-width: 75rem;
   margin-right: auto;
