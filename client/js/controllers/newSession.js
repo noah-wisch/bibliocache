@@ -89,6 +89,10 @@ module.exports = {
 				haveLocation = true;
 
 				getUserDestination();
+				
+				// here for testing purposes
+				/*$scope.displayAddressField = true;
+				initPlacesAutocomplete();*/
 			};
 
 			function geo_error(err) {
