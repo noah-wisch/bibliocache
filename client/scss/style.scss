@@ -51,6 +51,7 @@ a, a:visited {
 }
 
 footer {
+	display: none;
     font-size: 0.8em;
     padding: 0.25em 0.5em;
     background: $mint-green;
@@ -59,6 +60,9 @@ footer {
     bottom: 0;
     left: 0;
     right: 0;
+	@include breakpoint($medium) {
+		display: block;
+	}
 }
 
 button {

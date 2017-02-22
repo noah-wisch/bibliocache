@@ -1075,6 +1075,7 @@ a, a:visited {
   padding-bottom: 100px; }
 
 footer {
+  display: none;
   font-size: 0.8em;
   padding: 0.25em 0.5em;
   background: #A3E6D9;
@@ -1083,6 +1084,9 @@ footer {
   bottom: 0;
   left: 0;
   right: 0; }
+  @media screen and (min-width: 46.875em) {
+    footer {
+      display: block; } }
 
 button {
   display: inline-block;
