@@ -1,0 +1,24 @@
+<section ng-controller="RegistrationController" class="form-container">
+	<h2>Create an account</h2>
+
+	<form method="post" action="/registration">
+		<ng-form name="loginForm">
+			<input type="email" ng-model="email" ng-pattern="emailValidation" name="email" placeholder="example@domain.com">
+			<span class="invalid" ng-show="loginForm.email.$error.pattern" style="color:red">Please enter valid email.</span>
+		</ng-form>
+
+		<ng-form name="passwordForm">
+			<input type="password" ng-model="password" ng-pattern="passwordValidation" name="password" placeholder="password">
+			<span class="invalid" ng-show="passwordForm.password.$error.pattern" style="color:red">Must contain one uppercase, lowercase and number.</span>
+		</ng-form>
+
+		<input type="number" min="1" max="14" ng-model="form.readingLevel" ng-pattern="readingLevelValidation" name="readingLevel"
+		placeholder="reading level: 1-14">
+
+		<input type="number" min="1" max="125" ng-model="form.age" ng-pattern="ageValidation" name="age" placeholder="age">
+
+		<button>Sign Up</button>
+	</form>
+
+	<p>Already have an account? <a ui-sref="login">Log in here.</a></p>
+</section>

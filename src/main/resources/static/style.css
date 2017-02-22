@@ -1240,7 +1240,7 @@ p#loadingMessage {
     padding-right: 0.625rem;
     padding-left: 0.625rem;
     width: 100%;
-    min-height: 300px;
+    min-height: 365px;
     height: 100%;
     display: block;
     border-radius: 5px; }
@@ -1256,8 +1256,7 @@ p#loadingMessage {
         float: left;
         padding-right: 0.625rem;
         padding-left: 0.625rem;
-        display: block;
-        min-height: 500px; } }
+        display: block; } }
   @media screen and (min-width: 46.875em) and (min-width: 40em) {
     #showMap #sessionMap {
       padding-right: 0.9375rem;
