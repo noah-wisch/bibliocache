@@ -30,14 +30,14 @@ module.exports = {
 			});
 			bar.animate(1.0);  // Number from 0.0 to 1.0
 		};
-		
-		
+
+
 		/* Get user location manually if geolocation fails */
 		$scope.displayAddressField = false;
-		
+
 		function initPlacesAutocomplete() {
 			let input = document.querySelector('#pac-input');
-			
+
 			const autocomplete = new google.maps.places.Autocomplete(input);
 			const infowindow = new google.maps.InfoWindow();
 			const infowindowContent = document.querySelector('#infowindow-content');
@@ -73,8 +73,7 @@ module.exports = {
 				infowindowContent.children['place-address'].textContent = address;
 			});
 		}
-		
-		
+
 		/* Get user location with geolocation */
 		function getUserLocation() {
 
@@ -104,7 +103,7 @@ module.exports = {
 
 			geo.getCurrentPosition(geo_success, geo_error, geo_options);
 		};
-		
+
 
 		/* Generate user destination */
 		function getUserDestination() {
@@ -120,14 +119,12 @@ module.exports = {
 			haveDestination = true;
 		};
 
-
 		/* Check if user gives permission to share location */
 		if ("geolocation" in navigator) {
 			getUserLocation();
 		} else {
 			alert("Geolocation services are not supported by your browser.");
 		}
-
 
 		/* Once we have genre, user location, and destination => display map view */
 		function startGame() {
