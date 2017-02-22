@@ -349,6 +349,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             infowindowContent.children['place-name'].textContent = place.name;
             infowindowContent.children['place-address'].textContent = address;
           });
+
+          getUserDestination();
         }
 
         function getUserLocation() {
@@ -369,7 +371,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             console.log("ERROR(" + err.code + "): " + err.message);
             $scope.displayAddressField = true;
             initPlacesAutocomplete();
-            getUserDestination();
           };
 
           var geo_options = {
