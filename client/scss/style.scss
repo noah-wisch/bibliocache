@@ -3,10 +3,9 @@
 @include foundation-grid;
 $dark-green: #4E978A;
 $mint-green: #A3E6D9;
-$header-font: 'Scope One',
-serif;
-$body-font: 'Roboto',
-sans-serif;
+$light-grey: #EAEAEA;
+$header-font: 'Scope One', serif;
+$body-font: 'Roboto', sans-serif;
 $font-color: #292929;
 $medium: 750px;
 $large: 900px;
@@ -15,6 +14,16 @@ $large: 900px;
 
 h1, h2, h3, h4, h5 {
     font-family: $header-font;
+}
+
+h2 {
+	font-size: 1.3em;
+}
+
+@include breakpoint($medium) {
+	h2 {
+		font-size: 1.5em;
+	}
 }
 
 html, body {
@@ -79,7 +88,7 @@ button {
 /* HEADER STYLES */
 
 header {
-	background-color: $mint-green;
+	background-color: $light-grey;
 	h1 {
 		margin: 0;
 		text-align: center;
@@ -88,12 +97,12 @@ header {
 		letter-spacing: 2px;
 	}
 	&#bannerHeader {
-		height: 200px;
-		background: $mint-green url("assets/header.png") no-repeat center center;
+		height: 100px;
+		background: $light-grey url("assets/header.png") no-repeat center center;
 		background-size: cover;
 		h1 {
-			font-size: 3em;
-			line-height: 200px;
+			font-size: 2em;
+			line-height: 100px;
 		}
 	}
 	&#defaultHeader {
@@ -111,6 +120,18 @@ header {
 			padding: 0.25em 0;
 			position: absolute;
 			right: 0;
+		}
+	}
+}
+
+@include breakpoint($medium) {
+	header {
+		&#bannerHeader {
+			height: 200px;
+			h1 {
+				font-size: 3em;
+				line-height: 200px;
+			}
 		}
 	}
 }

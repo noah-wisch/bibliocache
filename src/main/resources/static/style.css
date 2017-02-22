@@ -1049,6 +1049,13 @@ button {
 h1, h2, h3, h4, h5 {
   font-family: "Scope One", serif; }
 
+h2 {
+  font-size: 1.3em; }
+
+@media screen and (min-width: 46.875em) {
+  h2 {
+    font-size: 1.5em; } }
+
 html, body {
   color: #292929;
   font-family: "Roboto", sans-serif;
@@ -1116,7 +1123,7 @@ button {
   padding: 5px 10px; }
 
 header {
-  background-color: #A3E6D9; }
+  background-color: #EAEAEA; }
   header h1 {
     margin: 0;
     text-align: center;
@@ -1124,12 +1131,12 @@ header {
     text-transform: lowercase;
     letter-spacing: 2px; }
   header#bannerHeader {
-    height: 200px;
-    background: #A3E6D9 url("assets/header.png") no-repeat center center;
+    height: 100px;
+    background: #EAEAEA url("assets/header.png") no-repeat center center;
     background-size: cover; }
     header#bannerHeader h1 {
-      font-size: 3em;
-      line-height: 200px; }
+      font-size: 2em;
+      line-height: 100px; }
   header#defaultHeader {
     display: flex;
     justify-content: flex-start; }
@@ -1144,6 +1151,13 @@ header {
       padding: 0.25em 0;
       position: absolute;
       right: 0; }
+
+@media screen and (min-width: 46.875em) {
+  header#bannerHeader {
+    height: 200px; }
+    header#bannerHeader h1 {
+      font-size: 3em;
+      line-height: 200px; } }
 
 nav ul {
   display: flex;
