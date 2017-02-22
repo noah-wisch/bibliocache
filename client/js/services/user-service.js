@@ -2,8 +2,7 @@ module.exports = {
 	name: 'UserService',
 
 	func($http) {
-
-		// Store user session info needed for game
+		/* Store user session info needed for game */
 		function User(age, genre, readingLevel) {
 			this.age = age;
 			this.genre = genre;
@@ -14,11 +13,6 @@ module.exports = {
 		let user = new User(null, null, null);
 
 		return {
-			logOut() {
-				console.log('logging out');
-				$http.post('/logout', {});
-			},
-
 			getUserInfo() {
 				return user;
 			},

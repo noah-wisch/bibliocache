@@ -17,7 +17,7 @@ module.exports = {
 			const bar = new ProgressBar.Line(loadingBar, {
 				strokeWidth: 4,
 				easing: 'easeInOut',
-				duration: 5000,
+				duration: 5500,
 				color: '#4E978A',
 				trailColor: '#581845',
 				trailWidth: 1,
@@ -28,9 +28,8 @@ module.exports = {
 					bar.path.setAttribute('stroke', state.color);
 				}
 			});
-			bar.animate(1.0);  // Number from 0.0 to 1.0
+			bar.animate(1.0);
 		};
-
 
 		/* Get user location manually if geolocation fails */
 		$scope.displayAddressField = false;
@@ -43,7 +42,7 @@ module.exports = {
 			const infowindowContent = document.querySelector('#infowindow-content');
 			infowindow.setContent(infowindowContent);
 
-			autocomplete.addListener('place_changed', function () {
+			autocomplete.addListener('place_changed', () => {
 				infowindow.close();
 				let place = autocomplete.getPlace();
 				if (!place.geometry) { // User entered place not suggested
@@ -51,14 +50,14 @@ module.exports = {
 					return;
 				}
 
-				// If address entered is a Places suggestion, update user location
-				//console.log(place.geometry.location);
+				// If address entered is a 'Places' suggestion, update user location
+				// console.log(place.geometry.location);
 				let lat = place.geometry.location.lat();
 				let lng = place.geometry.location.lng();
 				LocationService.updateUserLocation(lat, lng);
 				haveLocation = true;
 
-				// Generate content for place suggestion box
+				/* Generate content for place suggestion box */
 				let address = '';
 				if (place.address_components) {
 					address = [
@@ -79,14 +78,14 @@ module.exports = {
 		/* Get user location with geolocation */
 		function getUserLocation() {
 
-			// Initiate geolocation service
+			/* Initiate geolocation service */
 			let geo = navigator.geolocation;
 
 			function geo_success(position) {
 				let pos = position.coords;
 				console.log(`current position: [${pos.latitude}, ${pos.longitude}]`);
 
-				// Update user location in service
+				/* Update user location in service */
 				LocationService.updateUserLocation(pos.latitude, pos.longitude);
 				haveLocation = true;
 
@@ -128,7 +127,7 @@ module.exports = {
 			alert("Geolocation services are not supported by your browser.");
 		}
 
-		/* Once we have genre, user location, and destination => display map view */
+		// Once we have genre, user location, and destination => display map view
 		function startGame() {
 			if (haveGenre && haveLocation && haveDestination) {
 				stopChecking();
@@ -136,7 +135,7 @@ module.exports = {
 			}
 		};
 
-		// Set interval to check if we can start game or not
+		/* Set interval to check if we can start game or not */
 		let wait;
 
 		function checkForData() {

@@ -28,17 +28,16 @@ module.exports = {
 				link: 'link4',
 			}
 		];
-
+		
 		let codes = ['url1', 'url2', 'url3', 'url4', 'url5'];
 
 		return {
-
 			getAllGenres() {
 				return genres;
 			},
-			
+
 			requestBooks() {
-				return $http.post('/end-round', {}).then(function(response) {
+				return $http.post('/end-round', {}).then((response) => {
 					console.log('the book list is:');
 					console.log(response);
 				});

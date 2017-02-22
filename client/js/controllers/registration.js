@@ -19,13 +19,13 @@ module.exports = {
 
 			let user = {
 				age: age,
-				category: 'Horror', // hardcoded for now
+				category: null,
 				email: email,
-				location: [0, 0], // hardcoded for now
+				location: [0, 0], // hardcoded
 				password: password,
 				readingLevel: readingLevel,
 			};
-			
+
 			UserService.registerUser(user);
 		};
 	},

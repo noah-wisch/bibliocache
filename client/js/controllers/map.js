@@ -1,11 +1,12 @@
 module.exports = {
 	name: 'MapController',
 	func($scope, $state, LocationService, BookService) {
+
 		/*
 		 * Get required data to render map (from location service)
 		 * User is not directed to map view until all data is received and updated in service
 		 */
-		
+
 		let userPos = LocationService.getUserLocation();
 		let endPos = LocationService.getDestination();
 
@@ -36,14 +37,14 @@ module.exports = {
 				disableDefaultUI: true,
 				zoomControl: true,
 				zoomControlOptions: {
-					style: google.maps.ZoomControlStyle.LARGE 
+					style: google.maps.ZoomControlStyle.LARGE
 				},
 			});
 
 			Map.mapTypes.set('styled_map', styledMapType);
 			Map.setMapTypeId('styled_map');
 
-			// Display directions
+			/* Remove map view buttons */
 			let rendererOptions = {
 				map: Map,
 				suppressMarkers: true,
@@ -67,6 +68,7 @@ module.exports = {
 				});
 			}
 
+			/* Display directions */
 			function calculateAndDisplayRoute(directionsService, directionsDisplay) {
 				directionsService.route({
 					origin: currentPos,
@@ -91,6 +93,7 @@ module.exports = {
 				icon: "assets/user.png",
 			});
 
+			/* Radius indicator around user */
 			userRadius = new google.maps.Circle({
 				strokeColor: '#581845',
 				strokeOpacity: 1,
@@ -101,7 +104,8 @@ module.exports = {
 				center: currentPos,
 				radius: 50,
 			});
-			
+
+			/* Radius indicator around destination */
 			destRange = new google.maps.Circle({
 				strokeColor: 'black',
 				strokeOpacity: 0,
@@ -111,35 +115,32 @@ module.exports = {
 				center: destination,
 				radius: destRadius,
 			});
-
 		};
 		initMap();
-		
-		
+
 		/* Watch for changes in user location */
 		function watchUserPos() {
 
 			function watch_success(pos) {
 				console.log(`new position: ${pos.coords.latitude}, ${pos.coords.longitude}`);
-				
+
 				// Update currentPos coordinates, and rerender user on map
 				currentPos = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
 				userMarker.setPosition(currentPos);
 				userRadius.setCenter(currentPos);
-				
+
 				// Get bounds of destination (destRange includes 50m radius around destination)
 				let destBounds = destRange.getBounds();
 				// Determine if user's distance from target is within range
 				let userInRange = google.maps.geometry.spherical.computeDistanceBetween(destination, currentPos) <= destRadius;
-				
+
 				console.log(userInRange);
 				if (userInRange) { // User has arrived at destination
 					geo.clearWatch(watch_id);
-					BookService.requestBooks().then(function() {
+					BookService.requestBooks().then(() => {
 						$state.go('end-session');
 					});
 				}
-				
 			};
 
 			function watch_error(err) {
@@ -152,15 +153,13 @@ module.exports = {
 				timeout: 5000,
 			};
 
-			// Start watching user position
+			/* Start watching user position */
 			if (navigator.geolocation) {
 				watch_id = geo.watchPosition(watch_success, watch_error, watch_options);
 			} else {
 				console.log('error');
 			}
-
 		};
-
 
 		/* Check if user gives permission to share location */
 		if ("geolocation" in navigator) {
@@ -168,6 +167,5 @@ module.exports = {
 		} else {
 			alert("Geolocation services are not supported by your browser.");
 		}
-
 	},
 };

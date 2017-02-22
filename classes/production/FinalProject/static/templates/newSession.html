@@ -1,18 +1,25 @@
 <section ng-controller="NewSessionController" class="form-container">
-	<h2>Filter your reading choices</h2>
-	
+	<h2>Filter your reading choices.</h2>
+
 	<select ng-init="selectedGenre = options[0]" ng-model="selectedGenre">
-        <option value="" disabled><span id="selectGenre">Select a genre</span></option>
-        <option ng-repeat="currentGenre in genres" value="{{ currentGenre }}">{{ currentGenre }}</option>
-    </select>
+		<option value="" disabled><span id="selectGenre">Select a genre</span></option>
+		<option ng-repeat="currentGenre in genres" value="{{ currentGenre }}">{{ currentGenre }}</option>
+	</select>
+
+	<form ng-model="addressForm" ng-show="displayAddressField">
+		<p id="addressMessage">Cannot access user location. Please update your settings or enter your starting address below.</p>
+		<input id="pac-input" type="text" placeholder="Current Location">
+		<div id="infowindow-content">
+			<img src="" width="16" height="16" id="place-icon">
+			<span id="place-name" class="title"></span>
+			<br>
+			<span id="place-address"></span>
+		</div>
+	</form>
+
 	<button type="submit" ng-click="submitGenre(selectedGenre); clicked=true">Start game</button>
-    
+
 	<p ng-show="clicked" id="loadingMessage">Loading...</p>
 	<div id="loadingBar"></div>
-	
-	<form ng-model="addressForm" class="hidden">
-		<input type="textbox" placeholder="address" ng-model="address">
-		<button type="submit" ng-click="addAddress(address)">Set Starting Location</button>
-	</form>
-	
+
 </section>

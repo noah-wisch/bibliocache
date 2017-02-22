@@ -1,6 +1,8 @@
 @import '../node_modules/foundation-sites/scss/foundation';
+
 @include foundation-global-styles;
 @include foundation-grid;
+
 $dark-green: #4E978A;
 $mint-green: #A3E6D9;
 $light-grey: #EAEAEA;
@@ -12,19 +14,18 @@ $medium: 750px;
 $large: 900px;
 
 /* GLOBAL STYLES */
-
 h1, h2, h3, h4, h5 {
     font-family: $header-font;
 }
 
 h2 {
-	font-size: 1.3em;
+    font-size: 1.3em;
 }
 
 @include breakpoint($medium) {
-	h2 {
-		font-size: 1.5em;
-	}
+    h2 {
+        font-size: 1.5em;
+    }
 }
 
 html, body {
@@ -66,14 +67,17 @@ button {
     background-color: $dark-green;
     font-weight: bold;
     width: 100%;
+
     &:hover {
         background-color: $dark-green;
         opacity: 0.8;
     }
+
     &:disabled {
         background-color: $mint-green;
         opacity: 0.6;
     }
+
     &:focus {
         background-color: $mint-green;
         opacity: 0.6;
@@ -91,7 +95,6 @@ button {
 
 
 /* HEADER STYLES */
-
 header {
 	background-color: $mint-green;
 	h1 {
@@ -130,30 +133,32 @@ header {
 }
 
 @include breakpoint($medium) {
-	header {
-		&#bannerHeader {
-			height: 200px;
-			h1 {
-				font-size: 3em;
-				line-height: 200px;
-			}
-		}
-	}
+    header {
+
+        &#bannerHeader {
+            height: 200px;
+
+            h1 {
+                font-size: 3em;
+                line-height: 200px;
+            }
+        }
+    }
 }
 
 nav ul {
-	display: flex;
-	padding: 0;
-	margin: 0;
-	list-style: none;
-	li {
-		margin-right: 10px;
-	}
+    display: flex;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+
+    li {
+        margin-right: 10px;
+    }
 }
 
 
 /* FORMS */
-
 .form-container {
     padding: 0 0.5em;
     margin: 1.5em auto;
@@ -166,35 +171,35 @@ nav ul {
 }
 
 select, input {
-	display: block;
-	width: 100%;
-	height: 2.5em;
-	border-style: solid;
-	border-width: 2px;
-	border-color: $dark-green;
-	border-radius: 0;
-	margin: 0.5em 0;
-	padding: 0 0.5em;
-	&[type="number"] {
-		width: calc(50% - 4px);
-		display: inline-block;
-		&:last-of-type {
-			float: right;
-		}
-	}
+    display: block;
+    width: 100%;
+    height: 2.5em;
+    border-style: solid;
+    border-width: 2px;
+    border-color: $dark-green;
+    border-radius: 0;
+    margin: 0.5em 0;
+    padding: 0 0.5em;
+
+    &[type="number"] {
+        width: calc(50% - 4px);
+        display: inline-block;
+
+        &:last-of-type {
+            float: right;
+        }
+    }
 }
 
 select {
-	-webkit-appearance: none;
-	-webkit-border-radius: 0px;
-	background: url("data:image/svg+xml;utf8,<svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='24' height='24' viewBox='0 0 24 24'><path fill='#444' d='M7.406 7.828l4.594 4.594 4.594-4.594 1.406 1.406-6 6-6-6z'></path></svg>");
-	background-position: 100% 50%;
-	background-repeat: no-repeat;
+    -webkit-appearance: none;
+    -webkit-border-radius: 0px;
+    background: url("data:image/svg+xml;utf8,<svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='24' height='24' viewBox='0 0 24 24'><path fill='#444' d='M7.406 7.828l4.594 4.594 4.594-4.594 1.406 1.406-6 6-6-6z'></path></svg>");
+    background-position: 100% 50%;
+    background-repeat: no-repeat;
 }
 
-
 /* NEW SESSION */
-
 #addressMessage {
     font-size: 0.8em;
 }
@@ -212,21 +217,22 @@ p#loadingMessage {
 
 // Autocomplete address results
 #description {
-	font-family: $body-font;
-	font-size: 15px;
-	font-weight: 300;
+    font-family: $body-font;
+    font-size: 15px;
+    font-weight: 300;
 }
 
 #infowindow-content .title {
-	font-weight: bold;
+    font-weight: bold;
 }
 
 #infowindow-content {
-	display: none;
+    display: none;
 }
 
 /* MAP STYLES */
 #showMap {
+<<<<<<< HEAD
 	@include grid-row();
 	max-width: 100%;
 	#sessionMap {
@@ -270,6 +276,58 @@ p#loadingMessage {
 			width: 100%;
 		}
 	}
+=======
+
+    @include grid-row();
+    max-width: 100%;
+
+    #sessionMap {
+        @include grid-column(12);
+        width: 100%;
+        min-height: 365px;
+        height: 100%;
+        display: block;
+        border-radius: 5px;
+
+        @include breakpoint($medium) {
+            @include grid-column(12);
+            display: block;
+        }
+
+        @include breakpoint($large) {
+            @include grid-column(7);
+        }
+    }
+
+    #directions {
+        @include grid-column(12);
+        font-family: $body-font;
+        line-height: 30px;
+        padding-left: 10px;
+        width: 100%;
+        overflow: auto;
+        font-size: 15px;
+        display: block;
+
+        @include breakpoint($medium) {
+            @include grid-column(12);
+            display: block;
+        }
+
+        @include breakpoint($large) {
+            @include grid-column(5);
+        }
+
+        .warnbox-content {
+            line-height: 20px;
+            background: none;
+        }
+		
+        select {
+            width: 100%;
+        }
+    }
+>>>>>>> f246fa7081b6e4032e9c60c3ff7f02807b08d755
 }
 
 .adp table {
@@ -279,6 +337,7 @@ p#loadingMessage {
 
 td.adp-text {
     font-weight: bold;
+<<<<<<< HEAD
 }
 
 
@@ -290,4 +349,6 @@ td.adp-text {
 
 .bookAuthor {
 	display: block;
+=======
+>>>>>>> f246fa7081b6e4032e9c60c3ff7f02807b08d755
 }

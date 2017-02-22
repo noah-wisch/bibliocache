@@ -12,5 +12,10 @@ module.exports = {
 		$scope.playAgain = () => {
 			$state.go('new-session');
 		}
+
+		$scope.logOut = () => {
+			console.log('logging out');
+			$http.post('/logout', {});
+		}
 	},
 };

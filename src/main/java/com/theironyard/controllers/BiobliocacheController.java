@@ -19,6 +19,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
@@ -108,9 +109,11 @@ public class BiobliocacheController {
 
     //sets category to the category selected after user logs in
     @RequestMapping(path = "/set-category", method = RequestMethod.POST)
-    public void setCategory(HttpSession session, @RequestBody String category) {
+    public String setCategory(HttpSession session, @RequestBody HashMap<String,String> category) {
         String userEmail = (String)session.getAttribute("email");
         User user = users.findFirstByEmail(userEmail);
-        user.setCategory(category);
+        user.setCategory(category.get("category"));
+        users.save(user);
+        return "index.html";
     }
 }
