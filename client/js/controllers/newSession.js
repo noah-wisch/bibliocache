@@ -72,6 +72,8 @@ module.exports = {
 				infowindowContent.children['place-name'].textContent = place.name;
 				infowindowContent.children['place-address'].textContent = address;
 			});
+			
+			getUserDestination();
 		}
 
 		/* Get user location with geolocation */
@@ -89,10 +91,6 @@ module.exports = {
 				haveLocation = true;
 
 				getUserDestination();
-				
-				// here for testing purposes
-				/*$scope.displayAddressField = true;
-				initPlacesAutocomplete();*/
 			};
 
 			function geo_error(err) {

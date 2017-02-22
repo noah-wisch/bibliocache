@@ -5,12 +5,6 @@ module.exports = {
 		 * Get required data to render map (from location service)
 		 * User is not directed to map view until all data is received and updated in service
 		 */
-		// testing this request on heroku
-		BookService.requestBooks();
-		console.log('another test');
-		BookService.requestBooks().then(function () {
-			$state.go('end-session');
-		});
 		
 		let userPos = LocationService.getUserLocation();
 		let endPos = LocationService.getDestination();
@@ -141,7 +135,7 @@ module.exports = {
 				console.log(userInRange);
 				if (userInRange) { // User has arrived at destination
 					geo.clearWatch(watch_id);
-					BookService.requestBooks().then(function () {
+					BookService.requestBooks().then(function() {
 						$state.go('end-session');
 					});
 				}

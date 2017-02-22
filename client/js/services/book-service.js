@@ -18,9 +18,7 @@ module.exports = {
 			},
 			
 			requestBooks() {
-				/*return*/ $http.post('/end-round', {
-					flag: true
-				}).then(function(response) {
+				return $http.post('/end-round', {}).then(function(response) {
 					console.log('the book list is:');
 					console.log(response);
 				});
