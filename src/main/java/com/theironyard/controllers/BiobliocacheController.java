@@ -9,6 +9,9 @@ import com.theironyard.services.BookRepository;
 import com.theironyard.services.BookSample;
 import com.theironyard.services.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
@@ -19,6 +22,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
+
+import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.*;
 
 /**
  * Created by kelseynewman on 2/8/17.
@@ -38,6 +43,7 @@ public class BiobliocacheController {
         List<Book> sortedBooks;
         List<Book> returnedBooks = new ArrayList<>();
         String query = user.getCategory();
+        int highestReadingLevel = user.getReadingLevel();
         JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
         try {
             List<Volume> volumes = BookSample.queryGoogleBooks(jsonFactory, query);
@@ -54,7 +60,18 @@ public class BiobliocacheController {
 
      if(user != null) {
             if (flag) {//if flag is set to true
-                    sortedBooks = books.findByCategory(user.getCategory())//get all the books by category that matches our user's
+                Book book = new Book();
+                if (user.getCategory() != null) {
+                    book.setCategory(user.getCategory());
+                }
+                ExampleMatcher matcher = ExampleMatcher//queries the database rather than what's in memory (as it would with a stream).
+                        .matching()
+                        .withIgnoreNullValues()
+                        .withMatcher("category", exact());//Pulls books with category that matches the user's
+                Example<Book> example = Example.of(book, matcher);
+                Sort sort = new Sort(Sort.Direction.DESC, "readingLevel");
+                sortedBooks = (List<Book>)books.findAll(example, sort);
+                    sortedBooks = sortedBooks//get all the books by category that matches our user's
                             .stream()
                             .filter(b -> b.getReadingLevel() <= user.getReadingLevel())//filter books by reading level that matches our user's
                             .collect(Collectors.toList());//put those books that are left into a list
@@ -91,5 +108,9 @@ public class BiobliocacheController {
         String userEmail = (String)session.getAttribute("email");
         User user = users.findFirstByEmail(userEmail);
         user.setCategory(category);
+    }
+
+    public List<Book> findBooks(Book probe, Sort sort) {
+        return (List<Book>) books.findAll(Example.of(probe), sort);
     }
 }

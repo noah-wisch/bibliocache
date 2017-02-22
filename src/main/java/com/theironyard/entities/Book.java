@@ -19,7 +19,7 @@ import java.util.Locale;
 public class Book {
     @Id
     @GeneratedValue
-    int id;
+    Integer id;
 
     @Column(nullable = false)
     String title;
@@ -64,7 +64,7 @@ public class Book {
         this.readingLevel = readingLevel;
     }
 
-    public Book(int id, String title, String author, String category, Integer readingLevel) {
+    public Book(Integer id, String title, String author, String category, Integer readingLevel) {
         this.id = id;
         this.title = title;
         this.author = author;
@@ -80,11 +80,11 @@ public class Book {
         this.infoLink = infoLink;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
