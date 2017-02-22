@@ -2,17 +2,12 @@ package com.theironyard.services;
 
 
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
-import com.google.api.client.http.HttpHeaders;
-import com.google.api.client.http.HttpResponse;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.services.books.Books;
 import com.google.api.services.books.BooksRequestInitializer;
 import com.google.api.services.books.Books.Volumes.List;
 import com.google.api.services.books.model.Volume;
 import com.google.api.services.books.model.Volumes;
-import com.theironyard.entities.User;
-
-import java.io.IOException;
 import java.net.URLEncoder;
 /**
  * Created by kelseynewman on 2/14/17.
