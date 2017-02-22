@@ -134,11 +134,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     module.exports = {
       name: 'MapController',
       func: function func($scope, $state, LocationService, BookService) {
-        BookService.requestBooks();
-        console.log('another test');
-        BookService.requestBooks().then(function () {
-          $state.go('end-session');
-        });
 
         var userPos = LocationService.getUserLocation();
         var endPos = LocationService.getDestination();
@@ -368,13 +363,13 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             haveLocation = true;
 
             getUserDestination();
-
           };
 
           function geo_error(err) {
             console.log("ERROR(" + err.code + "): " + err.message);
             $scope.displayAddressField = true;
             initPlacesAutocomplete();
+            getUserDestination();
           };
 
           var geo_options = {
@@ -495,9 +490,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             return genres;
           },
           requestBooks: function requestBooks() {
-$http.post('/end-round', {
-              flag: true
-            }).then(function (response) {
+            return $http.post('/end-round', {}).then(function (response) {
               console.log('the book list is:');
               console.log(response);
             });

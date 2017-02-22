@@ -90,16 +90,13 @@ module.exports = {
 				haveLocation = true;
 
 				getUserDestination();
-				
-				// here for testing purposes
-				/*$scope.displayAddressField = true;
-				initPlacesAutocomplete();*/
 			};
 
 			function geo_error(err) {
 				console.log(`ERROR(${err.code}): ${err.message}`);
 				$scope.displayAddressField = true;
 				initPlacesAutocomplete();
+				getUserDestination();
 			};
 
 			let geo_options = {
