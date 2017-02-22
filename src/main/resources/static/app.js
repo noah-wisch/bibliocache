@@ -133,7 +133,13 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
   }, {}], 11: [function (require, module, exports) {
     module.exports = {
       name: 'MapController',
-      func: function func($scope, $state, LocationService) {
+      func: function func($scope, $state, LocationService, BookService) {
+        BookService.requestBooks();
+        console.log('another test');
+        BookService.requestBooks().then(function () {
+          $state.go('end-session');
+        });
+
         var userPos = LocationService.getUserLocation();
         var endPos = LocationService.getDestination();
 
@@ -253,7 +259,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             console.log(userInRange);
             if (userInRange) {
               geo.clearWatch(watch_id);
-              $state.go('end-session');
+              BookService.requestBooks().then(function () {
+                $state.go('end-session');
+              });
             }
           };
 
@@ -360,6 +368,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             haveLocation = true;
 
             getUserDestination();
+
           };
 
           function geo_error(err) {
@@ -476,6 +485,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       func: function func($http) {
         var genres = ['Biography', 'Comedy', 'History', 'Poetry', 'Romance', 'Science Fiction', 'Fantasy', 'Thrillers', 'Suspense', 'Young Adult'];
 
+        var bookList = [];
+
         var codes = ['url1', 'url2', 'url3', 'url4', 'url5'];
         var sessionCode = '';
 
@@ -483,8 +494,16 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
           getAllGenres: function getAllGenres() {
             return genres;
           },
+          requestBooks: function requestBooks() {
+$http.post('/end-round', {
+              flag: true
+            }).then(function (response) {
+              console.log('the book list is:');
+              console.log(response);
+            });
+          },
           getBooks: function getBooks() {
-            $http.get('/end-round', {});
+            return bookList;
           }
         };
       }
