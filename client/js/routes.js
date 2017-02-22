@@ -1,6 +1,5 @@
-
 module.exports = [
-	{
+    {
         name: 'registration',
         url: '/register',
         component: 'registration',

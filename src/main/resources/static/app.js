@@ -99,16 +99,20 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       name: 'EndSessionController',
       func: function func($scope, $state, BookService, UserService) {
 
-        var haveCode = false;
-        $scope.codes = BookService.getBooks();
+        $scope.books = BookService.getBooks();
 
-        $scope.submitCodeChoice = function () {
-          haveCode = true;
-          console.log('I choose you, Pikachu!');
+        $scope.submitBookChoice = function () {
+          console.log($scope.selectedBookURL);
+          BookService.setBook($scope.selectedBookURL);
         };
 
         $scope.playAgain = function () {
           $state.go('new-session');
+        };
+
+        $scope.logOut = function () {
+          console.log('logging out');
+          $http.post('/logout', {});
         };
       }
     };
@@ -134,6 +138,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     module.exports = {
       name: 'MapController',
       func: function func($scope, $state, LocationService, BookService) {
+
 
         var userPos = LocationService.getUserLocation();
         var endPos = LocationService.getDestination();
@@ -303,7 +308,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
           var bar = new ProgressBar.Line(loadingBar, {
             strokeWidth: 4,
             easing: 'easeInOut',
-            duration: 5000,
+            duration: 5500,
             color: '#4E978A',
             trailColor: '#581845',
             trailWidth: 1,
@@ -314,7 +319,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
               bar.path.setAttribute('stroke', state.color);
             }
           });
-          bar.animate(1.0); 
+          bar.animate(1.0);
         };
 
         $scope.displayAddressField = false;
@@ -440,7 +445,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
           var user = {
             age: age,
-            category: 'Horror', 
+            category: null,
             email: email,
             location: [0, 0], 
             password: password,
@@ -452,7 +457,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       }
     };
   }, {}], 14: [function (require, module, exports) {
-
     module.exports = [{
       name: 'registration',
       url: '/register',
@@ -481,10 +485,25 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       func: function func($http) {
         var genres = ['Biography', 'Comedy', 'History', 'Poetry', 'Romance', 'Science Fiction', 'Fantasy', 'Thrillers', 'Suspense', 'Young Adult'];
 
-        var bookList = [];
+        var bookList = [{
+          title: 'title 1',
+          author: 'author 1',
+          link: 'link1'
+        }, {
+          title: 'title 2',
+          author: 'author 2',
+          link: 'link2'
+        }, {
+          title: 'title 3',
+          author: 'author 3',
+          link: 'link3'
+        }, {
+          title: 'title 4',
+          author: 'author 4',
+          link: 'link4'
+        }];
 
         var codes = ['url1', 'url2', 'url3', 'url4', 'url5'];
-        var sessionCode = '';
 
         return {
           getAllGenres: function getAllGenres() {
@@ -507,7 +526,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       name: 'LocationService',
 
       func: function func($http) {
-
         var currentPos = [];
         var endPos = [];
 
@@ -522,6 +540,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
           setDestination: function setDestination(maxRange) {
             var latRange = maxRange * 0.015; 
             var lngRange = maxRange * 0.019; 
+
 
             var latDest = currentPos[0] + (Math.random() - 0.5) * latRange;
             var lngDest = currentPos[1] + (Math.random() - 0.5) * lngRange;
@@ -541,7 +560,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       name: 'UserService',
 
       func: function func($http) {
-
         function User(age, genre, readingLevel) {
           this.age = age;
           this.genre = genre;
@@ -552,10 +570,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         var user = new User(null, null, null);
 
         return {
-          logOut: function logOut() {
-            console.log('logging out');
-            $http.post('/logout', {});
-          },
           getUserInfo: function getUserInfo() {
             return user;
           },
