@@ -38,8 +38,8 @@ public class BiobliocacheController {
 
     //once the user is within range of the target location, the flag is set to true and a list of books is returned
     //based on the user's reading level and the category they selected
-    @RequestMapping(path = "/end-round", method = RequestMethod.GET)
-    public List<Book> getList(HttpSession session, boolean flag) throws IOException{
+    @RequestMapping(path = "/end-round", method = RequestMethod.POST)
+    public List<Book> getList(HttpSession session) throws IOException{
         String userEmail = (String)session.getAttribute("email");
         User user = users.findFirstByEmail(userEmail);
         List<Book> sortedBooks;
@@ -110,7 +110,7 @@ public class BiobliocacheController {
 
     //sets category to the category selected after user logs in
     @RequestMapping(path = "/set-category", method = RequestMethod.POST)
-    public void setCategory(HttpSession session, String category) {
+    public void setCategory(HttpSession session, @RequestBody String category) {
         String userEmail = (String)session.getAttribute("email");
         User user = users.findFirstByEmail(userEmail);
         user.setCategory(category);

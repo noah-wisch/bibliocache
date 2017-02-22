@@ -6,8 +6,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.QueryByExampleExecutor;
 
-import java.util.List;
-
 /**
  * Created by kelseynewman on 2/8/17.
  */

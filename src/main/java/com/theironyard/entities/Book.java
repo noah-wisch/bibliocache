@@ -1,10 +1,7 @@
 package com.theironyard.entities;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.api.services.books.model.Volume;
 
-import javax.jws.soap.SOAPBinding;
+import com.google.api.services.books.model.Volume;
 import javax.persistence.*;
 
 import java.text.BreakIterator;
