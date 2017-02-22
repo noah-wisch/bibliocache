@@ -19,7 +19,7 @@ module.exports = {
 		//let destination = new google.maps.LatLng(endPos[0], endPos[1]);
 		let destination = new google.maps.LatLng(35.226004, -80.841695);
 		let destRange;
-		let destRadius = 50; // in meters
+		let destRadius = 75; // in meters
 
 		let geo = navigator.geolocation;
 		let watch_id;
