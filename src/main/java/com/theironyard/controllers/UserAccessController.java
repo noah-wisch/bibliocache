@@ -65,13 +65,4 @@ public class UserAccessController {
         session.invalidate();
         return "redirect:notloggedin.html";
     }
-
-    //sets category to the category selected after user logs in
-    @RequestMapping(path = "/set-category", method = RequestMethod.POST)
-    public void setCategory(HttpSession session, String category) {
-        String userEmail = (String)session.getAttribute("email");
-        User user = users.findFirstByEmail(userEmail);
-        user.setCategory(category);
-        users.save(user);
-    }
 }
