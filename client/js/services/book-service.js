@@ -7,7 +7,6 @@ module.exports = {
 		];
 
 		let bookList = [];
-
 		let codes = ['url1', 'url2', 'url3', 'url4', 'url5'];
 
 		return {

@@ -6,7 +6,7 @@ module.exports = {
 		$scope.codes = BookService.getBooks();
 
 		$scope.submitCodeChoice = () => {
-			// BookService.setCode($scope.selectedURL);
+			BookService.setCode($scope.selectedURL);
 			haveCode = true;
 			console.log('I choose you, Pikachu!');
 		}
