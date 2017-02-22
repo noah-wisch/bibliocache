@@ -1,7 +1,7 @@
 <section ng-controller="EndSessionController" class="form-container">
 	<h3>You've reached the bibliocache!</h3>
 	
-	<select ng-init="selectedBookURL = options[0]" ng-model="selectedBookURL">
+	<select ng-init="selectedBookURL = options[0]" name="selectedBook" ng-model="data.selectedBook">
         <option value="" disabled><span id="selectURL">Select a book</span></option>
         <option ng-repeat="book in books" value="{{ book }}">
 			<a href="{{ book.link }}" title="Download {{ book.title }}">
@@ -9,6 +9,7 @@
 			</a>
 		</option>
     </select>
-	<button type="submit" ng-click="submitBookChoice()">Download book</button>
+	<a ng-href="{{ data.selectedBook.link }}">Download book {{ data.selectedBook }}</a>
+	<!--<button type="submit" ng-click="submitBookChoice()">Download book</button>-->
 	<button type="submit" ng-click="playAgain()">Play again »</button>
 </section>
