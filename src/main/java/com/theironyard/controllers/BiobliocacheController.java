@@ -60,7 +60,6 @@ public class BiobliocacheController {
         }
 
      if(user != null) {
-            if (flag) {//if flag is set to true
                 Book book = new Book();
                 if (user.getCategory() != null) {
                     book.setCategory(user.getCategory());
@@ -87,7 +86,6 @@ public class BiobliocacheController {
                         //else return all the books in sortedBooks list.
                     }
             }
-        }
             return returnedBooks;
     }
 
