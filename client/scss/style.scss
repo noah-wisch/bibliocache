@@ -91,46 +91,40 @@ button {
 
 /* HEADER STYLES */
 header {
-    background-color: $light-grey;
-
-    h1 {
-        margin: 0;
-        text-align: center;
-        color: $dark-green;
-        text-transform: lowercase;
-        letter-spacing: 2px;
-    }
-
-    &#bannerHeader {
-        height: 100px;
-        background: $light-grey url("assets/header.png") no-repeat center center;
-        background-size: cover;
-
-        h1 {
-            font-size: 2em;
-            line-height: 100px;
-        }
-    }
-
-    &#defaultHeader {
-        display: flex;
-        justify-content: flex-start;
-
-        h1 {
-            text-align: left;
-            font-size: 1.2em;
-            margin: 0 0.5em;
-            padding: 0.25em 0;
-        }
-
-        ul.toolbar {
-            list-style: none;
-            margin: 0 0.5em;
-            padding: 0.25em 0;
-            position: absolute;
-            right: 0;
-        }
-    }
+	background-color: $mint-green;
+	h1 {
+		margin: 0;
+		text-align: center;
+		color: $dark-green;
+		text-transform: lowercase;
+		letter-spacing: 2px;
+	}
+	&#bannerHeader {
+		height: 100px;
+		background: $light-grey url("assets/header.png") no-repeat center center;
+		background-size: cover;
+		h1 {
+			font-size: 2em;
+			line-height: 100px;
+		}
+	}
+	&#defaultHeader {
+		display: flex;
+		justify-content: flex-start;
+		h1 {
+			text-align: left;
+			font-size: 1.2em;
+			margin: 0 0.5em;
+			padding: 0.25em 0;
+		}
+		ul.toolbar {
+			list-style: none;
+			margin: 0 0.5em;
+			padding: 0.25em 0;
+			position: absolute;
+			right: 0;
+		}
+	}
 }
 
 @include breakpoint($medium) {
