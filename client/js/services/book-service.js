@@ -36,12 +36,12 @@ module.exports = {
 				return genres;
 			},
 
-			requestBooks() {
-				return $http.post('/end-round', {}).then((response) => {
-					console.log('the book list is:');
-					console.log(response);
-				});
-			},
+			// requestBooks() {
+			// 	return $http.post('/end-round', {}).then((response) => {
+			// 		console.log('the book list is:');
+			// 		console.log(response);
+			// 	});
+			// },
 
 			getBooks() {
 				return bookList;

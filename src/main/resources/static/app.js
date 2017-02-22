@@ -509,12 +509,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
           getAllGenres: function getAllGenres() {
             return genres;
           },
-          requestBooks: function requestBooks() {
-            return $http.post('/end-round', {}).then(function (response) {
-              console.log('the book list is:');
-              console.log(response);
-            });
-          },
+
+
+
           getBooks: function getBooks() {
             return bookList;
           }
