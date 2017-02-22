@@ -6,6 +6,7 @@
 $dark-green: #4E978A;
 $mint-green: #A3E6D9;
 $light-grey: #EAEAEA;
+$purple: #581845;
 $header-font: 'Scope One', serif;
 $body-font: 'Roboto', sans-serif;
 $font-color: #292929;
@@ -34,6 +35,10 @@ html, body {
     padding: 0;
     width: 100%;
     height: 100%;
+}
+
+a, a:visited {
+	color: $purple;
 }
 
 #wrapper {
@@ -227,6 +232,51 @@ p#loadingMessage {
 
 /* MAP STYLES */
 #showMap {
+<<<<<<< HEAD
+	@include grid-row();
+	max-width: 100%;
+	#sessionMap {
+		@include grid-column(12);
+		width: 100%;
+		min-height: 300px;
+		height: 100%;
+		display: block;
+		border-radius: 5px;
+		@include breakpoint($medium) {
+			@include grid-column(12);
+			display: block;
+			min-height: 500px;
+		}
+		@include breakpoint($large) {
+			@include grid-column(7);
+		}
+	}
+	
+	#directions {
+		@include grid-column(12);
+		font-family: $body-font;
+		line-height: 30px;
+		padding-left: 10px;
+		width: 100%;
+		overflow: auto;
+		font-size: 15px;
+		display: block;
+		@include breakpoint($medium) {
+			@include grid-column(12);
+			display: block;
+		}
+		@include breakpoint($large) {
+			@include grid-column(5);
+		}
+		.warnbox-content {
+			line-height: 20px;
+			background: none;
+		}
+		select {
+			width: 100%;
+		}
+	}
+=======
 
     @include grid-row();
     max-width: 100%;
@@ -277,6 +327,7 @@ p#loadingMessage {
             width: 100%;
         }
     }
+>>>>>>> f246fa7081b6e4032e9c60c3ff7f02807b08d755
 }
 
 .adp table {
@@ -286,4 +337,18 @@ p#loadingMessage {
 
 td.adp-text {
     font-weight: bold;
+<<<<<<< HEAD
+}
+
+
+/* BOOKS */
+.bookTitle {
+	display: block;
+	font-weight: bold;
+}
+
+.bookAuthor {
+	display: block;
+=======
+>>>>>>> f246fa7081b6e4032e9c60c3ff7f02807b08d755
 }
