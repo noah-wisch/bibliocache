@@ -36,6 +36,8 @@ public class BiobliocacheController {
     @Autowired
     UserRepository users;
 
+    //once the user is within range of the target location, the flag is set to true and a list of books is returned
+    //based on the user's reading level and the category they selected
     @RequestMapping(path = "/end-round", method = RequestMethod.GET)
     public List<Book> getList(HttpSession session, boolean flag) throws IOException{
         String userEmail = (String)session.getAttribute("email");
@@ -43,7 +45,6 @@ public class BiobliocacheController {
         List<Book> sortedBooks;
         List<Book> returnedBooks = new ArrayList<>();
         String query = user.getCategory();
-        int highestReadingLevel = user.getReadingLevel();
         JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
         try {
             List<Volume> volumes = BookSample.queryGoogleBooks(jsonFactory, query);
@@ -73,10 +74,13 @@ public class BiobliocacheController {
                 sortedBooks = (List<Book>)books.findAll(example, sort);
                     sortedBooks = sortedBooks//get all the books by category that matches our user's
                             .stream()
-                            .filter(b -> b.getReadingLevel() <= user.getReadingLevel())//filter books by reading level that matches our user's
+                            .filter(b -> b.getReadingLevel() <= user.getReadingLevel())
+                            //filter books by reading level that matches our user's
+                            //returns books at or below our user's reading level
                             .collect(Collectors.toList());//put those books that are left into a list
-                    if (sortedBooks.size() > 5) {//if sortedBooks is greater than 5 items
+                    if (sortedBooks.size() > 5) {
                         returnedBooks = sortedBooks.stream().collect(Collectors.toList()).subList(0, 5);
+                        //if sortedBooks is greater than 5 items
                         //get the first five items of that list (toIndex is exclusive) if list is greater than 5
                     } else {
                         returnedBooks = sortedBooks;
@@ -87,6 +91,7 @@ public class BiobliocacheController {
             return returnedBooks;
     }
 
+    //pulls excerpts from CSV file and parses them into corresponding column in DB based on book ID number
     @RequestMapping(path="/add-excerpt", method = RequestMethod.PUT)
     public Book addExcerpt() throws FileNotFoundException {
         File file = new File("bookExcerpts.csv");
@@ -103,14 +108,11 @@ public class BiobliocacheController {
         return book;
     }
 
+    //sets category to the category selected after user logs in
     @RequestMapping(path = "/set-category", method = RequestMethod.POST)
     public void setCategory(HttpSession session, String category) {
         String userEmail = (String)session.getAttribute("email");
         User user = users.findFirstByEmail(userEmail);
         user.setCategory(category);
-    }
-
-    public List<Book> findBooks(Book probe, Sort sort) {
-        return (List<Book>) books.findAll(Example.of(probe), sort);
     }
 }

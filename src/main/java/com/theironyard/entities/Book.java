@@ -33,7 +33,8 @@ public class Book {
     @Column(nullable = false)
     Integer readingLevel;
 
-    @Column(length = 1000)
+    @Column(length = 1000)//needed to increase length attribute of so that JPA would accept longer String value
+            //algorithm would not produce accurate results with the standard default length of 255
     String bookExcerpt;
 
     @Column
@@ -50,10 +51,10 @@ public class Book {
         if (authors != null && authors.size() > 0) {
             this.author = authors.get(0);
         } else {
-            this.author = "Unknown";
+            this.author = "Unknown";//returns "Unknown" if no author is listed to prevent NullPointerException
         }
         this.category = user.getCategory();
-        this.readingLevel = 1;
+        this.readingLevel = 1;//hard coded for books that do not have an excerpt to be evaluated
         this.infoLink = volume.getVolumeInfo().getInfoLink();
     }
 
@@ -153,7 +154,8 @@ public class Book {
 
     public static int wordsPresent (String paragraph) {
         return paragraph.split(" ").length - 1;//turns paragraph into an array of strings split on whitespace.
-         //returns the number of elements in the words array (i.e. number of words in the paragraph).
+         //returns the number of elements in the words array (i.e. number of words in the paragraph)
+        //subtracts one b/c the formula calls for the amount of white space in a paragraph
     }
 
     public static int sentencesPresent(String paragraph) {
