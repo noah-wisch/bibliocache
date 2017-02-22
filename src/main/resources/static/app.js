@@ -99,12 +99,11 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       name: 'EndSessionController',
       func: function func($scope, $state, BookService, UserService) {
 
-        var haveCode = false;
-        $scope.codes = BookService.getBooks();
+        $scope.books = BookService.getBooks();
 
-        $scope.submitCodeChoice = function () {
-          haveCode = true;
-          console.log('I choose you, Pikachu!');
+        $scope.submitBookChoice = function () {
+          console.log($scope.selectedBookURL);
+          BookService.setBook($scope.selectedBookURL);
         };
 
         $scope.playAgain = function () {
@@ -481,10 +480,25 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       func: function func($http) {
         var genres = ['Biography', 'Comedy', 'History', 'Poetry', 'Romance', 'Science Fiction', 'Fantasy', 'Thrillers', 'Suspense', 'Young Adult'];
 
-        var bookList = [];
+        var bookList = [{
+          title: 'title 1',
+          author: 'author 1',
+          link: 'link1'
+        }, {
+          title: 'title 2',
+          author: 'author 2',
+          link: 'link2'
+        }, {
+          title: 'title 3',
+          author: 'author 3',
+          link: 'link3'
+        }, {
+          title: 'title 4',
+          author: 'author 4',
+          link: 'link4'
+        }];
 
         var codes = ['url1', 'url2', 'url3', 'url4', 'url5'];
-        var sessionCode = '';
 
         return {
           getAllGenres: function getAllGenres() {
