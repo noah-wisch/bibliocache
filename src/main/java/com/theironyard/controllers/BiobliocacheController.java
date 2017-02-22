@@ -39,56 +39,56 @@ public class BiobliocacheController {
 
     //once the user is within range of the target location, the flag is set to true and a list of books is returned
     //based on the user's reading level and the category they selected
-    @RequestMapping(path = "/end-round", method = RequestMethod.POST)
-    public List<Book> getList(HttpSession session) throws IOException{
-        String userEmail = (String)session.getAttribute("email");
-        User user = users.findFirstByEmail(userEmail);
-        List<Book> sortedBooks;
-        List<Book> returnedBooks = new ArrayList<>();
-        String query = user.getCategory();
-        JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
-        try {
-            List<Volume> volumes = BookSample.queryGoogleBooks(jsonFactory, query);
-            for (Volume volume : volumes) {
-                Book storedBook = books.findByTitle(volume.getVolumeInfo().getTitle());
-                if (storedBook == null) {
-                    books.save(new Book(volume, user));
-                    System.out.println("New books saved.");
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-     if(user != null) {
-                Book book = new Book();
-                if (user.getCategory() != null) {
-                    book.setCategory(user.getCategory());
-                }
-                ExampleMatcher matcher = ExampleMatcher//queries the database rather than what's in memory (as it would with a stream).
-                        .matching()
-                        .withIgnoreNullValues()
-                        .withMatcher("category", exact());//Pulls books with category that matches the user's
-                Example<Book> example = Example.of(book, matcher);
-                Sort sort = new Sort(Sort.Direction.DESC, "readingLevel");
-                sortedBooks = (List<Book>)books.findAll(example, sort);
-                    sortedBooks = sortedBooks//get all the books by category that matches our user's
-                            .stream()
-                            .filter(b -> b.getReadingLevel() <= user.getReadingLevel())
-                            //filter books by reading level that matches our user's
-                            //returns books at or below our user's reading level
-                            .collect(Collectors.toList());//put those books that are left into a list
-                    if (sortedBooks.size() > 5) {
-                        returnedBooks = sortedBooks.stream().collect(Collectors.toList()).subList(0, 5);
-                        //if sortedBooks is greater than 5 items
-                        //get the first five items of that list (toIndex is exclusive) if list is greater than 5
-                    } else {
-                        returnedBooks = sortedBooks;
-                        //else return all the books in sortedBooks list.
-                    }
-            }
-            return returnedBooks;
-    }
+//    @RequestMapping(path = "/end-round", method = RequestMethod.POST)
+//    public List<Book> getList(HttpSession session) throws IOException{
+//        String userEmail = (String)session.getAttribute("email");
+//        User user = users.findFirstByEmail(userEmail);
+//        List<Book> sortedBooks;
+//        List<Book> returnedBooks = new ArrayList<>();
+//        String query = user.getCategory();
+//        JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
+//        try {
+//            List<Volume> volumes = BookSample.queryGoogleBooks(jsonFactory, query);
+//            for (Volume volume : volumes) {
+//                Book storedBook = books.findByTitle(volume.getVolumeInfo().getTitle());
+//                if (storedBook == null) {
+//                    books.save(new Book(volume, user));
+//                    System.out.println("New books saved.");
+//                }
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//
+//     if(user != null) {
+//                Book book = new Book();
+//                if (user.getCategory() != null) {
+//                    book.setCategory(user.getCategory());
+//                }
+//                ExampleMatcher matcher = ExampleMatcher//queries the database rather than what's in memory (as it would with a stream).
+//                        .matching()
+//                        .withIgnoreNullValues()
+//                        .withMatcher("category", exact());//Pulls books with category that matches the user's
+//                Example<Book> example = Example.of(book, matcher);
+//                Sort sort = new Sort(Sort.Direction.DESC, "readingLevel");
+//                sortedBooks = (List<Book>)books.findAll(example, sort);
+//                    sortedBooks = sortedBooks//get all the books by category that matches our user's
+//                            .stream()
+//                            .filter(b -> b.getReadingLevel() <= user.getReadingLevel())
+//                            //filter books by reading level that matches our user's
+//                            //returns books at or below our user's reading level
+//                            .collect(Collectors.toList());//put those books that are left into a list
+//                    if (sortedBooks.size() > 5) {
+//                        returnedBooks = sortedBooks.stream().collect(Collectors.toList()).subList(0, 5);
+//                        //if sortedBooks is greater than 5 items
+//                        //get the first five items of that list (toIndex is exclusive) if list is greater than 5
+//                    } else {
+//                        returnedBooks = sortedBooks;
+//                        //else return all the books in sortedBooks list.
+//                    }
+//            }
+//            return returnedBooks;
+//    }
 
     //pulls excerpts from CSV file and parses them into corresponding column in DB based on book ID number
     @RequestMapping(path="/add-excerpt", method = RequestMethod.PUT)
@@ -109,11 +109,55 @@ public class BiobliocacheController {
 
     //sets category to the category selected after user logs in
     @RequestMapping(path = "/set-category", method = RequestMethod.POST)
-    public String setCategory(HttpSession session, @RequestBody HashMap<String,String> category) {
+    public List<Book> setCategory(HttpSession session, @RequestBody HashMap<String,String> category) {
         String userEmail = (String)session.getAttribute("email");
         User user = users.findFirstByEmail(userEmail);
         user.setCategory(category.get("category"));
         users.save(user);
-        return "index.html";
+        List<Book> sortedBooks;
+        List<Book> returnedBooks = new ArrayList<>();
+        String query = user.getCategory();
+        JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
+        try {
+            List<Volume> volumes = BookSample.queryGoogleBooks(jsonFactory, query);
+            for (Volume volume : volumes) {
+                Book storedBook = books.findByTitle(volume.getVolumeInfo().getTitle());
+                if (storedBook == null) {
+                    books.save(new Book(volume, user));
+                    System.out.println("New books saved.");
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if(user != null) {
+            Book book = new Book();
+            if (user.getCategory() != null) {
+                book.setCategory(user.getCategory());
+            }
+            ExampleMatcher matcher = ExampleMatcher//queries the database rather than what's in memory (as it would with a stream).
+                    .matching()
+                    .withIgnoreNullValues()
+                    .withMatcher("category", exact());//Pulls books with category that matches the user's
+            Example<Book> example = Example.of(book, matcher);
+            Sort sort = new Sort(Sort.Direction.DESC, "readingLevel");
+            sortedBooks = (List<Book>)books.findAll(example, sort);
+            sortedBooks = sortedBooks//get all the books by category that matches our user's
+                    .stream()
+                    .filter(b -> b.getReadingLevel() <= user.getReadingLevel())
+                    //filter books by reading level that matches our user's
+                    //returns books at or below our user's reading level
+                    .collect(Collectors.toList());//put those books that are left into a list
+            if (sortedBooks.size() > 5) {
+                returnedBooks = sortedBooks.stream().collect(Collectors.toList()).subList(0, 5);
+                //if sortedBooks is greater than 5 items
+                //get the first five items of that list (toIndex is exclusive) if list is greater than 5
+            } else {
+                returnedBooks = sortedBooks;
+                //else return all the books in sortedBooks list.
+            }
+        }
+        return returnedBooks;
     }
 }

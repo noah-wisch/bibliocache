@@ -41,6 +41,7 @@ public class UserAccessController {
             return "redirect:notloggedin.html";
         } else if (!PasswordStorage.verifyPassword(password, user.getPassword())) {
             throw new Exception("Incorrect Password");
+
         }
         session.setAttribute("email", email);
         return "redirect:index.html";
