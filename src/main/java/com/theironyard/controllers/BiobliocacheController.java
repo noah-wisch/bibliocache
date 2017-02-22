@@ -9,6 +9,9 @@ import com.theironyard.services.BookRepository;
 import com.theironyard.services.BookSample;
 import com.theironyard.services.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
@@ -19,6 +22,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
+
+import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.*;
 
 /**
  * Created by kelseynewman on 2/8/17.
@@ -31,8 +36,10 @@ public class BiobliocacheController {
     @Autowired
     UserRepository users;
 
-    @RequestMapping(path = "/end-round", method = RequestMethod.GET)
-    public List<Book> getList(HttpSession session, boolean flag) throws IOException{
+    //once the user is within range of the target location, the flag is set to true and a list of books is returned
+    //based on the user's reading level and the category they selected
+    @RequestMapping(path = "/end-round", method = RequestMethod.POST)
+    public List<Book> getList(HttpSession session) throws IOException{
         String userEmail = (String)session.getAttribute("email");
         User user = users.findFirstByEmail(userEmail);
         List<Book> sortedBooks;
@@ -53,23 +60,36 @@ public class BiobliocacheController {
         }
 
      if(user != null) {
-            if (flag) {//if flag is set to true
-                    sortedBooks = books.findByCategory(user.getCategory())//get all the books by category that matches our user's
+                Book book = new Book();
+                if (user.getCategory() != null) {
+                    book.setCategory(user.getCategory());
+                }
+                ExampleMatcher matcher = ExampleMatcher//queries the database rather than what's in memory (as it would with a stream).
+                        .matching()
+                        .withIgnoreNullValues()
+                        .withMatcher("category", exact());//Pulls books with category that matches the user's
+                Example<Book> example = Example.of(book, matcher);
+                Sort sort = new Sort(Sort.Direction.DESC, "readingLevel");
+                sortedBooks = (List<Book>)books.findAll(example, sort);
+                    sortedBooks = sortedBooks//get all the books by category that matches our user's
                             .stream()
-                            .filter(b -> b.getReadingLevel() <= user.getReadingLevel())//filter books by reading level that matches our user's
+                            .filter(b -> b.getReadingLevel() <= user.getReadingLevel())
+                            //filter books by reading level that matches our user's
+                            //returns books at or below our user's reading level
                             .collect(Collectors.toList());//put those books that are left into a list
-                    if (sortedBooks.size() > 5) {//if sortedBooks is greater than 5 items
+                    if (sortedBooks.size() > 5) {
                         returnedBooks = sortedBooks.stream().collect(Collectors.toList()).subList(0, 5);
+                        //if sortedBooks is greater than 5 items
                         //get the first five items of that list (toIndex is exclusive) if list is greater than 5
                     } else {
                         returnedBooks = sortedBooks;
                         //else return all the books in sortedBooks list.
                     }
             }
-        }
             return returnedBooks;
     }
 
+    //pulls excerpts from CSV file and parses them into corresponding column in DB based on book ID number
     @RequestMapping(path="/add-excerpt", method = RequestMethod.PUT)
     public Book addExcerpt() throws FileNotFoundException {
         File file = new File("bookExcerpts.csv");
@@ -86,8 +106,9 @@ public class BiobliocacheController {
         return book;
     }
 
+    //sets category to the category selected after user logs in
     @RequestMapping(path = "/set-category", method = RequestMethod.POST)
-    public void setCategory(HttpSession session, String category) {
+    public void setCategory(HttpSession session, @RequestBody String category) {
         String userEmail = (String)session.getAttribute("email");
         User user = users.findFirstByEmail(userEmail);
         user.setCategory(category);

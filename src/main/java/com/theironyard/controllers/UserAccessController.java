@@ -29,7 +29,7 @@ public class UserAccessController {
         String userEmail = (String) session.getAttribute("email");
         User user = users.findFirstByEmail(userEmail);
         if (user == null) {
-            return "redirect:notloggedin.html";
+            return "redirect:notloggedin.html";//if no user is stored in session, redirect to login page
         }
         return "index.html";
     }
