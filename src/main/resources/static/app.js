@@ -256,12 +256,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             var destBounds = destRange.getBounds();
             var userInRange = google.maps.geometry.spherical.computeDistanceBetween(destination, currentPos) <= destRadius;
 
-            console.log(userInRange);
             if (userInRange) {
               geo.clearWatch(watch_id);
-              BookService.requestBooks().then(function () {
-                $state.go('end-session');
-              });
+              $state.go('end-session');
             }
           };
 

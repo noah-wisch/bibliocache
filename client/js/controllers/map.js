@@ -134,12 +134,10 @@ module.exports = {
 				// Determine if user's distance from target is within range
 				let userInRange = google.maps.geometry.spherical.computeDistanceBetween(destination, currentPos) <= destRadius;
 
-				console.log(userInRange);
+				// console.log(userInRange);
 				if (userInRange) { // User has arrived at destination
 					geo.clearWatch(watch_id);
-					BookService.requestBooks().then(() => {
-						$state.go('end-session');
-					});
+					$state.go('end-session');
 				}
 			};
 

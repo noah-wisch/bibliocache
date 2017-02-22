@@ -242,7 +242,7 @@ p#loadingMessage {
     #sessionMap {
         @include grid-column(12);
         width: 100%;
-        min-height: 365px;
+        min-height: 300px;
         height: 100%;
         display: block;
         border-radius: 5px;
@@ -250,6 +250,7 @@ p#loadingMessage {
         @include breakpoint($medium) {
             @include grid-column(12);
             display: block;
+			min-height: 500px;
         }
 
         @include breakpoint($large) {
