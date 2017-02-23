@@ -2,7 +2,7 @@ module.exports = {
 	name: 'BookService',
 
 	func($http) {
-		let genres = [
+		const genres = [
 			'Biography', 'Comedy', 'History', 'Poetry', 'Romance', 'Science Fiction', 'Fantasy', 'Thrillers', 'Suspense', 'Young Adult'
 		];
 		
@@ -24,7 +24,7 @@ module.exports = {
 			setGenre(value) {
 				$http.post('/set-category', {
 					category: value,
-				}).then(function(response) {
+				}).then((response) => {
 					let books = response.data;
 					for (let i=0; i<books.length; i++) {
 						let book = new Book(books[i].title, books[i].author, books[i].infoLink);
