@@ -3,11 +3,14 @@ module.exports = {
 	func($scope, $state, BookService, UserService) {
 
 		$scope.books = BookService.getBooks();
+		$scope.selectedBook = document.querySelector('#selectedBook');
 
 		// $scope.downloadLink = '#';
 		$scope.submitBookChoice = (book) => {
 			console.log(book);
-			// $scope.downloadLink = book.link;
+			let value = $scope.selectedBook.options[$scope.selectedBook.selectedIndex].value;
+			value = JSON.parse(value);
+			window.location = value.link;
 		}
 
 		$scope.playAgain = () => {
