@@ -100,10 +100,13 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       func: function func($scope, $state, BookService, UserService) {
 
         $scope.books = BookService.getBooks();
+        $scope.selectedBook = document.querySelector('#selectedBook');
 
-        $scope.submitBookChoice = function () {
-          console.log($scope.selectedBookURL);
-          BookService.setBook($scope.selectedBookURL);
+        $scope.submitBookChoice = function (book) {
+          console.log(book);
+          var value = $scope.selectedBook.options[$scope.selectedBook.selectedIndex].value;
+          value = JSON.parse(value);
+          window.location = value.link;
         };
 
         $scope.playAgain = function () {
@@ -153,7 +156,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         var currentPos = new google.maps.LatLng(userPos[0], userPos[1]);
         var destination = new google.maps.LatLng(endPos[0], endPos[1]);
         var destRange = void 0;
-        var destRadius = 50; 
+        var destRadius = 75; 
 
         var geo = navigator.geolocation;
         var watch_id = void 0;
