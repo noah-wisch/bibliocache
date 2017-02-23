@@ -10,7 +10,7 @@ module.exports = {
 		$scope.genres = BookService.getAllGenres(); // Get all book categories for dropdown menu
 
 		$scope.submitGenre = (genre) => { // Set genre after user makes selection
-			UserService.setGenre(genre);
+			BookService.setGenre(genre);
 			haveGenre = true;
 
 			const ProgressBar = require('progressbar.js')
@@ -108,6 +108,7 @@ module.exports = {
 
 		/* Generate user destination */
 		function getUserDestination() {
+			/*
 			// users < 12 yrs old will have destination of 1 mile max from current location
 			let age = UserService.getUserInfo.age;
 			let range;
@@ -116,6 +117,8 @@ module.exports = {
 			} else {
 				range = 3;
 			}
+			*/
+			let range = 3;
 			LocationService.setDestination(range);
 			haveDestination = true;
 		};

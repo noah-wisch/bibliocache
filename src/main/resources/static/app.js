@@ -256,12 +256,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             var destBounds = destRange.getBounds();
             var userInRange = google.maps.geometry.spherical.computeDistanceBetween(destination, currentPos) <= destRadius;
 
-            console.log(userInRange);
             if (userInRange) {
               geo.clearWatch(watch_id);
-              BookService.requestBooks().then(function () {
-                $state.go('end-session');
-              });
+              $state.go('end-session');
             }
           };
 
@@ -301,7 +298,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         $scope.genres = BookService.getAllGenres(); 
 
         $scope.submitGenre = function (genre) {
-          UserService.setGenre(genre);
+          BookService.setGenre(genre);
           haveGenre = true;
 
           var ProgressBar = require('progressbar.js');
@@ -386,13 +383,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         };
 
         function getUserDestination() {
-          var age = UserService.getUserInfo.age;
-          var range = void 0;
-          if (age < 12) {
-            range = 1;
-          } else {
-            range = 3;
-          }
+          var range = 3;
           LocationService.setDestination(range);
           haveDestination = true;
         };
@@ -485,34 +476,29 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       func: function func($http) {
         var genres = ['Biography', 'Comedy', 'History', 'Poetry', 'Romance', 'Science Fiction', 'Fantasy', 'Thrillers', 'Suspense', 'Young Adult'];
 
-        var bookList = [{
-          title: 'title 1',
-          author: 'author 1',
-          link: 'link1'
-        }, {
-          title: 'title 2',
-          author: 'author 2',
-          link: 'link2'
-        }, {
-          title: 'title 3',
-          author: 'author 3',
-          link: 'link3'
-        }, {
-          title: 'title 4',
-          author: 'author 4',
-          link: 'link4'
-        }];
+        var Book = function Book(title, author, link) {
+          this.title = title;
+          this.author = author;
+          this.link = link;
 
-        var codes = ['url1', 'url2', 'url3', 'url4', 'url5'];
+          return this;
+        };
+
+        var bookList = [];
 
         return {
           getAllGenres: function getAllGenres() {
             return genres;
           },
-          requestBooks: function requestBooks() {
-            return $http.post('/end-round', {}).then(function (response) {
-              console.log('the book list is:');
-              console.log(response);
+          setGenre: function setGenre(value) {
+            $http.post('/set-category', {
+              category: value
+            }).then(function (response) {
+              var books = response.data;
+              for (var i = 0; i < books.length; i++) {
+                var book = new Book(books[i].title, books[i].author, books[i].infoLink);
+                bookList.push(book);
+              }
             });
           },
           getBooks: function getBooks() {
