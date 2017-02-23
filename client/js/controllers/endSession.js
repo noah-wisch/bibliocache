@@ -4,9 +4,10 @@ module.exports = {
 
 		$scope.books = BookService.getBooks();
 
-		$scope.submitBookChoice = () => {
-			console.log($scope.selectedBookURL);
-			BookService.setBook($scope.selectedBookURL);
+		// $scope.downloadLink = '#';
+		$scope.submitBookChoice = (book) => {
+			console.log(book);
+			// $scope.downloadLink = book.link;
 		}
 
 		$scope.playAgain = () => {

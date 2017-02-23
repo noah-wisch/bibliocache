@@ -1,14 +1,13 @@
 <section ng-controller="EndSessionController" class="form-container">
 	<h3>You've reached the bibliocache!</h3>
-	
+
 	<select ng-init="selectedBookURL = options[0]" ng-model="selectedBookURL">
         <option value="" disabled><span id="selectURL">Select a book</span></option>
         <option ng-repeat="book in books" value="{{ book }}">
-			<a href="{{ book.link }}" title="Download {{ book.title }}">
-				<span class="bookTitle">"{{ book.title }}"</span>, by <span class="bookAuthor">{{ book.author }}</span>
-			</a>
+			<span class="bookTitle">"{{ book.title }}"</span>, by <span class="bookAuthor">{{ book.author }}</span>
 		</option>
     </select>
-	<button type="submit" ng-click="submitBookChoice()">Download book</button>
+	<button type="submit" ng-click="submitBookChoice(selectedBookURL)">Download book</button>
+	<!--<button type="submit" onclick="$location.path('{{ book.link }}')">Download book</button>-->
 	<button type="submit" ng-click="playAgain()">Play again »</button>
 </section>
