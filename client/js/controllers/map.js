@@ -16,8 +16,7 @@ module.exports = {
 
 		let Map, userMarker, userRadius;
 		let currentPos = new google.maps.LatLng(userPos[0], userPos[1]);
-		//let destination = new google.maps.LatLng(endPos[0], endPos[1]);
-		let destination = new google.maps.LatLng(35.226004, -80.841695);
+		let destination = new google.maps.LatLng(endPos[0], endPos[1]);
 		let destRange;
 		let destRadius = 75; // in meters
 
