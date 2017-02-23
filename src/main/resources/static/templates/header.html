@@ -3,7 +3,7 @@
 </header>
 
 <header ng-show="('map' | isState) || ('end-session' | isState)" id="defaultHeader">
-	<h1>Bibliocache</h1>
+	<a id="headerLink" ui-sref="new-session"><h1>Bibliocache</h1></a>
 	<ul class="toolbar">
 		<li><button id="logOutBtn" ng-click="logOut()">Log out</button></li>
 	</ul>

@@ -17,6 +17,9 @@ $large: 900px;
 h1, h2, h3, h4, h5 {
     font-family: $header-font;
 }
+ #headerLink {
+     text-decoration: none;
+ }
 
 h2 {
     font-size: 1.3em;
